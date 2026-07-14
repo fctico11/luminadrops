@@ -1,65 +1,130 @@
 import Image from "next/image";
+import { getActiveProduct, formatPrice } from "@/lib/products";
+import { getTheme, googleFontsHref } from "@/lib/theme";
+import BuyButton from "./buy-button";
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const [product, theme] = await Promise.all([getActiveProduct(), getTheme()]);
+
+  const headingFont = { fontFamily: `"${theme.headingFont}", sans-serif` };
+  const bodyFont = { fontFamily: `"${theme.bodyFont}", monospace` };
+
+  if (!product) {
+    return (
+      <>
+        <link rel="stylesheet" href={googleFontsHref([theme.headingFont, theme.bodyFont])} />
+        <main
+          className="flex min-h-screen flex-1 flex-col items-center justify-center px-6 text-center"
+          style={{ backgroundColor: theme.backgroundColor, color: theme.primaryColor }}
+        >
+          <p style={{ ...bodyFont, color: theme.accentColor }} className="text-xs uppercase tracking-[0.5em]">
+            Lumina Drops
           </p>
+          <h1 style={headingFont} className="mt-6 text-5xl uppercase leading-[0.95] sm:text-7xl">
+            Next drop
+            <br />
+            loading.
+          </h1>
+          <p style={bodyFont} className="mt-6 max-w-sm text-sm text-white/50">
+            Nothing is live yet — check back soon.
+          </p>
+        </main>
+      </>
+    );
+  }
+
+  const [heroImage, ...restImages] = product.images;
+  const isSoldOut = product.status === "SOLD_OUT" || product.inventory <= 0;
+
+  return (
+    <>
+      <link rel="stylesheet" href={googleFontsHref([theme.headingFont, theme.bodyFont])} />
+      <main
+        className="flex flex-1 flex-col lg:flex-row"
+        style={{ backgroundColor: theme.backgroundColor, color: theme.primaryColor }}
+      >
+        {/* Image side */}
+        <div className="grain relative flex min-h-[50vh] flex-1 items-center justify-center overflow-hidden border-white/5 p-8 lg:min-h-screen lg:border-r lg:p-16">
+          {heroImage ? (
+            <div className="relative aspect-[4/5] w-full max-w-lg">
+              <Image
+                src={heroImage.url}
+                alt={heroImage.alt || product.name}
+                fill
+                priority
+                className="object-cover shadow-[0_0_120px_-20px_rgba(0,0,0,0.8)]"
+              />
+              <div
+                className="absolute -bottom-3 -right-3 border px-3 py-1 text-[10px] uppercase tracking-widest"
+                style={{ borderColor: theme.accentColor, color: theme.accentColor, backgroundColor: theme.backgroundColor }}
+              >
+                Edition #{product.id.slice(-4).toUpperCase()}
+              </div>
+            </div>
+          ) : (
+            <div
+              className="flex aspect-[4/5] w-full max-w-lg items-center justify-center border border-dashed text-xs uppercase tracking-widest text-white/30"
+              style={{ borderColor: "rgba(255,255,255,0.15)" }}
+            >
+              No image yet
+            </div>
+          )}
+
+          {restImages.length > 0 && (
+            <div className="absolute bottom-8 left-8 hidden gap-2 sm:flex">
+              {restImages.slice(0, 4).map((img) => (
+                <div key={img.id} className="relative h-16 w-16 overflow-hidden border border-white/10">
+                  <Image src={img.url} alt={img.alt || product.name} fill className="object-cover" />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        {/* Info side */}
+        <div className="flex flex-1 flex-col justify-center px-6 py-16 sm:px-12 lg:max-w-xl lg:px-16">
+          <p style={{ ...bodyFont, color: theme.accentColor }} className="text-xs uppercase tracking-[0.5em]">
+            Lumina Drops
+          </p>
+
+          <h1 style={headingFont} className="mt-6 text-5xl uppercase leading-[0.95] sm:text-6xl">
+            {product.name}
+          </h1>
+
+          {product.description && (
+            <p style={bodyFont} className="mt-6 whitespace-pre-line text-sm leading-relaxed text-white/60">
+              {product.description}
+            </p>
+          )}
+
+          <div className="mt-10 flex items-baseline gap-4">
+            <span style={headingFont} className="text-4xl">
+              {formatPrice(product.priceCents, product.currency)}
+            </span>
+            {product.shippingCents > 0 && (
+              <span style={bodyFont} className="text-xs text-white/40">
+                + {formatPrice(product.shippingCents, product.currency)} shipping
+              </span>
+            )}
+          </div>
+
+          <p style={bodyFont} className="mt-2 text-xs uppercase tracking-widest text-white/40">
+            {isSoldOut ? "Sold out" : `${product.inventory} left`}
+          </p>
+
+          <div className="mt-6 max-w-xs">
+            <BuyButton
+              productId={product.id}
+              accentColor={theme.accentColor}
+              backgroundColor={theme.backgroundColor}
+              disabled={isSoldOut}
+              label={isSoldOut ? "Sold out" : "Buy now"}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }

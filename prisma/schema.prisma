@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProductStatus {
+  DRAFT
+  LIVE
+  SOLD_OUT
+  ARCHIVED
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+// Single "drop" product shown on the landing page. Only one product should
+// be LIVE at a time; the storefront always renders the most recent LIVE one.
+model Product {
+  id            String        @id @default(cuid())
+  name          String
+  slug          String        @unique
+  description   String
+  priceCents    Int
+  currency      String        @default("usd")
+  inventory     Int           @default(0)
+  shippingCents Int           @default(0)
+  status        ProductStatus @default(DRAFT)
+  images        ProductImage[]
+  orders        Order[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String   @default("")
+  position  Int      @default(0)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  createdAt DateTime @default(now())
+}
+
+// Site-wide theme controls the client can edit from /admin (fonts, colors,
+// logo). Singleton row — always id "default".
+model ThemeSettings {
+  id              String   @id @default("default")
+  headingFont     String   @default("Anton")
+  bodyFont        String   @default("IBM Plex Mono")
+  primaryColor    String   @default("#f5f2ea")
+  backgroundColor String   @default("#0a0a0a")
+  accentColor     String   @default("#c9a227")
+  logoUrl         String?
+  updatedAt       DateTime @updatedAt
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Order {
+  id                    String      @id @default(cuid())
+  product               Product     @relation(fields: [productId], references: [id])
+  productId             String
+  stripeSessionId       String      @unique
+  customerEmail         String?
+  amountTotalCents      Int
+  status                OrderStatus @default(PENDING)
+  shippingAddress       Json?
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+}
