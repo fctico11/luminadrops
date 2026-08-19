@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <radialGradient id="room" cx="50%" cy="42%" r="80%">
+      <stop offset="0%" stop-color="#33241c"/>
+      <stop offset="55%" stop-color="#1c1512"/>
+      <stop offset="100%" stop-color="#0d0a09"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffce7a" stop-opacity="0.6"/>
+      <stop offset="45%" stop-color="#f2a94f" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#f2a94f" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff3c4"/>
+      <stop offset="55%" stop-color="#ffbe5c"/>
+      <stop offset="100%" stop-color="#e2762c"/>
+    </linearGradient>
+    <linearGradient id="wax" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#241f2e"/>
+      <stop offset="50%" stop-color="#3a3350"/>
+      <stop offset="100%" stop-color="#1d1927"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#room)"/>
+  <circle cx="400" cy="430" r="330" fill="url(#glow)"/>
+
+  <!-- candle -->
+  <g>
+    <rect x="330" y="470" width="140" height="300" rx="10" fill="url(#wax)"/>
+    <!-- drips -->
+    <path d="M330 480 q 8 34 18 6 q 6 40 16 8 q 10 26 16 4 L 380 470 L 330 470 Z" fill="#4a4166"/>
+    <path d="M470 480 q -8 30 -18 6 q -6 34 -14 6 L 430 470 L 470 470 Z" fill="#4a4166"/>
+    <ellipse cx="400" cy="472" rx="70" ry="14" fill="#514873"/>
+    <!-- wick + flame -->
+    <rect x="397" y="420" width="6" height="40" fill="#241d15"/>
+    <path d="M400 344 C 424 386 428 412 400 440 C 372 412 376 386 400 344 Z" fill="url(#flame)"/>
+    <path d="M400 384 C 411 404 412 418 400 432 C 388 418 389 404 400 384 Z" fill="#fff6da" opacity="0.9"/>
+  </g>
+
+  <!-- saucer -->
+  <ellipse cx="400" cy="778" rx="130" ry="26" fill="#12100d"/>
+  <ellipse cx="400" cy="770" rx="130" ry="26" fill="#241f19"/>
+
+  <!-- herbs on the table -->
+  <g stroke="#171310" stroke-width="6" fill="none" stroke-linecap="round">
+    <path d="M180 830 C 230 810 290 812 330 826"/>
+    <path d="M620 838 C 570 818 520 816 470 828"/>
+  </g>
+  <g fill="#1d1813">
+    <ellipse cx="220" cy="818" rx="30" ry="10" transform="rotate(-12 220 818)"/>
+    <ellipse cx="270" cy="812" rx="28" ry="9" transform="rotate(6 270 812)"/>
+    <ellipse cx="575" cy="822" rx="30" ry="10" transform="rotate(12 575 822)"/>
+    <ellipse cx="530" cy="816" rx="26" ry="9" transform="rotate(-8 530 816)"/>
+  </g>
+
+  <!-- table edge -->
+  <rect x="0" y="850" width="800" height="150" fill="#0a0807"/>
+  <rect x="0" y="846" width="800" height="8" fill="#1e1710"/>
+</svg>

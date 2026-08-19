@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="30%" r="90%">
+      <stop offset="0%" stop-color="#2b3050"/>
+      <stop offset="45%" stop-color="#1c2138"/>
+      <stop offset="100%" stop-color="#0e1120"/>
+    </radialGradient>
+    <radialGradient id="moonglow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f6efd9" stop-opacity="0.55"/>
+      <stop offset="40%" stop-color="#f6efd9" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#f6efd9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="moon" cx="42%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#faf4e0"/>
+      <stop offset="80%" stop-color="#e8dfc2"/>
+      <stop offset="100%" stop-color="#d8cba6"/>
+    </radialGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#141827"/>
+      <stop offset="100%" stop-color="#0a0c16"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#sky)"/>
+
+  <!-- stars -->
+  <g fill="#f0e9d4">
+    <circle cx="72" cy="96" r="1.6"/><circle cx="180" cy="60" r="1.1"/>
+    <circle cx="300" cy="120" r="1.4"/><circle cx="94" cy="240" r="1.0"/>
+    <circle cx="700" cy="90" r="1.5"/><circle cx="640" cy="200" r="1.1"/>
+    <circle cx="748" cy="300" r="1.3"/><circle cx="210" cy="330" r="0.9"/>
+    <circle cx="380" cy="70" r="1.0"/><circle cx="520" cy="140" r="1.2"/>
+    <circle cx="120" cy="420" r="1.1"/><circle cx="690" cy="430" r="1.0"/>
+    <circle cx="60" cy="560" r="0.9"/><circle cx="760" cy="540" r="1.1"/>
+    <circle cx="430" cy="250" r="0.8"/><circle cx="560" cy="330" r="0.9"/>
+  </g>
+  <g fill="#f0e9d4" opacity="0.85">
+    <path d="M156 150 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"/>
+    <path d="M672 250 l2.4 6.4 6.4 2.4 -6.4 2.4 -2.4 6.4 -2.4 -6.4 -6.4 -2.4 6.4 -2.4z"/>
+    <path d="M340 380 l2 5.4 5.4 2 -5.4 2 -2 5.4 -2 -5.4 -5.4 -2 5.4 -2z"/>
+  </g>
+
+  <!-- moon -->
+  <circle cx="530" cy="270" r="200" fill="url(#moonglow)"/>
+  <circle cx="530" cy="270" r="108" fill="url(#moon)"/>
+  <g fill="#cfc19b" opacity="0.5">
+    <circle cx="495" cy="235" r="14"/>
+    <circle cx="560" cy="300" r="20"/>
+    <circle cx="575" cy="225" r="9"/>
+    <circle cx="510" cy="315" r="8"/>
+    <circle cx="470" cy="285" r="6"/>
+  </g>
+
+  <!-- distant hill + victorian house silhouette -->
+  <path d="M0 720 Q 200 640 420 690 Q 620 735 800 680 L800 1000 L0 1000 Z" fill="url(#hill)"/>
+  <g fill="#0b0e19">
+    <!-- house body -->
+    <rect x="300" y="560" width="150" height="130"/>
+    <!-- turret -->
+    <rect x="270" y="540" width="52" height="150"/>
+    <path d="M264 544 L296 480 L328 544 Z"/>
+    <!-- main roof -->
+    <path d="M290 562 L380 500 L462 562 Z"/>
+    <!-- porch -->
+    <rect x="440" y="620" width="58" height="70"/>
+    <path d="M436 622 L469 592 L502 622 Z"/>
+    <!-- chimney -->
+    <rect x="404" y="505" width="14" height="40"/>
+  </g>
+  <!-- lit windows -->
+  <g fill="#e8b95c" opacity="0.92">
+    <rect x="286" y="580" width="12" height="18"/>
+    <rect x="330" y="590" width="14" height="20"/>
+    <rect x="374" y="590" width="14" height="20"/>
+    <rect x="410" y="590" width="14" height="20"/>
+    <rect x="456" y="636" width="11" height="16"/>
+  </g>
+
+  <!-- foreground botanical silhouettes -->
+  <g fill="#070910">
+    <path d="M0 1000 L0 820 Q 30 800 44 760 Q 50 800 80 812 Q 60 830 66 870 Q 90 850 110 856 Q 96 880 104 910 Q 130 890 160 900 L 150 1000 Z"/>
+    <path d="M800 1000 L800 800 Q 770 790 760 750 Q 752 792 720 800 Q 744 820 736 860 Q 712 842 692 850 Q 706 872 698 904 Q 672 886 640 896 L 660 1000 Z"/>
+  </g>
+  <!-- herb sprigs -->
+  <g stroke="#0a0d18" stroke-width="5" fill="none" stroke-linecap="round">
+    <path d="M210 1000 C 214 920 208 860 230 800"/>
+    <path d="M560 1000 C 556 930 566 880 546 820"/>
+  </g>
+  <g fill="#0a0d18">
+    <ellipse cx="222" cy="850" rx="26" ry="9" transform="rotate(-38 222 850)"/>
+    <ellipse cx="236" cy="880" rx="24" ry="8" transform="rotate(28 236 880)"/>
+    <ellipse cx="214" cy="912" rx="24" ry="8" transform="rotate(-30 214 912)"/>
+    <ellipse cx="554" cy="870" rx="26" ry="9" transform="rotate(34 554 870)"/>
+    <ellipse cx="542" cy="902" rx="24" ry="8" transform="rotate(-26 542 902)"/>
+    <ellipse cx="562" cy="934" rx="22" ry="8" transform="rotate(24 562 934)"/>
+  </g>
+
+  <!-- moths -->
+  <g fill="#d9d0b4" opacity="0.75">
+    <path d="M250 470 q -14 -12 -26 -2 q 8 12 26 2 q 14 -12 26 -2 q -8 12 -26 2 z"/>
+    <path d="M640 520 q -10 -9 -19 -1 q 6 9 19 1 q 10 -9 19 -1 q -6 9 -19 1 z" opacity="0.6"/>
+  </g>
+</svg>
