@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <radialGradient id="room" cx="48%" cy="38%" r="85%">
+      <stop offset="0%" stop-color="#26201c"/>
+      <stop offset="55%" stop-color="#151110"/>
+      <stop offset="100%" stop-color="#0b0908"/>
+    </radialGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8f8a80"/>
+      <stop offset="100%" stop-color="#5c5750"/>
+    </linearGradient>
+    <linearGradient id="flap" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a29c91"/>
+      <stop offset="100%" stop-color="#6d675e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#room)"/>
+
+  <!-- hanging cord -->
+  <path d="M400 40 L 372 200 M 400 40 L 428 200" stroke="#26211c" stroke-width="10" fill="none" stroke-linecap="round"/>
+
+  <!-- envelope -->
+  <g>
+    <rect x="215" y="240" width="370" height="470" rx="8" fill="url(#paper)"/>
+    <path d="M215 248 L 400 470 L 585 248 L 585 260 L 400 486 L 215 260 Z" fill="#4c4740"/>
+    <path d="M218 244 L 400 462 L 582 244 Q 400 216 218 244 Z" fill="url(#flap)"/>
+    <!-- wax seal -->
+    <circle cx="400" cy="452" r="62" fill="#171310"/>
+    <circle cx="400" cy="452" r="52" fill="#221c17"/>
+    <circle cx="400" cy="452" r="20" fill="none" stroke="#3c332a" stroke-width="6"/>
+  </g>
+
+  <rect x="0" y="860" width="800" height="140" fill="#070605"/>
+</svg>

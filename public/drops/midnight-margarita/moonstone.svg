@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <radialGradient id="room" cx="50%" cy="40%" r="85%">
+      <stop offset="0%" stop-color="#221d1a"/>
+      <stop offset="60%" stop-color="#131010"/>
+      <stop offset="100%" stop-color="#0a0808"/>
+    </radialGradient>
+    <radialGradient id="stoneGlow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#dfe6ef" stop-opacity="0.5"/>
+      <stop offset="55%" stop-color="#9fb0c4" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#9fb0c4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gem" cx="42%" cy="34%" r="75%">
+      <stop offset="0%" stop-color="#f7fbff"/>
+      <stop offset="45%" stop-color="#d9e2ec"/>
+      <stop offset="80%" stop-color="#9fabbd"/>
+      <stop offset="100%" stop-color="#76839a"/>
+    </radialGradient>
+    <linearGradient id="rock" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2c2724"/>
+      <stop offset="100%" stop-color="#14100e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#room)"/>
+  <circle cx="400" cy="470" r="300" fill="url(#stoneGlow)"/>
+
+  <!-- rough dark rock -->
+  <path d="M150 640 L 250 520 L 400 470 L 560 500 L 670 610 L 640 780 L 460 840 L 240 810 Z" fill="url(#rock)"/>
+  <path d="M250 520 L 400 470 L 560 500 L 520 560 L 330 585 Z" fill="#332c28"/>
+  <path d="M150 640 L 250 520 L 330 585 L 300 700 Z" fill="#1d1815"/>
+
+  <!-- moonstone cabochon -->
+  <ellipse cx="400" cy="500" rx="118" ry="92" fill="#8b97a8"/>
+  <ellipse cx="398" cy="492" rx="112" ry="86" fill="url(#gem)"/>
+  <ellipse cx="360" cy="458" rx="42" ry="26" fill="#ffffff" opacity="0.75"/>
+  <ellipse cx="446" cy="522" rx="34" ry="18" fill="#b9c7d8" opacity="0.5"/>
+
+  <!-- foreground shadow -->
+  <rect x="0" y="840" width="800" height="160" fill="#070606"/>
+</svg>

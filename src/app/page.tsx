@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getActiveProduct, formatPrice } from "@/lib/products";
 import { getTheme, googleFontsHref } from "@/lib/theme";
 import BuyButton from "./buy-button";
+import Teaser from "./teaser";
 
 export const dynamic = "force-dynamic";
 
@@ -12,27 +13,7 @@ export default async function Home() {
   const bodyFont = { fontFamily: `"${theme.bodyFont}", monospace` };
 
   if (!product) {
-    return (
-      <>
-        <link rel="stylesheet" href={googleFontsHref([theme.headingFont, theme.bodyFont])} />
-        <main
-          className="flex min-h-screen flex-1 flex-col items-center justify-center px-6 text-center"
-          style={{ backgroundColor: theme.backgroundColor, color: theme.primaryColor }}
-        >
-          <p style={{ ...bodyFont, color: theme.accentColor }} className="text-xs uppercase tracking-[0.5em]">
-            Lumina Drops
-          </p>
-          <h1 style={headingFont} className="mt-6 text-5xl uppercase leading-[0.95] sm:text-7xl">
-            Next drop
-            <br />
-            loading.
-          </h1>
-          <p style={bodyFont} className="mt-6 max-w-sm text-sm text-white/50">
-            Nothing is live yet — check back soon.
-          </p>
-        </main>
-      </>
-    );
+    return <Teaser />;
   }
 
   const [heroImage, ...restImages] = product.images;

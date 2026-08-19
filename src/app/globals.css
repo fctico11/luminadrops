@@ -6,12 +6,227 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
   background: #0a0a0a;
   color: #f5f2ea;
+}
+
+/* ---- teaser page ---- */
+
+@keyframes teaser-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes teaser-twinkle {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.8) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(90deg);
+  }
+}
+
+@keyframes teaser-breathe {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes teaser-text-glow {
+  0%,
+  100% {
+    text-shadow: 0 0 18px rgba(240, 214, 150, 0.08);
+  }
+  50% {
+    text-shadow: 0 0 26px rgba(240, 214, 150, 0.28);
+  }
+}
+
+@keyframes teaser-float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: var(--mote-o, 0.5);
+  }
+  85% {
+    opacity: var(--mote-o, 0.5);
+  }
+  100% {
+    transform: translateY(-320px) translateX(var(--mote-x, 24px));
+    opacity: 0;
+  }
+}
+
+.teaser-rise {
+  opacity: 0;
+}
+
+/* waitlist modal enter/exit */
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* the backdrop unblurs as it fades — opacity alone would pop the blur off */
+@keyframes modal-fade-out {
+  from {
+    opacity: 1;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+  to {
+    opacity: 0;
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
+  }
+}
+
+@keyframes modal-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* the panel shrinks to its center, staying solid until late so it reads
+   as a collapse rather than a fade */
+@keyframes modal-panel-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.08);
+  }
+}
+
+.modal-fade-in {
+  animation: modal-fade-in 0.3s ease forwards;
+}
+
+.modal-fade-out {
+  animation: modal-fade-out 0.42s ease forwards;
+}
+
+.modal-panel-in > [role="dialog"],
+[role="dialog"].modal-panel-in {
+  animation: modal-panel-in 0.38s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+[role="dialog"].modal-panel-out {
+  animation: modal-panel-out 0.42s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+}
+
+/* success text fading up once the shine has played */
+.success-reveal {
+  opacity: 0;
+  animation: modal-panel-in 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-fade-in,
+  .modal-fade-out,
+  .success-reveal,
+  [role="dialog"].modal-panel-in,
+  [role="dialog"].modal-panel-out {
+    animation-duration: 0.01s;
+  }
+}
+
+/* stats row: letters ripple up as the cursor sweeps across */
+.teaser-stat .stat-ch {
+  display: inline-block;
+  transition:
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.45s ease,
+    text-shadow 0.45s ease;
+  transition-delay: var(--ch-d, 0s);
+}
+
+.teaser-stat:hover .stat-ch {
+  transform: translateY(-5px);
+  color: #f6edd6;
+  text-shadow: 0 0 12px rgba(240, 214, 150, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .teaser-stat:hover .stat-ch {
+    transform: none;
+  }
+}
+
+.teaser-mote {
+  position: absolute;
+  border-radius: 9999px;
+  background: #e8d9ae;
+  box-shadow: 0 0 8px 2px rgba(232, 217, 174, 0.35);
+  pointer-events: none;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .teaser-rise {
+    animation: teaser-rise 1.1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    animation-delay: var(--rise, 0s);
+  }
+  .teaser-twinkle {
+    animation: teaser-twinkle 3s ease-in-out infinite;
+  }
+  .teaser-glow {
+    animation: teaser-breathe 6s ease-in-out infinite;
+  }
+  .teaser-text-glow {
+    animation: teaser-text-glow 6s ease-in-out infinite;
+  }
+  /* an element with both classes needs the two animations composed,
+     or the later shorthand would cancel the entrance */
+  .teaser-rise.teaser-text-glow {
+    animation:
+      teaser-rise 1.1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards,
+      teaser-text-glow 6s ease-in-out infinite;
+    animation-delay: var(--rise, 0s), 1s;
+  }
+  .teaser-mote {
+    animation: teaser-float var(--mote-t, 16s) linear infinite;
+    animation-delay: var(--mote-d, 0s);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .teaser-rise {
+    opacity: 1;
+  }
 }
 
 /* subtle grain overlay used on the landing page hero */
