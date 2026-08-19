@@ -1,18 +1,9 @@
 import { Fragment, type CSSProperties } from "react";
 import Image from "next/image";
-import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
+import Link from "next/link";
+import Motes from "./motes";
+import { cormorant, garamond, rise } from "./ui";
 import WaitlistButton from "./waitlist";
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
-
-const garamond = EB_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
-});
 
 const TILES = [
   { src: "/drops/midnight-margarita/moonstone.svg", alt: "Moonstone resting on dark stone" },
@@ -21,52 +12,22 @@ const TILES = [
   { src: "/drops/midnight-margarita/envelope.svg", alt: "Envelope sealed with black wax" },
 ];
 
-/* drifting ember motes: [top %, left %, size px, duration s, delay s, x-drift px, opacity] */
-const MOTES = [
-  [22, 12, 3, 15, 0, 30, 0.5],
-  [30, 82, 2, 19, 4, -26, 0.4],
-  [44, 26, 2, 17, 8, 20, 0.35],
-  [52, 68, 3, 21, 2, -34, 0.45],
-  [66, 42, 2, 16, 10, 26, 0.4],
-  [74, 88, 2, 20, 6, -20, 0.35],
-  [84, 18, 3, 18, 12, 32, 0.45],
-] as const;
-
 const STATS = ["100 BOXES", "ONE DROP", "NO RESTOCKS"];
-
-const rise = (s: number) => ({ "--rise": `${s}s` }) as CSSProperties;
 
 export default function Teaser() {
   return (
     <main className="flex flex-1 justify-center bg-[#141115]">
       <div className="grain relative w-full overflow-hidden bg-[#141115] text-[#e9e1cd]">
-        {/* drifting ember motes */}
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          {MOTES.map(([top, left, size, dur, delay, drift, opacity]) => (
-            <span
-              key={`${top}-${left}`}
-              className="teaser-mote"
-              style={
-                {
-                  top: `${top}%`,
-                  left: `${left}%`,
-                  width: size,
-                  height: size,
-                  "--mote-t": `${dur}s`,
-                  "--mote-d": `${delay}s`,
-                  "--mote-x": `${drift}px`,
-                  "--mote-o": opacity,
-                } as CSSProperties
-              }
-            />
-          ))}
-        </div>
+        <Motes />
 
         {/* Header */}
         <header className="teaser-rise flex items-center justify-between px-6 py-5 sm:px-10" style={rise(0.05)}>
-          <span className={`${cormorant.className} text-sm font-medium tracking-[0.35em] lg:text-lg`}>
+          <Link
+            href="/home"
+            className={`${cormorant.className} text-sm font-medium tracking-[0.35em] transition-colors duration-500 hover:text-[#fff6e0] lg:text-lg`}
+          >
             LUMINA DROPS
-          </span>
+          </Link>
           <span className="text-[10px] tracking-[0.3em] text-[#b9b09d] lg:text-xs">DROP 01</span>
         </header>
 
