@@ -25,12 +25,25 @@ type EditModeState = {
 
 const EditModeCtx = createContext<EditModeState | null>(null);
 
+// Used wherever a component isn't wrapped in a real EditModeProvider (i.e. every
+// public route) — lets page components render unmodified on both the public site
+// and the /admin/edit/* preview without checking "am I in a provider" themselves.
+const NOOP_STATE: EditModeState = {
+  isAdmin: false,
+  textEdits: {},
+  imageEdits: {},
+  setText: () => {},
+  setImage: () => {},
+  discardAll: () => {},
+  dirtyCount: 0,
+  status: "idle",
+  errorMessage: null,
+  save: async () => {},
+};
+
 export function useEditMode() {
   const ctx = useContext(EditModeCtx);
-  if (!ctx) {
-    throw new Error("useEditMode must be used within an EditModeProvider (mount <EditRoot> above this component)");
-  }
-  return ctx;
+  return ctx ?? NOOP_STATE;
 }
 
 export function EditModeProvider({ isAdmin, children }: { isAdmin: boolean; children: ReactNode }) {

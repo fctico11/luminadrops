@@ -3,7 +3,6 @@ import { getActiveProduct, formatPrice } from "@/lib/products";
 import { getTheme, googleFontsHref } from "@/lib/theme";
 import { getContent } from "@/lib/content";
 import EditableText from "@/components/edit/EditableText";
-import EditRoot from "@/components/edit/EditRoot";
 import BuyButton from "./buy-button";
 import Teaser from "./teaser";
 
@@ -16,11 +15,7 @@ export default async function Home() {
   const bodyFont = { fontFamily: `"${theme.bodyFont}", monospace` };
 
   if (!product) {
-    return (
-      <EditRoot>
-        <Teaser />
-      </EditRoot>
-    );
+    return <Teaser />;
   }
 
   const content = getContent("product-page");
@@ -28,7 +23,7 @@ export default async function Home() {
   const isSoldOut = product.status === "SOLD_OUT" || product.inventory <= 0;
 
   return (
-    <EditRoot>
+    <>
       <link rel="stylesheet" href={googleFontsHref([theme.headingFont, theme.bodyFont])} />
       <main
         className="flex flex-1 flex-col lg:flex-row"
@@ -119,6 +114,6 @@ export default async function Home() {
           </div>
         </div>
       </main>
-    </EditRoot>
+    </>
   );
 }
