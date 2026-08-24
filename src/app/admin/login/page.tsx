@@ -18,20 +18,6 @@ export default function LoginPage() {
 
         <form action={formAction} className="space-y-4 border border-white/10 bg-white/[0.03] p-6">
           <div>
-            <label htmlFor="email" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              autoComplete="username"
-              className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
-            />
-          </div>
-
-          <div>
             <label htmlFor="password" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
               Password
             </label>

@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { getActiveProduct, formatPrice } from "@/lib/products";
 import { getTheme, googleFontsHref } from "@/lib/theme";
+import { getContent } from "@/lib/content";
+import EditableText from "@/components/edit/EditableText";
+import EditRoot from "@/components/edit/EditRoot";
 import BuyButton from "./buy-button";
 import Teaser from "./teaser";
 
@@ -13,14 +16,19 @@ export default async function Home() {
   const bodyFont = { fontFamily: `"${theme.bodyFont}", monospace` };
 
   if (!product) {
-    return <Teaser />;
+    return (
+      <EditRoot>
+        <Teaser />
+      </EditRoot>
+    );
   }
 
+  const content = getContent("product-page");
   const [heroImage, ...restImages] = product.images;
   const isSoldOut = product.status === "SOLD_OUT" || product.inventory <= 0;
 
   return (
-    <>
+    <EditRoot>
       <link rel="stylesheet" href={googleFontsHref([theme.headingFont, theme.bodyFont])} />
       <main
         className="flex flex-1 flex-col lg:flex-row"
@@ -49,7 +57,7 @@ export default async function Home() {
               className="flex aspect-[4/5] w-full max-w-lg items-center justify-center border border-dashed text-xs uppercase tracking-widest text-white/30"
               style={{ borderColor: "rgba(255,255,255,0.15)" }}
             >
-              No image yet
+              <EditableText file="product-page" field="noImageLabel" value={content.noImageLabel} as="span" />
             </div>
           )}
 
@@ -66,9 +74,14 @@ export default async function Home() {
 
         {/* Info side */}
         <div className="flex flex-1 flex-col justify-center px-6 py-16 sm:px-12 lg:max-w-xl lg:px-16">
-          <p style={{ ...bodyFont, color: theme.accentColor }} className="text-xs uppercase tracking-[0.5em]">
-            Lumina Drops
-          </p>
+          <EditableText
+            file="product-page"
+            field="eyebrow"
+            value={content.eyebrow}
+            as="p"
+            style={{ ...bodyFont, color: theme.accentColor }}
+            className="text-xs uppercase tracking-[0.5em]"
+          />
 
           <h1 style={headingFont} className="mt-6 text-5xl uppercase leading-[0.95] sm:text-6xl">
             {product.name}
@@ -106,6 +119,6 @@ export default async function Home() {
           </div>
         </div>
       </main>
-    </>
+    </EditRoot>
   );
 }

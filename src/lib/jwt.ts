@@ -12,8 +12,7 @@ function getSecretKey() {
 }
 
 export type SessionPayload = {
-  adminId: string;
-  email: string;
+  admin: true;
 };
 
 export async function signSessionToken(payload: SessionPayload, expiresAt: Date) {
@@ -27,7 +26,8 @@ export async function signSessionToken(payload: SessionPayload, expiresAt: Date)
 export async function verifySessionToken(token: string): Promise<SessionPayload | null> {
   try {
     const { payload } = await jwtVerify(token, getSecretKey());
-    return { adminId: payload.adminId as string, email: payload.email as string };
+    if (!payload.admin) return null;
+    return { admin: true };
   } catch {
     return null;
   }

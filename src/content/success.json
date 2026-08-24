@@ -1,0 +1,8 @@
+{
+  "eyebrow": "Order confirmed",
+  "title": "You're in the drop.",
+  "bodyWithEmail": "A receipt is on its way to {email}.",
+  "bodyNoEmail": "A receipt is on its way to your inbox.",
+  "shippingNote": "We'll email you when it ships.",
+  "backLabel": "Back to site"
+}

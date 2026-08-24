@@ -1,0 +1,34 @@
+{
+  "wordmark": "LUMINA DROPS",
+  "dropLabel": "DROP 01",
+  "headline": "SOMETHING IS COMING.",
+  "dateLabel": "September 2026",
+  "stats": [
+    "100 BOXES",
+    "ONE DROP",
+    "NO RESTOCKS"
+  ],
+  "sectionTitle": "AN EVERLONG MIDNIGHT",
+  "sectionLead": "Some evenings deserve to last a little longer.",
+  "sectionBody": "The Midnight Margarita Club is a limited ritual box made for exactly those nights.",
+  "footerLabel": "DROP No. 01",
+  "footerButton": "COMING SOON",
+  "tiles": [
+    {
+      "src": "/drops/midnight-margarita/moonstone.svg",
+      "alt": "Moonstone resting on dark stone"
+    },
+    {
+      "src": "/drops/midnight-margarita/candle.svg",
+      "alt": "Cream pillar candle"
+    },
+    {
+      "src": "/drops/midnight-margarita/glass.svg",
+      "alt": "Ribbed glass tumbler in low light"
+    },
+    {
+      "src": "/drops/midnight-margarita/envelope.svg",
+      "alt": "Envelope sealed with black wax"
+    }
+  ]
+}

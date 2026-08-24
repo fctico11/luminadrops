@@ -1,5 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
+import { getContent } from "@/lib/content";
+import EditableText from "@/components/edit/EditableText";
+import EditableLink from "@/components/edit/EditableLink";
 import Motes from "../../motes";
 import { cormorant, garamond, rise } from "../../ui";
 
@@ -9,17 +11,21 @@ export const metadata = {
 };
 
 export default function DropsPage() {
+  const content = getContent("drops");
+
   return (
     <main className="grain relative flex flex-1 flex-col items-center px-6 py-16 text-center lg:py-24">
       <Motes />
 
       <div className="relative w-full max-w-3xl">
-        <p
+        <EditableText
+          file="drops"
+          field="eyebrow"
+          value={content.eyebrow}
+          as="p"
           className="teaser-rise text-[10px] tracking-[0.28em] text-[#cfc6b1] lg:text-sm"
           style={rise(0.1)}
-        >
-          CURRENT DROP
-        </p>
+        />
 
         <div
           className="teaser-rise relative mt-10 overflow-hidden border border-[#4c4740] lg:mt-14"
@@ -39,35 +45,47 @@ export default function DropsPage() {
           />
 
           <div className="relative flex flex-col items-center px-6 py-20 lg:py-28">
-            <p className="text-[10px] tracking-[0.28em] text-[#b9b09d] lg:text-xs">DROP No. 01</p>
+            <EditableText
+              file="drops"
+              field="dropLabel"
+              value={content.dropLabel}
+              as="p"
+              className="text-[10px] tracking-[0.28em] text-[#b9b09d] lg:text-xs"
+            />
 
             <h1
               className={`${cormorant.className} mt-5 text-2xl leading-[1.3] font-medium tracking-[0.2em] sm:text-3xl lg:text-5xl`}
             >
-              THE MIDNIGHT
+              <EditableText file="drops" field="titleLine1" value={content.titleLine1} as="span" />
               <br />
-              MARGARITA CLUB
+              <EditableText file="drops" field="titleLine2" value={content.titleLine2} as="span" />
             </h1>
 
-            <p className={`${garamond.className} mt-5 text-base italic text-[#d6cdb8] lg:text-xl`}>
-              September 2026
-            </p>
+            <EditableText
+              file="drops"
+              field="dateLabel"
+              value={content.dateLabel}
+              as="p"
+              className={`${garamond.className} mt-5 text-base italic text-[#d6cdb8] lg:text-xl`}
+            />
 
-            <Link
+            <EditableLink
               href="/"
               className="mt-10 border border-[#6f695c] px-9 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-12 lg:px-12 lg:py-4 lg:text-sm"
             >
-              DISCOVER
-            </Link>
+              <EditableText file="drops" field="ctaLabel" value={content.ctaLabel} as="span" />
+            </EditableLink>
           </div>
         </div>
 
-        <p
+        <EditableText
+          file="drops"
+          field="footerNote"
+          value={content.footerNote}
+          as="p"
           className={`${garamond.className} teaser-rise mt-12 text-[15px] italic text-[#b9b09d] lg:mt-16 lg:text-lg`}
           style={rise(0.5)}
-        >
-          One drop at a time. When it closes, it closes for good.
-        </p>
+        />
       </div>
     </main>
   );

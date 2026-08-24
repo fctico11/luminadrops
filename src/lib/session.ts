@@ -33,3 +33,7 @@ export async function getSession(): Promise<SessionPayload | null> {
   if (!token) return null;
   return verifySessionToken(token);
 }
+
+export async function isAdminSession(): Promise<boolean> {
+  return (await getSession()) !== null;
+}

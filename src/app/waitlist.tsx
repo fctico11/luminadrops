@@ -3,8 +3,12 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { Lottie } from "lottie-react";
 import shine from "./shine.json";
+import EditableText from "@/components/edit/EditableText";
+import { useEditMode } from "@/components/edit/EditModeContext";
+import type { WaitlistContent } from "@/lib/content";
 
 type Props = {
+  content: WaitlistContent;
   cormorantClass: string;
   garamondClass: string;
   buttonClassName: string;
@@ -16,7 +20,8 @@ const CLOSE_MS = 420;
 /* the shine's sparkle collapses around 0.8s in; the success text arrives as it fades */
 const REVEAL_MS = 800;
 
-export default function WaitlistButton({ cormorantClass, garamondClass, buttonClassName, buttonStyle }: Props) {
+export default function WaitlistButton({ content, cormorantClass, garamondClass, buttonClassName, buttonStyle }: Props) {
+  const { isAdmin } = useEditMode();
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -52,6 +57,7 @@ export default function WaitlistButton({ cormorantClass, garamondClass, buttonCl
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isAdmin) return;
     // TODO: post to Resend / Formspree once the email integration lands
     setSubmitted(true);
     revealTimer.current = window.setTimeout(() => setRevealed(true), REVEAL_MS);
@@ -69,7 +75,7 @@ export default function WaitlistButton({ cormorantClass, garamondClass, buttonCl
           setOpen(true);
         }}
       >
-        JOIN THE WAITLIST
+        <EditableText file="waitlist" field="triggerLabel" value={content.triggerLabel} as="span" />
       </button>
 
       {open && (
@@ -110,19 +116,27 @@ export default function WaitlistButton({ cormorantClass, garamondClass, buttonCl
                   <span className="teaser-twinkle inline-block text-sm text-[#cfc6b1]" aria-hidden>
                     ✦
                   </span>
-                  <h3 className={`${cormorantClass} mt-4 text-2xl font-medium tracking-[0.18em]`}>
-                    YOU&rsquo;RE ON THE LIST.
-                  </h3>
-                  <p className={`${garamondClass} mt-3 text-[15px] text-[#c4bba8]`}>
-                    We&rsquo;ll find you when midnight comes.
-                  </p>
+                  <EditableText
+                    file="waitlist"
+                    field="successTitle"
+                    value={content.successTitle}
+                    as="h3"
+                    className={`${cormorantClass} mt-4 text-2xl font-medium tracking-[0.18em]`}
+                  />
+                  <EditableText
+                    file="waitlist"
+                    field="successBody"
+                    value={content.successBody}
+                    as="p"
+                    className={`${garamondClass} mt-3 text-[15px] text-[#c4bba8]`}
+                  />
                   <button
                     type="button"
                     onClick={close}
                     tabIndex={revealed ? 0 : -1}
                     className="mt-8 border border-[#6f695c] px-9 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0]"
                   >
-                    CLOSE
+                    <EditableText file="waitlist" field="closeLabel" value={content.closeLabel} as="span" />
                   </button>
                 </div>
               </>
@@ -131,12 +145,20 @@ export default function WaitlistButton({ cormorantClass, garamondClass, buttonCl
                 <span className="teaser-twinkle inline-block text-sm text-[#cfc6b1]" aria-hidden>
                   ✦
                 </span>
-                <h3 className={`${cormorantClass} mt-4 text-2xl font-medium tracking-[0.18em]`}>
-                  JOIN THE WAITLIST
-                </h3>
-                <p className={`${garamondClass} mt-3 text-[15px] text-[#c4bba8]`}>
-                  Be the first to know when Drop No. 01 goes live.
-                </p>
+                <EditableText
+                  file="waitlist"
+                  field="modalTitle"
+                  value={content.modalTitle}
+                  as="h3"
+                  className={`${cormorantClass} mt-4 text-2xl font-medium tracking-[0.18em]`}
+                />
+                <EditableText
+                  file="waitlist"
+                  field="modalBody"
+                  value={content.modalBody}
+                  as="p"
+                  className={`${garamondClass} mt-3 text-[15px] text-[#c4bba8]`}
+                />
 
                 <form onSubmit={onSubmit} className="mt-8">
                   <input
@@ -144,7 +166,7 @@ export default function WaitlistButton({ cormorantClass, garamondClass, buttonCl
                     type="email"
                     name="email"
                     required
-                    placeholder="your@email.com"
+                    placeholder={content.emailPlaceholder}
                     className={`${garamondClass} w-full border border-[#4c4740] bg-transparent px-4 py-3 text-center text-base text-[#e9e1cd] outline-none transition-colors duration-300 placeholder:text-[#6f695c] focus:border-[#cfc0a0]`}
                   />
 
@@ -157,14 +179,14 @@ export default function WaitlistButton({ cormorantClass, garamondClass, buttonCl
                       required
                       className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-[#b9a06a]"
                     />
-                    <span>I agree to receive news and updates from Lumina Drops.</span>
+                    <EditableText file="waitlist" field="consentLabel" value={content.consentLabel} as="span" />
                   </label>
 
                   <button
                     type="submit"
                     className="mt-8 w-full border border-[#6f695c] px-8 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#d9ae4b] hover:bg-[#a8842c] hover:text-[#171310]"
                   >
-                    SUBMIT
+                    <EditableText file="waitlist" field="submitLabel" value={content.submitLabel} as="span" />
                   </button>
                 </form>
               </>
