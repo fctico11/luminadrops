@@ -4,66 +4,66 @@
   "titleLine2": "MARGARITA CLUB",
   "titleImage": "/drops/midnight-margarita/wordmark.png",
   "titleImageAlt": "The Midnight Margarita Club",
-  "tagline": "An Everlong Midnight, tucked into one box.",
+  "tagline": "An Everlong Midnight, tucked into one box",
   "dateLabel": "September 2026",
   "heroImage": "/drops/midnight-margarita/candle.svg",
   "heroImageAlt": "The Midnight Margarita Club box, candle, and glassware",
   "insideSectionTitle": "WHAT'S WAITING INSIDE",
-  "insideParagraph1": "Each Everlong Midnight contains handcrafted pieces, botanical elements, ingredients for the evening, and a handful of Club traditions you'll discover as the night unfolds.",
-  "insideParagraph2": "Created, gathered, and chosen to carry you through the night – from the first spark to last call.",
-  "insideParagraph3": "Some things were made by hand. Some were gathered from the garden and woods. Some will be gone by morning. Others were made to stay with you.",
-  "insideClosingLine": "We won't tell you everything that's inside – that's part of your discovery.",
+  "insideParagraph1": "Each TMMC member will receive handcrafted pieces, stone and botanical elements, ingredients for the evening, and a handful of Club traditions you’ll discover as the night unfolds.",
+  "insideParagraph2": "Created, gathered, and chosen to accompany you through the night – from the first spark to last call.",
+  "insideParagraph3": "Some things were made by hand while some were gathered from the garden and woods. Some will be gone by morning and others were made to stay with you for midnights to come.",
+  "insideClosingLine": "Your place in the Club awaits.",
   "includesTitle": "INCLUDES...",
   "items": [
     {
       "image": "/drops/midnight-margarita/candle.svg",
       "alt": "Hand-poured beeswax candle",
-      "title": "THE FIRST SPARK",
-      "description": "Hand-poured beeswax candle + the beginning of the evening.",
+      "title": "A SPARK",
+      "description": "Hand-poured pure beeswax candle to start your evening",
       "note": ""
     },
     {
       "image": "/drops/midnight-margarita/glass.svg",
       "alt": "Ribbed glass tumbler for the Midnight Margarita",
-      "title": "THE MIDNIGHT MARGARITA",
-      "description": "A cocktail ritual with the Club's finishing touches.",
-      "note": "Lime and liquor not included."
+      "title": "A WISH",
+      "description": "A keepsake jar for the wishes made at midnight",
+      "note": ""
     },
     {
       "image": "/drops/midnight-margarita/keepsakes.svg",
       "alt": "Seven tiny gathered keepsakes",
-      "title": "POCKETFUL OF MIDNIGHT",
-      "description": "Seven tiny keepsakes gathered from the woods, garden, sky, night, the Club, and two sisters who know a thing or two about magic.",
+      "title": "A BIT OF MIDNIGHT",
+      "description": "Seven tiny keepsakes gathered from the woods, garden, sky, night, the Club, and two sisters who know a thing or two about magic",
       "note": ""
     },
     {
       "image": "/drops/midnight-margarita/moonstone.svg",
       "alt": "Jar of moonstones",
-      "title": "MOONSTONE WISHES",
-      "description": "A keepsake jar.",
-      "note": ""
+      "title": "A TOAST",
+      "description": "A ritual with the Club's finishing touches - equally suited to margaritas or mocktails",
+      "note": "Lime and liquor not included"
     },
     {
       "image": "/drops/midnight-margarita/envelope.svg",
       "alt": "Wax-sealed plantable lavender-seed paper",
-      "title": "BURIAL PACKET",
-      "description": "Plantable lavender-seed paper + their ritual.",
+      "title": "A BURIAL",
+      "description": "Handmade plantable lavender-seed paper ",
       "note": ""
     },
     {
       "image": "/drops/midnight-margarita/card.svg",
       "alt": "After Hours keepsake card",
       "title": "AFTER HOURS",
-      "description": "A private digital extension of the Club, unlocked from inside your box.",
+      "description": "A digital extension of the Club, unlocked from inside your box",
       "note": ""
     }
   ],
-  "includesClosingLine": "Plus a few things we're keeping to ourselves.",
+  "includesClosingLine": "As for everything else? That's yours to discover",
   "badges": [
     {
       "icon": "/drops/midnight-margarita/icon-moon.svg",
       "iconAlt": "Crescent moon",
-      "line1": "100",
+      "line1": "ONE HUNDRED",
       "line2": "BOXES ONLY"
     },
     {
@@ -84,6 +84,6 @@
   "quantityLabel": "QUANTITY",
   "ctaLabel": "JOIN THE CLUB",
   "priceLabel": "$149",
-  "footNote1": "Secure checkout  •  Ships worldwide",
-  "footNote2": "Limited to 100 founding boxes. No restock."
+  "footNote1": "Secure checkout  •  Shipping included.",
+  "footNote2": "Each TMMC box is assembled by hand in small batches, exclusively for this drop. Minor variations are part of its handcrafted nature and make each box a little different. Because each box is made in limited quantities, all sales are final and we’re unable to accept returns or exchanges. If your order arrives damaged or something isn’t right, please contact us within 7 days of delivery so we can make it right."
 }
