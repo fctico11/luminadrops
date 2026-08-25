@@ -22,7 +22,7 @@ export default function AnimatedStatText({ file, field, value, className }: Prop
       <span className={className}>
         {value.split("").map((ch, j) => (
           <span key={j} className="stat-ch" style={{ "--ch-d": `${j * 28}ms` } as CSSProperties}>
-            {ch === " " ? " " : ch}
+            {ch === " " ? " " : ch}
           </span>
         ))}
       </span>
