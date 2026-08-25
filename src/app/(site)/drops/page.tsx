@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { getContent } from "@/lib/content";
 import EditableText from "@/components/edit/EditableText";
 import EditableLink from "@/components/edit/EditableLink";
+import EditableImage from "@/components/edit/EditableImage";
 import Motes from "../../motes";
 import { cormorant, garamond, rise } from "../../ui";
 
@@ -31,11 +31,13 @@ export default function DropsPage() {
           className="teaser-rise relative mt-10 overflow-hidden border border-[#4c4740] lg:mt-14"
           style={rise(0.3)}
         >
-          <Image
-            src="/drops/midnight-margarita/candle.svg"
+          <EditableImage
+            file="drops"
+            field="backgroundImage"
+            src={content.backgroundImage}
             alt=""
-            fill
-            sizes="(max-width: 768px) 100vw, 768px"
+            exportWidth={1200}
+            exportHeight={900}
             className="scale-125 object-cover opacity-30"
           />
           {/* keeps the artwork behind the copy rather than competing with it */}

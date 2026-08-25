@@ -54,6 +54,7 @@ export type ArchiveContent = {
 
 export type DropsContent = {
   eyebrow: string;
+  backgroundImage: string;
   dropLabel: string;
   titleLine1: string;
   titleLine2: string;
