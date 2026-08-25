@@ -103,6 +103,8 @@ export type Drop01Content = {
   dropLabel: string;
   titleLine1: string;
   titleLine2: string;
+  titleImage: string;
+  titleImageAlt: string;
   tagline: string;
   dateLabel: string;
   heroImage: string;

@@ -45,12 +45,16 @@ export default async function Drop01Page() {
             as="p"
             className="text-[10px] tracking-[0.28em] text-[#b9b09d] lg:text-xs"
           />
-          <h1
-            className={`${cormorant.className} mt-5 max-w-xl text-3xl leading-[1.25] font-medium tracking-[0.15em] sm:text-4xl lg:text-6xl`}
-          >
-            <EditableText file="drop01" field="titleLine1" value={content.titleLine1} as="span" />
-            <br />
-            <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
+          <h1 className="relative mt-5 aspect-[901/528] w-56 sm:w-72 lg:w-[28rem]">
+            <EditableImage
+              file="drop01"
+              field="titleImage"
+              src={content.titleImage}
+              alt={content.titleImageAlt}
+              exportWidth={1200}
+              exportHeight={700}
+              className="object-contain object-left"
+            />
           </h1>
           <div className="mt-6 flex items-center gap-4" aria-hidden>
             <span className="h-px w-10 bg-[#4c4740]" />
