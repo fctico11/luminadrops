@@ -11,6 +11,7 @@ const plexMono = IBM_Plex_Mono({
 const description = "Limited releases, each beginning with an idea we couldn't leave imaginary.";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "Lumina Drops",
   description,
   openGraph: {
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Lumina Drops",
     description,
   },
