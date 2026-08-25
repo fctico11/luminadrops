@@ -8,9 +8,22 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
 });
 
+const description = "Limited releases, each beginning with an idea we couldn't leave imaginary.";
+
 export const metadata: Metadata = {
   title: "Lumina Drops",
-  description: "Limited edition merchandise drops.",
+  description,
+  openGraph: {
+    title: "Lumina Drops",
+    description,
+    siteName: "Lumina Drops",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Lumina Drops",
+    description,
+  },
 };
 
 export default function RootLayout({
