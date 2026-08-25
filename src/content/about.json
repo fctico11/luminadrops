@@ -1,11 +1,20 @@
 {
   "title": "ABOUT",
-  "lead": "Objects for nights worth keeping.",
-  "body": "Lumina Drops makes small, deliberate collections for the hours after midnight. Each drop is a single boxed ritual — candles, glassware, and the small ceremonies that turn an ordinary evening into one you remember.",
+  "lead": "It usually starts with, “What if…?”",
+  "body": "Lumina Drops is where the ideas we can't stop thinking about become real. Each drop begins with an oddly specific, slightly unnecessary, completely irresistible spark. Where it goes from there? Wouldn't you like to find out.",
   "facts": [
-    { "term": "LIMITED", "detail": "Every drop is a fixed run. No restocks, ever." },
-    { "term": "SEASONAL", "detail": "A few drops a year, each built around one night." },
-    { "term": "KEPT", "detail": "Objects meant to outlast the evening they were made for." }
+    {
+      "term": "LIMITED",
+      "detail": "Every drop has its moment - when it's gone, it's gone for good"
+    },
+    {
+      "term": "UNBOUND",
+      "detail": "No set format, no set theme. The idea decides where we take it"
+    },
+    {
+      "term": "NEXT",
+      "detail": "There's always another unreasonably specific idea waiting its turn"
+    }
   ],
   "ctaLabel": "SEE THE CURRENT DROP"
 }
