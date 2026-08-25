@@ -105,17 +105,17 @@ export default function Teaser() {
 
           {/* Stats */}
           <div
-            className="teaser-rise mt-11 flex items-center justify-center text-[9px] tracking-[0.06em] text-[#cfc6b1] sm:text-[10px] sm:tracking-[0.28em] lg:mt-16 lg:text-sm"
+            className="teaser-rise mt-11 flex items-center justify-center text-[9px] tracking-[0.09em] text-[#cfc6b1] sm:text-[10px] sm:tracking-[0.28em] lg:mt-16 lg:text-sm"
             style={rise(1.25)}
           >
             {content.stats.map((label, i) => (
               <Fragment key={i}>
-                {i > 0 && <span className="h-3 w-px shrink-0 bg-[#4c4740] sm:h-4 lg:h-5" aria-hidden />}
+                {i > 0 && <span className="mx-1 h-3 w-px shrink-0 bg-[#4c4740] sm:mx-0 sm:h-4 lg:h-5" aria-hidden />}
                 <AnimatedStatText
                   file="teaser"
                   field={`stats.${i}`}
                   value={label}
-                  className="teaser-stat cursor-default whitespace-nowrap px-1 sm:px-2 lg:px-5"
+                  className="teaser-stat cursor-default whitespace-nowrap px-2 sm:px-2 lg:px-5"
                 />
               </Fragment>
             ))}

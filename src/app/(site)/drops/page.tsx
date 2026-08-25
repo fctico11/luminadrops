@@ -38,6 +38,7 @@ export default function DropsPage() {
             alt=""
             exportWidth={1200}
             exportHeight={900}
+            controlPlacement="above"
             className="scale-125 object-cover opacity-30"
           />
           {/* keeps the artwork behind the copy rather than competing with it */}
