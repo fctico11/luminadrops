@@ -174,10 +174,10 @@ export default async function Drop01Page() {
 
       {/* Trust badges */}
       <section className="teaser-rise relative mx-auto w-full max-w-3xl px-6 pb-16 lg:pb-20" style={rise(0.65)}>
-        <div className="grid divide-y divide-[#3a352e] border border-[#3a352e] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <div className="grid grid-cols-3 divide-x divide-[#3a352e] border border-[#3a352e]">
           {content.badges.map((badge, i) => (
-            <div key={i} className="flex flex-col items-center gap-3 px-6 py-8 text-center">
-              <div className="relative h-7 w-7">
+            <div key={i} className="flex flex-col items-center gap-2 px-2 py-5 text-center sm:gap-3 sm:px-6 sm:py-8">
+              <div className="relative h-6 w-6 sm:h-7 sm:w-7">
                 <EditableImage
                   file="drop01"
                   field={`badges.${i}.icon`}
@@ -194,14 +194,14 @@ export default async function Drop01Page() {
                   field={`badges.${i}.line1`}
                   value={badge.line1}
                   as="p"
-                  className="text-xs font-medium tracking-[0.2em] text-[#e9e1cd]"
+                  className="text-[10px] font-medium tracking-[0.15em] text-[#e9e1cd] sm:text-xs sm:tracking-[0.2em]"
                 />
                 <EditableText
                   file="drop01"
                   field={`badges.${i}.line2`}
                   value={badge.line2}
                   as="p"
-                  className="mt-1 text-[10px] tracking-[0.2em] text-[#9c9384]"
+                  className="mt-1 text-[9px] tracking-[0.1em] text-[#9c9384] sm:text-[10px] sm:tracking-[0.2em]"
                 />
               </div>
             </div>
