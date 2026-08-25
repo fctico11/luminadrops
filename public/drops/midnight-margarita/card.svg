@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <radialGradient id="room" cx="50%" cy="40%" r="85%">
+      <stop offset="0%" stop-color="#221d1a"/>
+      <stop offset="60%" stop-color="#131010"/>
+      <stop offset="100%" stop-color="#0a0808"/>
+    </radialGradient>
+    <linearGradient id="cardFace" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c1815"/>
+      <stop offset="100%" stop-color="#100d0b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#room)"/>
+
+  <!-- dark keepsake card, edge-lit -->
+  <g>
+    <rect x="230" y="360" width="340" height="280" fill="url(#cardFace)" stroke="#4c4740" stroke-width="2"/>
+    <rect x="252" y="382" width="296" height="236" fill="none" stroke="#7c6b45" stroke-width="1.5" opacity="0.6"/>
+    <path d="M400 460 l 8 20 l 20 8 l -20 8 l -8 20 l -8 -20 l -20 -8 l 20 -8 Z" fill="#e8dcbc" opacity="0.9"/>
+  </g>
+
+  <ellipse cx="400" cy="830" rx="200" ry="26" fill="#080606" opacity="0.6"/>
+</svg>

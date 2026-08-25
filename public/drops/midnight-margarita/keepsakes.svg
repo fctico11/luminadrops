@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <radialGradient id="room" cx="50%" cy="42%" r="85%">
+      <stop offset="0%" stop-color="#221d1a"/>
+      <stop offset="60%" stop-color="#131010"/>
+      <stop offset="100%" stop-color="#0a0808"/>
+    </radialGradient>
+    <radialGradient id="stoneA" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#e7e0d0"/>
+      <stop offset="100%" stop-color="#9c9384"/>
+    </radialGradient>
+    <radialGradient id="stoneB" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#d9c9a0"/>
+      <stop offset="100%" stop-color="#7d6c48"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#room)"/>
+
+  <!-- scattered keepsakes on dark cloth -->
+  <g>
+    <circle cx="300" cy="420" r="46" fill="url(#stoneA)"/>
+    <circle cx="470" cy="380" r="30" fill="url(#stoneB)"/>
+    <circle cx="410" cy="520" r="22" fill="url(#stoneA)" opacity="0.9"/>
+    <circle cx="530" cy="510" r="16" fill="url(#stoneB)" opacity="0.9"/>
+    <circle cx="260" cy="540" r="14" fill="url(#stoneB)" opacity="0.8"/>
+
+    <!-- star anise-ish sprig -->
+    <path d="M340 610 q 20 -40 0 -80 q -20 40 0 80 Z" fill="#7c6b45" opacity="0.85"/>
+    <path d="M300 590 q 40 -10 60 -50 q -40 10 -60 50 Z" fill="#6b5c3a" opacity="0.75"/>
+
+    <!-- tiny star charm -->
+    <path d="M470 610 l 8 20 l 20 8 l -20 8 l -8 20 l -8 -20 l -20 -8 l 20 -8 Z" fill="#e8dcbc"/>
+
+    <!-- small leaf -->
+    <path d="M230 460 q 30 -30 60 0 q -30 30 -60 0 Z" fill="#4c5a3f" opacity="0.8"/>
+  </g>
+
+  <ellipse cx="400" cy="830" rx="200" ry="26" fill="#080606" opacity="0.6"/>
+</svg>

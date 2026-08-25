@@ -10,6 +10,11 @@ const PAGES = [
   { href: "/admin/edit/about", label: "About", description: "/about" },
   { href: "/admin/edit/archive", label: "Archive", description: "/archive" },
   { href: "/admin/edit/drops", label: "Drops", description: "/drops" },
+  {
+    href: "/admin/edit/drop01",
+    label: "Drop 01 (Product Page)",
+    description: "/drop01 — reachable if visited directly, but not linked from nav yet.",
+  },
   { href: "/admin/edit/cart", label: "Bag", description: "/cart" },
   { href: "/admin/edit/success", label: "Order Confirmation", description: "/success" },
 ];

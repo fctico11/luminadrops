@@ -1,0 +1,87 @@
+{
+  "dropLabel": "DROP No. 01",
+  "titleLine1": "THE MIDNIGHT",
+  "titleLine2": "MARGARITA CLUB",
+  "tagline": "An Everlong Midnight, tucked into one box.",
+  "dateLabel": "September 2026",
+  "heroImage": "/drops/midnight-margarita/candle.svg",
+  "heroImageAlt": "The Midnight Margarita Club box, candle, and glassware",
+  "insideSectionTitle": "WHAT'S WAITING INSIDE",
+  "insideParagraph1": "Each Everlong Midnight contains handcrafted pieces, botanical elements, ingredients for the evening, and a handful of Club traditions you'll discover as the night unfolds.",
+  "insideParagraph2": "Created, gathered, and chosen to carry you through the night – from the first spark to last call.",
+  "insideParagraph3": "Some things were made by hand. Some were gathered from the garden and woods. Some will be gone by morning. Others were made to stay with you.",
+  "insideClosingLine": "We won't tell you everything that's inside – that's part of your discovery.",
+  "includesTitle": "INCLUDES...",
+  "items": [
+    {
+      "image": "/drops/midnight-margarita/candle.svg",
+      "alt": "Hand-poured beeswax candle",
+      "title": "THE FIRST SPARK",
+      "description": "Hand-poured beeswax candle + the beginning of the evening.",
+      "note": ""
+    },
+    {
+      "image": "/drops/midnight-margarita/glass.svg",
+      "alt": "Ribbed glass tumbler for the Midnight Margarita",
+      "title": "THE MIDNIGHT MARGARITA",
+      "description": "A cocktail ritual with the Club's finishing touches.",
+      "note": "Lime and liquor not included."
+    },
+    {
+      "image": "/drops/midnight-margarita/keepsakes.svg",
+      "alt": "Seven tiny gathered keepsakes",
+      "title": "POCKETFUL OF MIDNIGHT",
+      "description": "Seven tiny keepsakes gathered from the woods, garden, sky, night, the Club, and two sisters who know a thing or two about magic.",
+      "note": ""
+    },
+    {
+      "image": "/drops/midnight-margarita/moonstone.svg",
+      "alt": "Jar of moonstones",
+      "title": "MOONSTONE WISHES",
+      "description": "A keepsake jar.",
+      "note": ""
+    },
+    {
+      "image": "/drops/midnight-margarita/envelope.svg",
+      "alt": "Wax-sealed plantable lavender-seed paper",
+      "title": "BURIAL PACKET",
+      "description": "Plantable lavender-seed paper + their ritual.",
+      "note": ""
+    },
+    {
+      "image": "/drops/midnight-margarita/card.svg",
+      "alt": "After Hours keepsake card",
+      "title": "AFTER HOURS",
+      "description": "A private digital extension of the Club, unlocked from inside your box.",
+      "note": ""
+    }
+  ],
+  "includesClosingLine": "Plus a few things we're keeping to ourselves.",
+  "badges": [
+    {
+      "icon": "/drops/midnight-margarita/icon-moon.svg",
+      "iconAlt": "Crescent moon",
+      "line1": "100",
+      "line2": "BOXES ONLY"
+    },
+    {
+      "icon": "/drops/midnight-margarita/mmc-logo-icon.png",
+      "iconAlt": "Midnight Margarita Club mark",
+      "line1": "HANDMADE +",
+      "line2": "ASSEMBLED IN SMALL BATCHES"
+    },
+    {
+      "icon": "/drops/midnight-margarita/icon-lime.svg",
+      "iconAlt": "Lime wheel",
+      "line1": "ONE COMPLETE",
+      "line2": "EVERLONG MIDNIGHT"
+    }
+  ],
+  "purchaseImage": "/drops/midnight-margarita/candle.svg",
+  "purchaseImageAlt": "The Midnight Margarita Club box, candle, and glassware",
+  "quantityLabel": "QUANTITY",
+  "ctaLabel": "JOIN THE CLUB",
+  "priceLabel": "$149",
+  "footNote1": "Secure checkout  •  Ships worldwide",
+  "footNote2": "Limited to 100 founding boxes. No restock."
+}

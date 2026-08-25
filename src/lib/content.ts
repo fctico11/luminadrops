@@ -96,6 +96,35 @@ export type ProductPageContent = {
   noImageLabel: string;
 };
 
+export type Drop01Item = { image: string; alt: string; title: string; description: string; note: string };
+export type Drop01Badge = { icon: string; iconAlt: string; line1: string; line2: string };
+
+export type Drop01Content = {
+  dropLabel: string;
+  titleLine1: string;
+  titleLine2: string;
+  tagline: string;
+  dateLabel: string;
+  heroImage: string;
+  heroImageAlt: string;
+  insideSectionTitle: string;
+  insideParagraph1: string;
+  insideParagraph2: string;
+  insideParagraph3: string;
+  insideClosingLine: string;
+  includesTitle: string;
+  items: Drop01Item[];
+  includesClosingLine: string;
+  badges: Drop01Badge[];
+  purchaseImage: string;
+  purchaseImageAlt: string;
+  quantityLabel: string;
+  ctaLabel: string;
+  priceLabel: string;
+  footNote1: string;
+  footNote2: string;
+};
+
 export type ContentMap = {
   teaser: TeaserContent;
   "site-header": SiteHeaderContent;
@@ -107,6 +136,7 @@ export type ContentMap = {
   success: SuccessContent;
   waitlist: WaitlistContent;
   "product-page": ProductPageContent;
+  drop01: Drop01Content;
 };
 
 export type ContentName = keyof ContentMap;
