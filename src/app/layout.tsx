@@ -9,9 +9,10 @@ const plexMono = IBM_Plex_Mono({
 });
 
 const description = "Limited releases, each beginning with an idea we couldn't leave imaginary.";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.luminadrops.com";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(siteUrl),
   title: "Lumina Drops",
   description,
   openGraph: {
