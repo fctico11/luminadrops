@@ -26,6 +26,8 @@ export default function WaitlistButton({ content, cormorantClass, garamondClass,
   const [closing, setClosing] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [revealed, setRevealed] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const closeTimer = useRef<number | undefined>(undefined);
   const revealTimer = useRef<number | undefined>(undefined);
@@ -55,12 +57,30 @@ export default function WaitlistButton({ content, cormorantClass, garamondClass,
     };
   }, [open]);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isAdmin) return;
-    // TODO: post to Resend / Formspree once the email integration lands
-    setSubmitted(true);
-    revealTimer.current = window.setTimeout(() => setRevealed(true), REVEAL_MS);
+
+    const email = inputRef.current?.value ?? "";
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error ?? "Something went wrong. Please try again.");
+      }
+      setSubmitted(true);
+      revealTimer.current = window.setTimeout(() => setRevealed(true), REVEAL_MS);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -72,6 +92,7 @@ export default function WaitlistButton({ content, cormorantClass, garamondClass,
         onClick={() => {
           setSubmitted(false);
           setRevealed(false);
+          setError(null);
           setOpen(true);
         }}
       >
@@ -182,11 +203,14 @@ export default function WaitlistButton({ content, cormorantClass, garamondClass,
                     <EditableText file="waitlist" field="consentLabel" value={content.consentLabel} as="span" />
                   </label>
 
+                  {error && <p className="mt-4 text-[13px] text-[#e07a5f]">{error}</p>}
+
                   <button
                     type="submit"
-                    className="mt-8 w-full border border-[#6f695c] px-8 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#d9ae4b] hover:bg-[#a8842c] hover:text-[#171310]"
+                    disabled={submitting}
+                    className="mt-8 w-full border border-[#6f695c] px-8 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#d9ae4b] hover:bg-[#a8842c] hover:text-[#171310] disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    <EditableText file="waitlist" field="submitLabel" value={content.submitLabel} as="span" />
+                    {submitting ? "..." : <EditableText file="waitlist" field="submitLabel" value={content.submitLabel} as="span" />}
                   </button>
                 </form>
               </>

@@ -5,7 +5,7 @@ import { getStripe } from "@/lib/stripe";
 
 const bodySchema = z.object({
   productId: z.string().min(1),
-  quantity: z.coerce.number().int().min(1).max(10).default(1),
+  quantity: z.coerce.number().int().min(1).max(2).default(1),
 });
 
 export async function POST(request: NextRequest) {
@@ -29,6 +29,7 @@ export async function POST(request: NextRequest) {
   const stripe = getStripe();
 
   const session = await stripe.checkout.sessions.create({
+    ui_mode: "elements",
     mode: "payment",
     line_items: [
       {
@@ -56,9 +57,8 @@ export async function POST(request: NextRequest) {
       },
     ],
     metadata: { productId: product.id, quantity: String(quantity) },
-    success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${siteUrl}/`,
+    return_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
   });
 
-  return NextResponse.json({ url: session.url });
+  return NextResponse.json({ clientSecret: session.client_secret });
 }

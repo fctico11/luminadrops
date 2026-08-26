@@ -1,10 +1,12 @@
 import { getContent } from "@/lib/content";
 import { isAdminSession } from "@/lib/session";
+import { prisma } from "@/lib/prisma";
+import { DROP01_SLUG } from "@/lib/products";
 import EditableText from "@/components/edit/EditableText";
 import EditableImage from "@/components/edit/EditableImage";
 import Motes from "../../motes";
 import { cormorant, rise } from "../../ui";
-import QuantityStepper from "./quantity-stepper";
+import PurchaseControls from "./purchase-controls";
 import Reveal from "./reveal";
 
 export const metadata = {
@@ -13,9 +15,14 @@ export const metadata = {
 };
 
 export default async function Drop01Page() {
-  const isAdmin = await isAdminSession();
+  const [isAdmin, product] = await Promise.all([
+    isAdminSession(),
+    prisma.product.findUnique({ where: { slug: DROP01_SLUG } }),
+  ]);
 
   const content = getContent("drop01");
+  const soldOut = !product || product.status !== "LIVE" || product.inventory <= 0;
+  const maxQuantity = Math.min(2, product?.inventory ?? 0);
 
   return (
     <main className="grain relative flex flex-1 flex-col">
@@ -251,17 +258,15 @@ export default async function Drop01Page() {
               className="mt-8 text-xs tracking-[0.3em] text-[#9c9384]"
             />
             <div className="mt-3">
-              <QuantityStepper />
+              <PurchaseControls
+                productId={product?.id ?? ""}
+                priceCents={product?.priceCents ?? 0}
+                currency={product?.currency ?? "usd"}
+                ctaLabel={content.ctaLabel}
+                maxQuantity={maxQuantity}
+                soldOut={soldOut}
+              />
             </div>
-
-            <button
-              type="button"
-              className="mt-8 w-full max-w-[280px] border border-[#6f695c] bg-[#e9e1cd] px-8 py-3.5 text-sm font-medium tracking-[0.28em] text-[#141115] transition-all duration-500 hover:bg-[#fff6e0]"
-            >
-              <EditableText file="drop01" field="ctaLabel" value={content.ctaLabel} as="span" />
-              <span className="mx-2">•</span>
-              <EditableText file="drop01" field="priceLabel" value={content.priceLabel} as="span" />
-            </button>
 
             <EditableText
               file="drop01"

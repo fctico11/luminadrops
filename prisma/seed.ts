@@ -3,30 +3,23 @@ import { PrismaClient } from "../src/generated/prisma";
 
 const prisma = new PrismaClient();
 
+const DROP01_SLUG = "drop-01";
+
 async function main() {
-  await prisma.themeSettings.upsert({
-    where: { id: "default" },
-    create: { id: "default" },
+  await prisma.product.upsert({
+    where: { slug: DROP01_SLUG },
+    create: {
+      name: "The Midnight Margarita Club",
+      slug: DROP01_SLUG,
+      description: "Drop No. 01 — An Everlong Midnight, tucked into one box.",
+      priceCents: 14900,
+      shippingCents: 0,
+      inventory: 100,
+      status: "LIVE",
+    },
     update: {},
   });
-  console.log("Theme settings ready.");
-
-  const existingProduct = await prisma.product.findFirst();
-  if (!existingProduct) {
-    await prisma.product.create({
-      data: {
-        name: "Sample Drop",
-        slug: "sample-drop",
-        description:
-          "This is placeholder copy for the first drop. Edit everything — name, price, images, and description — from /admin.",
-        priceCents: 4500,
-        shippingCents: 800,
-        inventory: 50,
-        status: "DRAFT",
-      },
-    });
-    console.log("Sample draft product created.");
-  }
+  console.log("Drop 01 product ready.");
 }
 
 main()

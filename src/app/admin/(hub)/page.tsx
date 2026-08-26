@@ -12,8 +12,13 @@ const PAGES = [
   { href: "/admin/edit/drops", label: "Drops", description: "/drops" },
   {
     href: "/admin/edit/drop01",
-    label: "Drop 01 (Product Page)",
+    label: "Drop 01 (Product Page copy)",
     description: "/drop01 — reachable if visited directly, but not linked from nav yet.",
+  },
+  {
+    href: "/admin/product",
+    label: "Drop 01 (Price & Inventory)",
+    description: "Name, price, shipping, and stock count — pulls straight from the database.",
   },
   { href: "/admin/edit/cart", label: "Bag", description: "/cart" },
   { href: "/admin/edit/success", label: "Order Confirmation", description: "/success" },

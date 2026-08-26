@@ -21,12 +21,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid signature." }, { status: 400 });
   }
 
-  if (event.type === "checkout.session.completed") {
+  // checkout.session.completed fires as soon as the customer finishes checkout,
+  // even for delayed-notification payment methods that haven't actually been
+  // paid yet — async_payment_succeeded covers those once they clear. Gating on
+  // payment_status avoids fulfilling an order for a payment that later fails.
+  if (event.type === "checkout.session.completed" || event.type === "checkout.session.async_payment_succeeded") {
     const session = event.data.object as Stripe.Checkout.Session;
     const productId = session.metadata?.productId;
     const quantity = Number(session.metadata?.quantity ?? "1");
 
-    if (productId) {
+    if (productId && session.payment_status !== "unpaid") {
       await prisma.$transaction(async (tx) => {
         const existingOrder = await tx.order.findUnique({ where: { stripeSessionId: session.id } });
         if (existingOrder) return;

@@ -2,5 +2,9 @@
   "title": "YOUR BAG",
   "emptyLead": "Suspiciously empty",
   "emptyBody": "Nothing is live for purchase yet. Drop No. 01 opens in September 2026 - join the waitlist below",
-  "ctaLabel": "JOIN THE WAITLIST"
+  "ctaLabel": "JOIN THE WAITLIST",
+  "quantityLabel": "QUANTITY",
+  "subtotalLabel": "SUBTOTAL",
+  "removeLabel": "Remove",
+  "checkoutLabel": "PROCEED TO PAYMENT"
 }

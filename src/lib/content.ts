@@ -68,6 +68,10 @@ export type CartContent = {
   emptyLead: string;
   emptyBody: string;
   ctaLabel: string;
+  quantityLabel: string;
+  subtotalLabel: string;
+  removeLabel: string;
+  checkoutLabel: string;
 };
 
 export type SuccessContent = {
@@ -89,11 +93,6 @@ export type WaitlistContent = {
   successTitle: string;
   successBody: string;
   closeLabel: string;
-};
-
-export type ProductPageContent = {
-  eyebrow: string;
-  noImageLabel: string;
 };
 
 export type FooterContent = {
@@ -136,7 +135,6 @@ export type Drop01Content = {
   purchaseImageAlt: string;
   quantityLabel: string;
   ctaLabel: string;
-  priceLabel: string;
   footNote1: string;
   finePrintLabel: string;
   footNote2: string;
@@ -152,7 +150,6 @@ export type ContentMap = {
   cart: CartContent;
   success: SuccessContent;
   waitlist: WaitlistContent;
-  "product-page": ProductPageContent;
   drop01: Drop01Content;
   footer: FooterContent;
   privacy: PolicyContent;
