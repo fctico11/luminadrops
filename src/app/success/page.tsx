@@ -28,7 +28,7 @@ export default async function SuccessPage({ searchParams }: Props) {
         field="eyebrow"
         value={content.eyebrow}
         as="p"
-        className="text-[10px] uppercase tracking-[0.4em] text-[#c9a227]"
+        className="text-[11px] uppercase tracking-[0.4em] text-[#c9a227]"
       />
       <EditableText
         file="success"

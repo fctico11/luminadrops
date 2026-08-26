@@ -41,7 +41,7 @@ export default async function Home() {
                 className="object-cover shadow-[0_0_120px_-20px_rgba(0,0,0,0.8)]"
               />
               <div
-                className="absolute -bottom-3 -right-3 border px-3 py-1 text-[10px] uppercase tracking-widest"
+                className="absolute -bottom-3 -right-3 border px-3 py-1 text-[11px] uppercase tracking-widest"
                 style={{ borderColor: theme.accentColor, color: theme.accentColor, backgroundColor: theme.backgroundColor }}
               >
                 Edition #{product.id.slice(-4).toUpperCase()}

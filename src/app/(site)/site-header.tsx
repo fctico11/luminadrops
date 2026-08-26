@@ -23,7 +23,7 @@ export default function SiteHeader() {
         <EditableText file="site-header" field="wordmark" value={content.wordmark} as="span" />
       </EditableLink>
 
-      <nav className="flex items-center gap-5 text-[10px] tracking-[0.2em] text-[#b9b09d] sm:gap-6 sm:tracking-[0.3em] lg:gap-10 lg:text-xs">
+      <nav className="flex items-center gap-5 text-[11px] tracking-[0.2em] text-[#b9b09d] sm:gap-6 sm:tracking-[0.3em] lg:gap-10 lg:text-xs">
         {NAV.map((item) => (
           <EditableLink
             key={item.href}

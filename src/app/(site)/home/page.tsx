@@ -2,7 +2,7 @@ import { getContent } from "@/lib/content";
 import EditableText from "@/components/edit/EditableText";
 import EditableLink from "@/components/edit/EditableLink";
 import Motes from "../../motes";
-import { cormorant, garamond, rise } from "../../ui";
+import { cormorant, rise } from "../../ui";
 
 export const metadata = {
   title: "Lumina Drops",
@@ -42,7 +42,7 @@ export default function HomePage() {
         </h1>
 
         <span
-          className="teaser-rise mt-8 inline-block text-[10px] text-[#cfc6b1] lg:mt-10 lg:text-xs"
+          className="teaser-rise mt-8 inline-block text-[11px] text-[#cfc6b1] lg:mt-10 lg:text-xs"
           style={rise(0.45)}
           aria-hidden
         >
@@ -54,7 +54,7 @@ export default function HomePage() {
           field="tagline"
           value={content.tagline}
           as="p"
-          className={`${garamond.className} teaser-rise mt-6 text-lg italic text-[#d6cdb8] lg:mt-8 lg:text-2xl`}
+          className={`${cormorant.className} teaser-rise mt-6 text-lg italic text-[#d6cdb8] lg:mt-8 lg:text-2xl`}
           style={rise(0.6)}
         />
 
@@ -69,7 +69,7 @@ export default function HomePage() {
           field="dropLabel"
           value={content.dropLabel}
           as="p"
-          className="teaser-rise mt-12 text-[10px] tracking-[0.28em] text-[#b9b09d] lg:mt-16 lg:text-sm"
+          className="teaser-rise mt-12 text-[11px] tracking-[0.28em] text-[#b9b09d] lg:mt-16 lg:text-sm"
           style={rise(0.9)}
         />
 
@@ -84,7 +84,7 @@ export default function HomePage() {
 
         <EditableLink
           href="/"
-          className="teaser-rise mt-10 inline-block border border-[#6f695c] px-9 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-14 lg:px-14 lg:py-4 lg:text-sm"
+          className="teaser-rise mt-10 inline-block border border-[#6f695c] px-9 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-14 lg:px-14 lg:py-4 lg:text-sm"
           style={rise(1.2)}
         >
           <EditableText file="home" field="ctaLabel" value={content.ctaLabel} as="span" />
@@ -97,7 +97,7 @@ export default function HomePage() {
           aria-hidden
         >
           <span className="h-px flex-1 bg-[#4c4740]" />
-          <span className="teaser-twinkle text-[10px] text-[#cfc6b1] lg:text-sm">✦</span>
+          <span className="teaser-twinkle text-[11px] text-[#cfc6b1] lg:text-sm">✦</span>
           <span className="h-px flex-1 bg-[#4c4740]" />
         </div>
 
@@ -106,7 +106,7 @@ export default function HomePage() {
           field="footerNote"
           value={content.footerNote}
           as="p"
-          className={`${garamond.className} teaser-rise mt-10 text-[15px] italic text-[#b9b09d] lg:mt-12 lg:text-xl`}
+          className={`${cormorant.className} teaser-rise mt-10 text-[15px] italic text-[#b9b09d] lg:mt-12 lg:text-xl`}
           style={rise(1.55)}
         />
       </div>

@@ -2,7 +2,7 @@ import { getContent } from "@/lib/content";
 import EditableText from "@/components/edit/EditableText";
 import EditableLink from "@/components/edit/EditableLink";
 import Motes from "../../motes";
-import { cormorant, garamond, rise } from "../../ui";
+import { cormorant, rise } from "../../ui";
 
 export const metadata = {
   title: "About — Lumina Drops",
@@ -32,7 +32,7 @@ export default function AboutPage() {
           aria-hidden
         >
           <span className="h-px flex-1 bg-[#4c4740]" />
-          <span className="teaser-twinkle text-[10px] text-[#cfc6b1] lg:text-sm">✦</span>
+          <span className="teaser-twinkle text-[11px] text-[#cfc6b1] lg:text-sm">✦</span>
           <span className="h-px flex-1 bg-[#4c4740]" />
         </div>
 
@@ -41,7 +41,7 @@ export default function AboutPage() {
           field="lead"
           value={content.lead}
           as="p"
-          className={`${garamond.className} teaser-rise mt-14 text-lg leading-relaxed italic text-[#d6cdb8] lg:mt-20 lg:text-2xl`}
+          className={`${cormorant.className} teaser-rise mt-14 text-lg leading-relaxed italic text-[#d6cdb8] lg:mt-20 lg:text-2xl`}
           style={rise(0.5)}
         />
 
@@ -50,7 +50,7 @@ export default function AboutPage() {
           field="body"
           value={content.body}
           as="p"
-          className={`${garamond.className} teaser-rise mx-auto mt-8 max-w-xl text-[15px] leading-relaxed text-[#c4bba8] lg:mt-10 lg:text-lg`}
+          className={`${cormorant.className} teaser-rise mx-auto mt-8 max-w-xl text-[15px] leading-relaxed text-[#c4bba8] lg:mt-10 lg:text-lg`}
           style={rise(0.65)}
         />
 
@@ -62,14 +62,14 @@ export default function AboutPage() {
                 field={`facts.${i}.term`}
                 value={fact.term}
                 as="dt"
-                className="text-[10px] tracking-[0.28em] text-[#cfc6b1] lg:text-xs"
+                className="text-[11px] tracking-[0.28em] text-[#cfc6b1] lg:text-xs"
               />
               <EditableText
                 file="about"
                 field={`facts.${i}.detail`}
                 value={fact.detail}
                 as="dd"
-                className={`${garamond.className} mt-4 text-sm leading-relaxed text-[#b9b09d] lg:text-base`}
+                className={`${cormorant.className} mt-4 text-sm leading-relaxed text-[#b9b09d] lg:text-base`}
               />
             </div>
           ))}
@@ -77,7 +77,7 @@ export default function AboutPage() {
 
         <EditableLink
           href="/drops"
-          className="teaser-rise mt-16 inline-block border border-[#6f695c] px-9 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-20 lg:px-12 lg:py-4 lg:text-sm"
+          className="teaser-rise mt-16 inline-block border border-[#6f695c] px-9 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-20 lg:px-12 lg:py-4 lg:text-sm"
           style={rise(1)}
         >
           <EditableText file="about" field="ctaLabel" value={content.ctaLabel} as="span" />

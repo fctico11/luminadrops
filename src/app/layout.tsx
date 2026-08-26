@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
+import { cormorant } from "./ui";
 import "./globals.css";
 
 const plexMono = IBM_Plex_Mono({
@@ -35,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${plexMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className={`${cormorant.className} min-h-full flex flex-col`}>{children}</body>
     </html>
   );
 }

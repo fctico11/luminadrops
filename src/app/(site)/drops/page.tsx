@@ -3,7 +3,7 @@ import EditableText from "@/components/edit/EditableText";
 import EditableLink from "@/components/edit/EditableLink";
 import EditableImage from "@/components/edit/EditableImage";
 import Motes from "../../motes";
-import { cormorant, garamond, rise } from "../../ui";
+import { cormorant, rise } from "../../ui";
 
 export const metadata = {
   title: "Drops — Lumina Drops",
@@ -23,7 +23,7 @@ export default function DropsPage() {
           field="eyebrow"
           value={content.eyebrow}
           as="p"
-          className="teaser-rise text-[10px] tracking-[0.28em] text-[#cfc6b1] lg:text-sm"
+          className="teaser-rise text-[11px] tracking-[0.28em] text-[#cfc6b1] lg:text-sm"
           style={rise(0.1)}
         />
 
@@ -53,7 +53,7 @@ export default function DropsPage() {
               field="dropLabel"
               value={content.dropLabel}
               as="p"
-              className="text-[10px] tracking-[0.28em] text-[#b9b09d] lg:text-xs"
+              className="text-[11px] tracking-[0.28em] text-[#b9b09d] lg:text-xs"
             />
 
             <h1
@@ -69,12 +69,12 @@ export default function DropsPage() {
               field="dateLabel"
               value={content.dateLabel}
               as="p"
-              className={`${garamond.className} mt-5 text-base italic text-[#d6cdb8] lg:text-xl`}
+              className={`${cormorant.className} mt-5 text-base italic text-[#d6cdb8] lg:text-xl`}
             />
 
             <EditableLink
               href="/"
-              className="mt-10 border border-[#6f695c] px-9 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-12 lg:px-12 lg:py-4 lg:text-sm"
+              className="mt-10 border border-[#6f695c] px-9 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-12 lg:px-12 lg:py-4 lg:text-sm"
             >
               <EditableText file="drops" field="ctaLabel" value={content.ctaLabel} as="span" />
             </EditableLink>
@@ -86,7 +86,7 @@ export default function DropsPage() {
           field="footerNote"
           value={content.footerNote}
           as="p"
-          className={`${garamond.className} teaser-rise mt-12 text-[15px] italic text-[#b9b09d] lg:mt-16 lg:text-lg`}
+          className={`${cormorant.className} teaser-rise mt-12 text-[15px] italic text-[#b9b09d] lg:mt-16 lg:text-lg`}
           style={rise(0.5)}
         />
       </div>

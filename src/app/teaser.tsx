@@ -5,7 +5,7 @@ import EditableImage from "@/components/edit/EditableImage";
 import EditableLink from "@/components/edit/EditableLink";
 import AnimatedStatText from "@/components/edit/AnimatedStatText";
 import Motes from "./motes";
-import { cormorant, garamond, rise } from "./ui";
+import { cormorant, rise } from "./ui";
 import WaitlistButton from "./waitlist";
 
 export default function Teaser() {
@@ -30,7 +30,7 @@ export default function Teaser() {
             field="dropLabel"
             value={content.dropLabel}
             as="span"
-            className="text-[10px] tracking-[0.3em] text-[#b9b09d] lg:text-xs"
+            className="text-[11px] tracking-[0.3em] text-[#b9b09d] lg:text-xs"
           />
         </header>
 
@@ -58,22 +58,22 @@ export default function Teaser() {
             field="dateLabel"
             value={content.dateLabel}
             as="p"
-            className={`${garamond.className} teaser-rise relative mt-3 text-lg italic text-[#d6cdb8] lg:mt-5 lg:text-2xl`}
+            className={`${cormorant.className} teaser-rise relative mt-3 text-lg italic text-[#d6cdb8] lg:mt-5 lg:text-2xl`}
             style={rise(0.45)}
           />
 
           <WaitlistButton
             content={waitlistContent}
             cormorantClass={cormorant.className}
-            garamondClass={garamond.className}
-            buttonClassName="teaser-rise mt-9 border border-[#6f695c] px-8 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-12 lg:px-12 lg:py-4 lg:text-sm"
+            garamondClass={cormorant.className}
+            buttonClassName="teaser-rise mt-9 border border-[#6f695c] px-8 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-12 lg:px-12 lg:py-4 lg:text-sm"
             buttonStyle={rise(0.6)}
           />
 
           {/* Star divider */}
           <div className="teaser-rise mx-auto mt-12 flex max-w-xs items-center gap-5 lg:mt-20 lg:max-w-md" style={rise(0.75)} aria-hidden>
             <span className="h-px flex-1 bg-[#4c4740]" />
-            <span className="teaser-twinkle text-[10px] text-[#cfc6b1] lg:text-sm">✦</span>
+            <span className="teaser-twinkle text-[11px] text-[#cfc6b1] lg:text-sm">✦</span>
             <span className="h-px flex-1 bg-[#4c4740]" />
           </div>
 
@@ -91,7 +91,7 @@ export default function Teaser() {
             field="sectionLead"
             value={content.sectionLead}
             as="p"
-            className={`${garamond.className} teaser-rise mt-6 text-[15px] text-[#c4bba8] lg:mt-9 lg:text-xl`}
+            className={`${cormorant.className} teaser-rise mt-6 text-[15px] text-[#c4bba8] lg:mt-9 lg:text-xl`}
             style={rise(1)}
           />
           <EditableText
@@ -99,13 +99,13 @@ export default function Teaser() {
             field="sectionBody"
             value={content.sectionBody}
             as="p"
-            className={`${garamond.className} teaser-rise mx-auto mt-4 max-w-[320px] text-[15px] leading-relaxed text-[#c4bba8] lg:mt-5 lg:max-w-xl lg:text-xl`}
+            className={`${cormorant.className} teaser-rise mx-auto mt-4 max-w-[320px] text-[15px] leading-relaxed text-[#c4bba8] lg:mt-5 lg:max-w-xl lg:text-xl`}
             style={rise(1.1)}
           />
 
           {/* Stats */}
           <div
-            className="teaser-rise mt-11 flex items-center justify-center text-[9px] tracking-[0.09em] text-[#cfc6b1] sm:text-[10px] sm:tracking-[0.28em] lg:mt-16 lg:text-sm"
+            className="teaser-rise mt-11 flex items-center justify-center text-[10px] tracking-[0.09em] text-[#cfc6b1] sm:text-[11px] sm:tracking-[0.28em] lg:mt-16 lg:text-sm"
             style={rise(1.25)}
           >
             {content.stats.map((label, i) => (
@@ -144,7 +144,7 @@ export default function Teaser() {
             field="footerLabel"
             value={content.footerLabel}
             as="p"
-            className="teaser-rise text-[10px] tracking-[0.28em] text-[#b9b09d] lg:text-sm"
+            className="teaser-rise text-[11px] tracking-[0.28em] text-[#b9b09d] lg:text-sm"
             style={rise(1.9)}
           />
           <EditableText
@@ -152,7 +152,7 @@ export default function Teaser() {
             field="footerButton"
             value={content.footerButton}
             as="button"
-            className="teaser-rise mt-6 border border-[#6f695c] px-9 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-9 lg:px-12 lg:py-4 lg:text-sm"
+            className="teaser-rise mt-6 border border-[#6f695c] px-9 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-9 lg:px-12 lg:py-4 lg:text-sm"
             style={rise(2)}
           />
         </footer>

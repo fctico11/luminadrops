@@ -124,6 +124,7 @@ export type Drop01Content = {
   ctaLabel: string;
   priceLabel: string;
   footNote1: string;
+  finePrintLabel: string;
   footNote2: string;
 };
 

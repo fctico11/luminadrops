@@ -134,7 +134,7 @@ export default function WaitlistButton({ content, cormorantClass, garamondClass,
                     type="button"
                     onClick={close}
                     tabIndex={revealed ? 0 : -1}
-                    className="mt-8 border border-[#6f695c] px-9 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0]"
+                    className="mt-8 border border-[#6f695c] px-9 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0]"
                   >
                     <EditableText file="waitlist" field="closeLabel" value={content.closeLabel} as="span" />
                   </button>
@@ -184,7 +184,7 @@ export default function WaitlistButton({ content, cormorantClass, garamondClass,
 
                   <button
                     type="submit"
-                    className="mt-8 w-full border border-[#6f695c] px-8 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#d9ae4b] hover:bg-[#a8842c] hover:text-[#171310]"
+                    className="mt-8 w-full border border-[#6f695c] px-8 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#d9ae4b] hover:bg-[#a8842c] hover:text-[#171310]"
                   >
                     <EditableText file="waitlist" field="submitLabel" value={content.submitLabel} as="span" />
                   </button>
