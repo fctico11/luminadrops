@@ -96,6 +96,20 @@ export type ProductPageContent = {
   noImageLabel: string;
 };
 
+export type FooterContent = {
+  copyrightName: string;
+  links: { label: string; href: string }[];
+};
+
+export type PolicySection = { heading: string; body: string[] };
+
+export type PolicyContent = {
+  title: string;
+  lastUpdated: string;
+  intro: string;
+  sections: PolicySection[];
+};
+
 export type Drop01Item = { image: string; alt: string; title: string; description: string; note: string };
 export type Drop01Badge = { icon: string; iconAlt: string; line1: string; line2: string };
 
@@ -140,6 +154,9 @@ export type ContentMap = {
   waitlist: WaitlistContent;
   "product-page": ProductPageContent;
   drop01: Drop01Content;
+  footer: FooterContent;
+  privacy: PolicyContent;
+  "shipping-returns": PolicyContent;
 };
 
 export type ContentName = keyof ContentMap;

@@ -1,0 +1,35 @@
+{
+  "title": "Shipping & Returns",
+  "lastUpdated": "Last updated: August 2026",
+  "intro": "Every Lumina Drops box is hand-assembled in small batches, so shipping and returns work a little differently than a typical order. Here's what to expect.",
+  "sections": [
+    {
+      "heading": "Shipping",
+      "body": [
+        "Shipping is included in the price of every drop — there's no separate shipping fee at checkout.",
+        "We currently ship within the United States and Canada, with more destinations added as Lumina Drops grows.",
+        "Orders typically ship within 2–3 weeks after a drop closes, once every box has been hand-assembled. You'll receive a shipping confirmation by email once your box is on its way."
+      ]
+    },
+    {
+      "heading": "Order limits",
+      "body": ["To keep each drop fair, orders are limited to 2 boxes per customer per drop."]
+    },
+    {
+      "heading": "Returns & exchanges",
+      "body": [
+        "Because each Lumina Drops box is handmade in limited quantities exclusively for its drop, all sales are final. We're unable to accept returns or exchanges, and minor variations between boxes are part of the handcrafted nature of each release."
+      ]
+    },
+    {
+      "heading": "Damaged or incorrect orders",
+      "body": [
+        "If your order arrives damaged, or something isn't right, contact us within 7 days of delivery at hello@luminadrops.com with your order number and a photo of the issue, and we'll make it right."
+      ]
+    },
+    {
+      "heading": "Questions",
+      "body": ["Reach out anytime at hello@luminadrops.com — we're happy to help."]
+    }
+  ]
+}

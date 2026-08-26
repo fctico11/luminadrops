@@ -17,6 +17,8 @@ const PAGES = [
   },
   { href: "/admin/edit/cart", label: "Bag", description: "/cart" },
   { href: "/admin/edit/success", label: "Order Confirmation", description: "/success" },
+  { href: "/admin/edit/privacy", label: "Privacy Policy", description: "/privacy" },
+  { href: "/admin/edit/shipping-returns", label: "Shipping & Returns", description: "/shipping-returns" },
 ];
 
 export default function AdminHubPage() {
