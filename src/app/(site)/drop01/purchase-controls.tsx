@@ -93,13 +93,13 @@ export default function PurchaseControls({
         type="button"
         onClick={handleJoin}
         disabled={soldOut}
-        className="mt-2 w-full max-w-[280px] border border-[#6f695c] bg-[#e9e1cd] px-8 py-3.5 text-sm font-medium tracking-[0.28em] text-[#141115] transition-all duration-500 hover:bg-[#fff6e0] disabled:cursor-not-allowed disabled:border-[#4c4740] disabled:bg-[#4c4740] disabled:text-[#9c9384] disabled:hover:bg-[#4c4740]"
+        className="mt-2 w-full max-w-[320px] border border-[#6f695c] bg-[#e9e1cd] px-8 py-3.5 text-sm font-medium tracking-[0.28em] text-[#141115] transition-all duration-500 hover:bg-[#fff6e0] disabled:cursor-not-allowed disabled:border-[#4c4740] disabled:bg-[#4c4740] disabled:text-[#9c9384] disabled:hover:bg-[#4c4740]"
       >
         {soldOut ? (
           "SOLD OUT"
         ) : (
           <>
-            <EditableText file="drop01" field="ctaLabel" value={ctaLabel} as="span" />
+            <EditableText file="drop01" field="ctaLabel" value={ctaLabel} as="span" className="whitespace-nowrap" />
             <span className="mx-2">•</span>
             {formatPrice(priceCents * quantity, currency)}
           </>

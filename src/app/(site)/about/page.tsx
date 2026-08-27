@@ -1,6 +1,7 @@
 import { getContent } from "@/lib/content";
 import EditableText from "@/components/edit/EditableText";
 import EditableLink from "@/components/edit/EditableLink";
+import AnimatedStatText from "@/components/edit/AnimatedStatText";
 import Motes from "../../motes";
 import { cormorant, rise } from "../../ui";
 
@@ -11,6 +12,9 @@ export const metadata = {
 
 export default function AboutPage() {
   const content = getContent("about");
+  const whatIfIndex = content.lead.search(/what if/i);
+  const leadWaveFrom =
+    whatIfIndex > 0 && /["“]/.test(content.lead[whatIfIndex - 1]) ? whatIfIndex - 1 : Math.max(whatIfIndex, 0);
 
   return (
     <main className="grain relative flex flex-1 flex-col items-center px-6 py-16 text-center lg:py-24">
@@ -36,14 +40,18 @@ export default function AboutPage() {
           <span className="h-px flex-1 bg-[#4c4740]" />
         </div>
 
-        <EditableText
-          file="about"
-          field="lead"
-          value={content.lead}
-          as="p"
-          className={`${cormorant.className} teaser-rise mt-14 text-lg leading-relaxed italic text-[#d6cdb8] lg:mt-20 lg:text-2xl`}
+        <p
+          className={`${cormorant.className} teaser-rise teaser-text-glow mt-14 text-lg leading-relaxed italic text-[#d6cdb8] lg:mt-20 lg:text-2xl`}
           style={rise(0.5)}
-        />
+        >
+          <AnimatedStatText
+            file="about"
+            field="lead"
+            value={content.lead}
+            charClassName="wave-in-ch"
+            waveFromIndex={leadWaveFrom}
+          />
+        </p>
 
         <EditableText
           file="about"
@@ -57,13 +65,14 @@ export default function AboutPage() {
         <dl className="teaser-rise mt-16 grid gap-10 sm:grid-cols-3 lg:mt-24" style={rise(0.85)}>
           {content.facts.map((fact, i) => (
             <div key={i}>
-              <EditableText
-                file="about"
-                field={`facts.${i}.term`}
-                value={fact.term}
-                as="dt"
-                className="text-[11px] tracking-[0.28em] text-[#cfc6b1] lg:text-xs"
-              />
+              <dt>
+                <AnimatedStatText
+                  file="about"
+                  field={`facts.${i}.term`}
+                  value={fact.term}
+                  className="teaser-stat cursor-default text-[11px] tracking-[0.28em] text-[#cfc6b1] lg:text-xs"
+                />
+              </dt>
               <EditableText
                 file="about"
                 field={`facts.${i}.detail`}

@@ -177,10 +177,13 @@ export default async function Drop01Page() {
         </div>
 
         <p className={`${cormorant.className} mt-12 text-base italic text-[#9c9384]`}>
-          <span className="teaser-twinkle mr-2 inline-block text-[11px] text-[#cfc6b1]" aria-hidden>
+          <span className="teaser-twinkle mr-4 inline-block text-[11px] text-[#cfc6b1]" aria-hidden>
             ✦
           </span>
           <EditableText file="drop01" field="includesClosingLine" value={content.includesClosingLine} as="span" />
+          <span className="teaser-twinkle ml-4 inline-block text-[11px] text-[#cfc6b1]" aria-hidden>
+            ✦
+          </span>
         </p>
       </Reveal>
 

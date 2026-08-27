@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const PAGES = [
+const CONTENT_PAGES = [
   {
     href: "/admin/edit",
     label: "Teaser",
@@ -15,15 +15,18 @@ const PAGES = [
     label: "Drop 01 (Product Page copy)",
     description: "/drop01 — reachable if visited directly, but not linked from nav yet.",
   },
-  {
-    href: "/admin/product",
-    label: "Drop 01 (Price & Inventory)",
-    description: "Name, price, shipping, and stock count — pulls straight from the database.",
-  },
   { href: "/admin/edit/cart", label: "Bag", description: "/cart" },
   { href: "/admin/edit/success", label: "Order Confirmation", description: "/success" },
   { href: "/admin/edit/privacy", label: "Privacy Policy", description: "/privacy" },
   { href: "/admin/edit/shipping-returns", label: "Shipping & Returns", description: "/shipping-returns" },
+];
+
+const DATABASE_PAGES = [
+  {
+    href: "/admin/product",
+    label: "Drop 01 (Price & Inventory)",
+    description: "Name, price, shipping, and stock count — reads from and writes to the database.",
+  },
 ];
 
 export default function AdminHubPage() {
@@ -35,7 +38,7 @@ export default function AdminHubPage() {
       </p>
 
       <div className="mt-8 space-y-3">
-        {PAGES.map((page) => (
+        {CONTENT_PAGES.map((page) => (
           <Link
             key={page.href}
             href={page.href}
@@ -45,6 +48,26 @@ export default function AdminHubPage() {
             <p className="mt-1 text-xs text-white/40">{page.description}</p>
           </Link>
         ))}
+      </div>
+
+      <div className="mt-12 border-t border-white/10 pt-8">
+        <p className="text-[10px] uppercase tracking-[0.4em] text-[#c9a227]">Database Management</p>
+        <p className="mt-2 text-sm text-white/50">
+          These pages read from and write directly to the live database, not the site&apos;s content files.
+        </p>
+
+        <div className="mt-5 space-y-3">
+          {DATABASE_PAGES.map((page) => (
+            <Link
+              key={page.href}
+              href={page.href}
+              className="block border border-[#c9a227]/30 bg-[#c9a227]/[0.06] px-5 py-4 transition hover:border-[#c9a227]/60 hover:bg-[#c9a227]/[0.1]"
+            >
+              <p className="text-sm font-semibold text-[#f5f2ea]">{page.label}</p>
+              <p className="mt-1 text-xs text-white/40">{page.description}</p>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );

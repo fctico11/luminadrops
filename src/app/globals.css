@@ -186,6 +186,33 @@ body {
   }
 }
 
+/* about page lead: same letter-lift wave as the stats row, but played once on
+   load instead of on hover */
+@keyframes teaser-letter-wave {
+  0%,
+  100% {
+    transform: translateY(0);
+    color: #d6cdb8;
+    text-shadow: none;
+  }
+  45% {
+    transform: translateY(-5px);
+    color: #f6edd6;
+    text-shadow: 0 0 12px rgba(240, 214, 150, 0.35);
+  }
+}
+
+.wave-in-ch {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wave-in-ch {
+    animation: teaser-letter-wave 1.6s ease-in-out 1;
+    animation-delay: calc(1.6s + var(--ch-d, 0s));
+  }
+}
+
 .teaser-mote {
   position: absolute;
   border-radius: 9999px;
