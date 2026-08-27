@@ -15,11 +15,11 @@
   "footerButton": "COMING SOON",
   "tiles": [
     {
-      "src": "/drops/midnight-margarita/moonstone.svg",
+      "src": "/drops/midnight-margarita/moonstone.jpg",
       "alt": "Moonstone resting on dark stone"
     },
     {
-      "src": "/drops/midnight-margarita/candle.svg",
+      "src": "/drops/midnight-margarita/candle.jpg",
       "alt": "Cream pillar candle"
     },
     {
