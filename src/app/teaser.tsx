@@ -37,7 +37,10 @@ export default function Teaser() {
         </header>
 
         {/* Hero video */}
-        <div className="teaser-rise aspect-video max-h-[62vh] w-full bg-black" style={rise(0.15)}>
+        <div
+          className="teaser-rise mx-auto aspect-video w-full max-w-[calc(62vh*16/9)] bg-black"
+          style={rise(0.15)}
+        >
           <HeroVideo />
         </div>
 
