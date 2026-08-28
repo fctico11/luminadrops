@@ -8,6 +8,7 @@ import Motes from "./motes";
 import { cormorant, rise } from "./ui";
 import WaitlistButton from "./waitlist";
 import MoonReveal from "./moon-reveal";
+import HeroVideo from "./hero-video";
 
 export default function Teaser() {
   const content = getContent("teaser");
@@ -35,8 +36,10 @@ export default function Teaser() {
           />
         </header>
 
-        {/* Blank space where the teaser video will go */}
-        <div className="teaser-rise aspect-video max-h-[62vh] w-full bg-black" style={rise(0.15)} aria-hidden />
+        {/* Hero video */}
+        <div className="teaser-rise aspect-video max-h-[62vh] w-full bg-black" style={rise(0.15)}>
+          <HeroVideo />
+        </div>
 
         <div className="relative px-8 pt-14 text-center lg:pt-24">
           {/* candlelight halo behind the headline */}
