@@ -21,20 +21,20 @@ export default function MoonReveal({ children, className, delayMs = 0 }: Props) 
   const tileVariants: Variants = {
     hidden: {
       clipPath: "circle(0% at 50% 100%)",
-      filter: "brightness(2.2) saturate(0.2) blur(8px)",
+      filter: "brightness(1.5) saturate(0.4) blur(4px)",
     },
     visible: {
       clipPath: "circle(140% at 50% 100%)",
       filter: "brightness(1) saturate(1) blur(0px)",
-      transition: { duration: 1.3, delay, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
   const glowVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: [0, 0.9, 0],
-      transition: { duration: 1.3, delay, ease: [0.16, 1, 0.3, 1] },
+      opacity: [0, 0.4, 0],
+      transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
