@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // One-time manual upload to Vercel Blob — see project notes for how to
 // replace this if a new cut of the header video is ever needed.
@@ -38,6 +38,18 @@ export default function HeroVideo() {
     video.play();
     setEnded(false);
   };
+
+  // The browser's back/forward cache can restore this page exactly as it was
+  // left — including a frozen, already-ended video — without React ever
+  // remounting the component. Force a fresh play whenever that happens.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) replay();
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="relative h-full w-full overflow-hidden">
