@@ -19,26 +19,31 @@ export default function Teaser() {
       <div className="grain relative w-full overflow-hidden bg-[#141115] text-[#e9e1cd]">
         <Motes />
 
-        {/* Header */}
-        <header className="teaser-rise flex items-center justify-between px-6 py-5 sm:px-10" style={rise(0.05)}>
-          <EditableLink
-            href="/home"
-            className={`${cormorant.className} text-sm font-medium tracking-[0.35em] transition-colors duration-500 hover:text-[#fff6e0] lg:text-lg`}
+        <div className="relative">
+          {/* Header — floats transparently over the video instead of pushing it down */}
+          <header
+            className="teaser-rise absolute inset-x-0 top-0 z-10 flex items-center justify-between bg-gradient-to-b from-black/60 to-transparent px-6 py-5 sm:px-10"
+            style={rise(0.05)}
           >
-            <EditableText file="teaser" field="wordmark" value={content.wordmark} as="span" />
-          </EditableLink>
-          <EditableText
-            file="teaser"
-            field="dropLabel"
-            value={content.dropLabel}
-            as="span"
-            className="text-[11px] tracking-[0.3em] text-[#b9b09d] lg:text-xs"
-          />
-        </header>
+            <EditableLink
+              href="/home"
+              className={`${cormorant.className} text-sm font-medium tracking-[0.35em] transition-colors duration-500 hover:text-[#fff6e0] lg:text-lg`}
+            >
+              <EditableText file="teaser" field="wordmark" value={content.wordmark} as="span" />
+            </EditableLink>
+            <EditableText
+              file="teaser"
+              field="dropLabel"
+              value={content.dropLabel}
+              as="span"
+              className="text-[11px] tracking-[0.3em] text-[#b9b09d] lg:text-xs"
+            />
+          </header>
 
-        {/* Hero video */}
-        <div className="teaser-rise aspect-video w-full bg-black" style={rise(0.15)}>
-          <HeroVideo />
+          {/* Hero video */}
+          <div className="teaser-rise aspect-video w-full bg-black" style={rise(0.15)}>
+            <HeroVideo />
+          </div>
         </div>
 
         <div className="relative px-8 pt-14 text-center lg:pt-24">
