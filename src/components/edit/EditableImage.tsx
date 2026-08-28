@@ -68,7 +68,13 @@ export default function EditableImage({
       exportHeight={exportHeight}
       onCancel={() => setPendingFile(null)}
       onConfirm={(dataUrl) => {
-        const newPath = currentPath.replace(/\.[^./]+$/, ".jpg");
+        // Derived from (file, field) rather than the old filename — two fields
+        // that happen to share a placeholder path (e.g. both still pointing at
+        // a generic stock image) would otherwise collide on the same new
+        // filename and silently overwrite each other's image.
+        const dir = currentPath.slice(0, currentPath.lastIndexOf("/") + 1);
+        const safeKey = `${file}-${field}`.replace(/[^a-zA-Z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
+        const newPath = `${dir}${safeKey}.jpg`;
         setImage(newPath, { dataUrl });
         if (newPath !== currentPath) setText(file, field, newPath);
         setPendingFile(null);
