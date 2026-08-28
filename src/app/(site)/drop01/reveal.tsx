@@ -21,8 +21,16 @@ const tags = { div: motion.div, section: motion.section };
 
 const offsetFor: Record<Direction, { x: number; y: number }> = {
   up: { x: 0, y: 32 },
-  left: { x: -56, y: 0 },
-  right: { x: 56, y: 0 },
+  left: { x: -72, y: 0 },
+  right: { x: 72, y: 0 },
+};
+
+/** Side reveals travel further and get a slower, gentler glide than the plain
+ * fade-up, so they read as a flowy drift rather than a snappy slide-in. */
+const motionFor: Record<Direction, { duration: number; ease: [number, number, number, number] }> = {
+  up: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+  left: { duration: 1.6, ease: [0.45, 0, 0.15, 1] },
+  right: { duration: 1.6, ease: [0.45, 0, 0.15, 1] },
 };
 
 /** Fades content into place the first time it scrolls into the viewport. Unlike the
@@ -32,6 +40,7 @@ const offsetFor: Record<Direction, { x: number; y: number }> = {
 export default function Reveal({ children, as = "div", className, style, delayMs = 0, direction = "up" }: Props) {
   const reduceMotion = useReducedMotion();
   const offset = offsetFor[direction];
+  const { duration, ease } = motionFor[direction];
   const Tag = tags[as];
 
   const variants: Variants = {
@@ -40,7 +49,7 @@ export default function Reveal({ children, as = "div", className, style, delayMs
       opacity: 1,
       x: 0,
       y: 0,
-      transition: { duration: 0.9, delay: delayMs / 1000, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration, delay: delayMs / 1000, ease },
     },
   };
 

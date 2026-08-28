@@ -231,8 +231,8 @@ export default async function Drop01Page() {
 
       {/* Purchase */}
       <Reveal as="section" className="relative mx-auto w-full max-w-4xl px-6 pb-20 lg:pb-28">
-        <div className="grid overflow-hidden border border-[#4c4740] sm:grid-cols-2">
-          <div className="relative aspect-[4/5] sm:aspect-auto">
+        <div className="flex flex-col overflow-hidden border border-[#4c4740] sm:flex-row">
+          <div className="relative aspect-[4/5] sm:aspect-auto sm:w-1/2">
             <EditableImage
               file="drop01"
               field="purchaseImage"
@@ -241,7 +241,7 @@ export default async function Drop01Page() {
               className="object-cover"
             />
           </div>
-          <div className="flex flex-col items-center justify-center px-8 py-12 text-center">
+          <div className="flex flex-col items-center justify-center px-8 py-12 text-center sm:w-1/2">
             <h2 className={`${cormorant.className} text-xl font-medium tracking-[0.2em] lg:text-2xl`}>
               <EditableText file="drop01" field="titleLine1" value={content.titleLine1} as="span" />{" "}
               <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
