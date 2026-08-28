@@ -7,6 +7,7 @@ import AnimatedStatText from "@/components/edit/AnimatedStatText";
 import Motes from "./motes";
 import { cormorant, rise } from "./ui";
 import WaitlistButton from "./waitlist";
+import MoonReveal from "./moon-reveal";
 
 export default function Teaser() {
   const content = getContent("teaser");
@@ -125,7 +126,7 @@ export default function Teaser() {
         {/* Image strip */}
         <div className="mt-10 grid grid-cols-4 gap-[6px] lg:mt-16">
           {content.tiles.map((tile, i) => (
-            <div key={i} className="teaser-rise relative aspect-[4/5] overflow-hidden" style={rise(1.4 + i * 0.12)}>
+            <MoonReveal key={i} delayMs={i * 150} className="relative aspect-[4/5] overflow-hidden">
               <EditableImage
                 file="teaser"
                 field={`tiles.${i}.src`}
@@ -133,7 +134,7 @@ export default function Teaser() {
                 alt={tile.alt}
                 className="object-cover transition-[transform,filter] duration-1000 hover:scale-105 hover:brightness-110"
               />
-            </div>
+            </MoonReveal>
           ))}
         </div>
 

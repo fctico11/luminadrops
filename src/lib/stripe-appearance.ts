@@ -13,14 +13,14 @@ export const checkoutAppearance: Appearance = {
     colorTextPlaceholder: "#6f695c",
     colorDanger: "#e07a5f",
     fontFamily: '"Cormorant Garamond", Georgia, serif',
-    fontSizeBase: "15px",
+    fontSizeBase: "17px",
     borderRadius: "0px",
     spacingUnit: "4px",
   },
   rules: {
     ".Label": {
       color: "#9c9384",
-      fontSize: "10px",
+      fontSize: "12px",
       letterSpacing: "0.15em",
       textTransform: "uppercase",
       marginBottom: "6px",
@@ -29,7 +29,8 @@ export const checkoutAppearance: Appearance = {
       backgroundColor: "transparent",
       border: "1px solid #4c4740",
       boxShadow: "none",
-      padding: "10px 12px",
+      padding: "12px 14px",
+      fontSize: "17px",
     },
     ".Input:focus": {
       border: "1px solid #cfc0a0",
