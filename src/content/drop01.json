@@ -37,7 +37,7 @@
       "note": ""
     },
     {
-      "image": "/drops/midnight-margarita/moonstone.jpg",
+      "image": "/drops/midnight-margarita/moonstone.svg",
       "alt": "Jar of moonstones",
       "title": "A TOAST",
       "description": "A ritual with the Club's finishing touches - equally suited to margaritas or mocktails",
@@ -69,8 +69,8 @@
     {
       "icon": "/drops/midnight-margarita/mmc-logo-icon.png",
       "iconAlt": "Midnight Margarita Club mark",
-      "line1": "HANDMADE +",
-      "line2": "ASSEMBLED IN SMALL BATCHES"
+      "line1": "HANDCRAFTED,",
+      "line2": "CURATED + ASSEMBLED IN SMALL BATCHES"
     },
     {
       "icon": "/drops/midnight-margarita/icon-lime.svg",
