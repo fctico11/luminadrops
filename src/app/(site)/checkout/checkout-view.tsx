@@ -28,7 +28,13 @@ type Product = {
   status: string;
 } | null;
 
-export default function CheckoutView({ product }: { product: Product }) {
+type Props = {
+  product: Product;
+  productImage: string;
+  productImageAlt: string;
+};
+
+export default function CheckoutView({ product, productImage, productImageAlt }: Props) {
   const { item } = useCart();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -106,7 +112,7 @@ export default function CheckoutView({ product }: { product: Product }) {
         <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.2fr]">
           <div className="flex items-start gap-4 border border-[#4c4740] p-5">
             <div className="relative h-20 w-20 shrink-0 overflow-hidden border border-[#3a352e]">
-              <Image src="/drops/midnight-margarita/candle.svg" alt={product.name} fill className="object-cover" />
+              <Image src={productImage} alt={productImageAlt} fill className="object-cover" />
             </div>
             <div className="text-left">
               <p className={`${cormorant.className} text-base font-medium tracking-[0.1em] text-[#e9e1cd]`}>
