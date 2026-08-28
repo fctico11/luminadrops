@@ -48,7 +48,7 @@ export default function HeroVideo() {
         muted
         playsInline
         onEnded={() => setEnded(true)}
-        className="h-full w-full object-cover"
+        className="h-full w-full object-contain"
       />
 
       <div className="absolute bottom-4 right-4 z-10 flex gap-2">
