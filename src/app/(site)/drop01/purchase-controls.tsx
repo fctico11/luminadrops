@@ -47,8 +47,8 @@ export default function PurchaseControls({
     maxQuantity < 2 ? `Only ${maxQuantity} left in stock.` : "Drops limited to 2 per order.";
 
   return (
-    <div>
-      <div className="mx-auto flex w-32 items-stretch justify-between border border-[#4c4740] text-[#e9e1cd]">
+    <div className="flex w-full flex-col items-center">
+      <div className="flex w-32 items-stretch justify-between border border-[#4c4740] text-[#e9e1cd]">
         <button
           type="button"
           onClick={() => setQuantity((q) => Math.max(1, q - 1))}

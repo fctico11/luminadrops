@@ -137,7 +137,12 @@ export default async function Drop01Page() {
 
         <div className="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2">
           {content.items.map((item, i) => (
-            <Reveal key={i} delayMs={(i % 2) * 100} className="flex items-start gap-4 text-left">
+            <Reveal
+              key={i}
+              delayMs={(i % 2) * 100}
+              direction={i % 2 === 0 ? "left" : "right"}
+              className="flex items-start gap-4 text-left"
+            >
               <div className="relative h-24 w-24 shrink-0 overflow-hidden border border-[#3a352e] sm:h-28 sm:w-28">
                 <EditableImage
                   file="drop01"
@@ -260,7 +265,7 @@ export default async function Drop01Page() {
               as="p"
               className="mt-8 text-xs tracking-[0.3em] text-[#9c9384]"
             />
-            <div className="mt-3">
+            <div className="mt-3 w-full">
               <PurchaseControls
                 productId={product?.id ?? ""}
                 priceCents={product?.priceCents ?? 0}

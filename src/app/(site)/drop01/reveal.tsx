@@ -1,62 +1,59 @@
 "use client";
 
-import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
+import type { ReactNode } from "react";
+
+type Direction = "up" | "left" | "right";
 
 type Props = {
   children: ReactNode;
-  as?: ElementType;
+  as?: "div" | "section";
   className?: string;
   style?: React.CSSProperties;
   /** Extra delay (ms) after the element enters the viewport before it animates in —
    * used to stagger a group of siblings (e.g. the includes grid) as they come into view. */
   delayMs?: number;
+  /** Which way the element travels in from. Defaults to a plain fade-up. */
+  direction?: Direction;
 };
 
-/** Fades content up into place the first time it scrolls into the viewport. Unlike the
+const tags = { div: motion.div, section: motion.section };
+
+const offsetFor: Record<Direction, { x: number; y: number }> = {
+  up: { x: 0, y: 32 },
+  left: { x: -56, y: 0 },
+  right: { x: 56, y: 0 },
+};
+
+/** Fades content into place the first time it scrolls into the viewport. Unlike the
  * page-load `teaser-rise` animation, this stays truthful on a long page where most
  * sections start below the fold — they'd otherwise finish animating before anyone
  * scrolls down to see them. */
-export default function Reveal({ children, as: Tag = "div", className, style, delayMs = 0 }: Props) {
-  const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
+export default function Reveal({ children, as = "div", className, style, delayMs = 0, direction = "up" }: Props) {
+  const reduceMotion = useReducedMotion();
+  const offset = offsetFor[direction];
+  const Tag = tags[as];
 
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setVisible(true);
-      return;
-    }
-
-    let timer: number | undefined;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          timer = window.setTimeout(() => setVisible(true), delayMs);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" }
-    );
-    observer.observe(node);
-    return () => {
-      observer.disconnect();
-      window.clearTimeout(timer);
-    };
-  }, [delayMs]);
-
-  const Comp = Tag as ElementType;
+  const variants: Variants = {
+    hidden: { opacity: 0, x: offset.x, y: offset.y },
+    visible: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      transition: { duration: 0.9, delay: delayMs / 1000, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
 
   return (
-    <Comp
-      ref={ref}
+    <Tag
+      className={className}
       style={style}
-      className={`${className ?? ""} transition-[opacity,transform] duration-[900ms] ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      }`}
+      initial={reduceMotion ? "visible" : "hidden"}
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      variants={variants}
     >
       {children}
-    </Comp>
+    </Tag>
   );
 }
