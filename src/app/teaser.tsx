@@ -20,9 +20,10 @@ export default function Teaser() {
         <Motes />
 
         <div className="relative">
-          {/* Header — floats transparently over the video instead of pushing it down */}
+          {/* Header — sits normally above the video on mobile; on desktop it floats
+              transparently over the video instead of pushing it down */}
           <header
-            className="teaser-rise absolute inset-x-0 top-0 z-10 flex items-center justify-between bg-gradient-to-b from-black/60 to-transparent px-6 py-5 sm:px-10"
+            className="teaser-rise relative z-10 flex items-center justify-between px-6 py-5 sm:px-10 lg:absolute lg:inset-x-0 lg:top-0 lg:bg-gradient-to-b lg:from-black/60 lg:to-transparent"
             style={rise(0.05)}
           >
             <EditableLink
