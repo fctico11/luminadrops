@@ -6,7 +6,7 @@
   "titleImageAlt": "The Midnight Margarita Club",
   "tagline": "All the makings of an Everlong Midnight",
   "dateLabel": "September 2026",
-  "heroImage": "/drops/midnight-margarita/candle.jpg",
+  "heroImage": "/drops/midnight-margarita/drop01-heroImage.jpg",
   "heroImageAlt": "The Midnight Margarita Club box, candle, and glassware",
   "insideSectionTitle": "WHAT'S WAITING INSIDE",
   "insideParagraph1": "Each TMMC member will receive the club manual alongside handcrafted pieces, stone and botanical elements, ingredients for the evening, and a handful of Club traditions you’ll discover as the night unfolds.",
@@ -16,14 +16,14 @@
   "includesTitle": "INCLUDES...",
   "items": [
     {
-      "image": "/drops/midnight-margarita/candle.jpg",
+      "image": "/drops/midnight-margarita/drop01-items-0-image.jpg",
       "alt": "Hand-poured beeswax candle",
       "title": "A SPARK",
       "description": "Hand-poured pure beeswax candle to start your evening",
       "note": ""
     },
     {
-      "image": "/drops/midnight-margarita/glass.jpg",
+      "image": "/drops/midnight-margarita/drop01-items-1-image.jpg",
       "alt": "Ribbed glass tumbler for the Midnight Margarita",
       "title": "A LITTLE ATMOSPHERE",
       "description": "An aromatic blend of botanicals to fill the air",
@@ -37,7 +37,7 @@
       "note": ""
     },
     {
-      "image": "/drops/midnight-margarita/moonstone.svg",
+      "image": "/drops/midnight-margarita/drop01-items-3-image.jpg",
       "alt": "Jar of moonstones",
       "title": "A TOAST",
       "description": "A ritual with the Club's finishing touches - equally suited to margaritas or mocktails",
