@@ -135,6 +135,8 @@ function CheckoutContent({
   const checkoutState = useCheckoutElements();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [addressComplete, setAddressComplete] = useState(false);
+  const [calculatingShipping, setCalculatingShipping] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   if (checkoutState.type === "loading") {
@@ -153,29 +155,35 @@ function CheckoutContent({
   // debounced so we're not hitting Shippo on every keystroke.
   const handleAddressChange = (event: StripeAddressElementChangeEvent) => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
+    setAddressComplete(event.complete);
     if (!event.complete) return;
 
     const { name, address } = event.value;
-    debounceRef.current = setTimeout(() => {
-      checkout.runServerUpdate(async () => {
-        const res = await fetch("/api/checkout/update-shipping", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            sessionId: checkout.id,
-            address: {
-              name,
-              street1: address.line1,
-              street2: address.line2 || undefined,
-              city: address.city,
-              state: address.state,
-              zip: address.postal_code,
-              country: address.country,
-            },
-          }),
+    debounceRef.current = setTimeout(async () => {
+      setCalculatingShipping(true);
+      try {
+        await checkout.runServerUpdate(async () => {
+          const res = await fetch("/api/checkout/update-shipping", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionId: checkout.id,
+              address: {
+                name,
+                street1: address.line1,
+                street2: address.line2 || undefined,
+                city: address.city,
+                state: address.state,
+                zip: address.postal_code,
+                country: address.country,
+              },
+            }),
+          });
+          if (!res.ok) throw new Error("Failed to update shipping rate.");
         });
-        if (!res.ok) throw new Error("Failed to update shipping rate.");
-      });
+      } finally {
+        setCalculatingShipping(false);
+      }
     }, 700);
   };
 
@@ -209,17 +217,29 @@ function CheckoutContent({
           </div>
         </div>
 
-        <div className="mt-5 space-y-2 border-t border-[#4c4740] pt-4 text-sm">
+        <div className="mt-5 space-y-2 border-t border-[#4c4740] pt-4 text-base">
           <div className="flex items-center justify-between text-[#c4bba8]">
             <span>Subtotal</span>
             <span>{formatPrice(checkout.total.subtotal.minorUnitsAmount, product.currency)}</span>
           </div>
-          <div className="flex items-center justify-between text-[#c4bba8]">
-            <span>
-              Shipping <span className="text-xs text-[#9c9384]">({shippingName})</span>
-            </span>
-            <span>{formatPrice(checkout.total.shippingRate.minorUnitsAmount, product.currency)}</span>
-          </div>
+          {!addressComplete ? (
+            <div className="flex items-center justify-between text-[#9c9384]">
+              <span>Shipping</span>
+              <span className="text-right italic">Enter address to calculate shipping</span>
+            </div>
+          ) : calculatingShipping ? (
+            <div className="flex items-center justify-between text-[#9c9384]">
+              <span>Shipping</span>
+              <span className="text-right italic">Calculating shipping...</span>
+            </div>
+          ) : (
+            <div className="flex items-center justify-between text-[#c4bba8]">
+              <span>
+                Shipping <span className="text-xs text-[#9c9384]">({shippingName})</span>
+              </span>
+              <span>{formatPrice(checkout.total.shippingRate.minorUnitsAmount, product.currency)}</span>
+            </div>
+          )}
           <div
             className={`${cormorant.className} mt-3 flex items-center justify-between border-t border-[#4c4740] pt-3 text-lg font-medium tracking-[0.05em] text-[#e9e1cd]`}
           >
