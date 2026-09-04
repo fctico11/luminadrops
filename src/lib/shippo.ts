@@ -25,6 +25,12 @@ export type ShippoRate = {
   serviceLevel: string;
 };
 
+// Shippo test-mode accounts come with a long tail of regional/international
+// carrier accounts pre-enabled (Correos, Hermes UK, Chronopost, etc.) that
+// mostly just fail with "not supported" messages, but could occasionally
+// return a real, unwanted rate. Restrict to the well-known US carriers.
+const ALLOWED_PROVIDERS = new Set(["USPS", "UPS", "FedEx", "DHL Express"]);
+
 function getApiKey() {
   const key = process.env.SHIPPO_API_KEY;
   if (!key) throw new Error("SHIPPO_API_KEY environment variable is not set");
@@ -67,7 +73,8 @@ export async function getCheapestRate(
   }
 
   const data = await res.json();
-  const rates: Array<{ amount: string; provider: string; servicelevel: { name: string } }> = data.rates ?? [];
+  const allRates: Array<{ amount: string; provider: string; servicelevel: { name: string } }> = data.rates ?? [];
+  const rates = allRates.filter((r) => ALLOWED_PROVIDERS.has(r.provider));
 
   if (rates.length === 0) return null;
 
