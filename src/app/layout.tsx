@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { cormorant } from "./ui";
 import { CartProvider } from "@/components/cart/CartContext";
 import "./globals.css";
@@ -39,6 +40,7 @@ export default function RootLayout({
     <html lang="en" className={`${plexMono.variable} h-full antialiased`}>
       <body className={`${cormorant.className} min-h-full flex flex-col`}>
         <CartProvider>{children}</CartProvider>
+        <Analytics />
       </body>
     </html>
   );
