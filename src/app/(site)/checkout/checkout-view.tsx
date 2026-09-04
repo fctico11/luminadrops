@@ -137,22 +137,36 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
         </h1>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.2fr]">
-          <div className="flex items-start gap-4 border border-[#4c4740] p-5">
-            <div className="relative h-20 w-20 shrink-0 overflow-hidden border border-[#3a352e]">
-              <Image src={productImage} alt={productImageAlt} fill className="object-cover" />
+          <div className="border border-[#4c4740] p-5 text-left">
+            <div className="flex items-start gap-4">
+              <div className="relative h-20 w-20 shrink-0 overflow-hidden border border-[#3a352e]">
+                <Image src={productImage} alt={productImageAlt} fill className="object-cover" />
+              </div>
+              <div>
+                <p className={`${cormorant.className} text-base font-medium tracking-[0.1em] text-[#e9e1cd]`}>
+                  {product.name}
+                </p>
+                <p className="mt-1 text-sm text-[#9c9384]">Qty {quantity}</p>
+              </div>
             </div>
-            <div className="text-left">
-              <p className={`${cormorant.className} text-base font-medium tracking-[0.1em] text-[#e9e1cd]`}>
-                {product.name}
-              </p>
-              <p className="mt-1 text-sm text-[#9c9384]">Qty {quantity}</p>
-              <p className={`${cormorant.className} mt-2 text-lg text-[#e9e1cd]`}>
-                {formatPrice(product.priceCents * quantity, product.currency)}
-              </p>
-              <p className="mt-1 text-xs text-[#9c9384]">
-                + {formatPrice(shippingQuote.amountCents, product.currency)} shipping ({shippingQuote.provider}{" "}
-                {shippingQuote.serviceLevel})
-              </p>
+
+            <div className="mt-5 space-y-2 border-t border-[#4c4740] pt-4 text-sm">
+              <div className="flex items-center justify-between text-[#c4bba8]">
+                <span>Subtotal</span>
+                <span>{formatPrice(product.priceCents * quantity, product.currency)}</span>
+              </div>
+              <div className="flex items-center justify-between text-[#c4bba8]">
+                <span>
+                  Shipping <span className="text-xs text-[#9c9384]">({shippingQuote.provider} {shippingQuote.serviceLevel})</span>
+                </span>
+                <span>{formatPrice(shippingQuote.amountCents, product.currency)}</span>
+              </div>
+              <div
+                className={`${cormorant.className} mt-3 flex items-center justify-between border-t border-[#4c4740] pt-3 text-lg font-medium tracking-[0.05em] text-[#e9e1cd]`}
+              >
+                <span>Total</span>
+                <span>{formatPrice(product.priceCents * quantity + shippingQuote.amountCents, product.currency)}</span>
+              </div>
             </div>
           </div>
 
