@@ -37,6 +37,24 @@ model Product {
   inventory     Int           @default(0)
   shippingCents Int           @default(0)
   status        ProductStatus @default(DRAFT)
+
+  // Package details used to fetch live shipping rates from Shippo.
+  weightOz        Float  @default(0)
+  lengthIn        Float  @default(0)
+  widthIn         Float  @default(0)
+  heightIn        Float  @default(0)
+
+  // Ship-from address for rate calculation. Never shown to customers —
+  // edited only through the private /admin/product form, not the
+  // git-committed public content editor.
+  shipFromName    String @default("")
+  shipFromStreet1 String @default("")
+  shipFromStreet2 String @default("")
+  shipFromCity    String @default("")
+  shipFromState   String @default("")
+  shipFromZip     String @default("")
+  shipFromCountry String @default("US")
+
   images        ProductImage[]
   orders        Order[]
   createdAt     DateTime      @default(now())

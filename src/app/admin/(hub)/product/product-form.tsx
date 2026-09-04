@@ -60,7 +60,7 @@ export default function ProductForm({ product }: { product: Product }) {
         </div>
         <div>
           <label htmlFor="shipping" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
-            Shipping (USD)
+            Flat shipping fallback (USD)
           </label>
           <input
             id="shipping"
@@ -72,6 +72,10 @@ export default function ProductForm({ product }: { product: Product }) {
             defaultValue={(product.shippingCents / 100).toFixed(2)}
             className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
           />
+          <p className="mt-1 text-xs text-white/40">
+            Only used if the live carrier rate lookup fails — normally shipping is calculated
+            per order from the package details below.
+          </p>
         </div>
       </div>
 
@@ -93,6 +97,175 @@ export default function ProductForm({ product }: { product: Product }) {
           Decreases automatically on each purchase. Setting this to 0 marks the drop sold out;
           raising it back above 0 makes it live again.
         </p>
+      </div>
+
+      <div className="border-t border-white/10 pt-5">
+        <p className="mb-3 text-xs uppercase tracking-wider text-white/50">Package details (for shipping rates)</p>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div>
+            <label htmlFor="weightOz" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+              Weight (oz)
+            </label>
+            <input
+              id="weightOz"
+              name="weightOz"
+              type="number"
+              step="0.1"
+              min="0"
+              required
+              defaultValue={product.weightOz}
+              className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+            />
+          </div>
+          <div>
+            <label htmlFor="lengthIn" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+              Length (in)
+            </label>
+            <input
+              id="lengthIn"
+              name="lengthIn"
+              type="number"
+              step="0.1"
+              min="0"
+              required
+              defaultValue={product.lengthIn}
+              className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+            />
+          </div>
+          <div>
+            <label htmlFor="widthIn" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+              Width (in)
+            </label>
+            <input
+              id="widthIn"
+              name="widthIn"
+              type="number"
+              step="0.1"
+              min="0"
+              required
+              defaultValue={product.widthIn}
+              className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+            />
+          </div>
+          <div>
+            <label htmlFor="heightIn" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+              Height (in)
+            </label>
+            <input
+              id="heightIn"
+              name="heightIn"
+              type="number"
+              step="0.1"
+              min="0"
+              required
+              defaultValue={product.heightIn}
+              className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-white/10 pt-5">
+        <p className="mb-1 text-xs uppercase tracking-wider text-white/50">Ship-from address</p>
+        <p className="mb-3 text-xs text-white/40">
+          Used only to calculate shipping rates — never shown to customers.
+        </p>
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="shipFromName" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+              Name
+            </label>
+            <input
+              id="shipFromName"
+              name="shipFromName"
+              type="text"
+              required
+              defaultValue={product.shipFromName}
+              className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+            />
+          </div>
+          <div>
+            <label htmlFor="shipFromStreet1" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+              Street address
+            </label>
+            <input
+              id="shipFromStreet1"
+              name="shipFromStreet1"
+              type="text"
+              required
+              defaultValue={product.shipFromStreet1}
+              className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+            />
+          </div>
+          <div>
+            <label htmlFor="shipFromStreet2" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+              Apt, suite, etc. (optional)
+            </label>
+            <input
+              id="shipFromStreet2"
+              name="shipFromStreet2"
+              type="text"
+              defaultValue={product.shipFromStreet2}
+              className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="sm:col-span-2">
+              <label htmlFor="shipFromCity" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+                City
+              </label>
+              <input
+                id="shipFromCity"
+                name="shipFromCity"
+                type="text"
+                required
+                defaultValue={product.shipFromCity}
+                className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+              />
+            </div>
+            <div>
+              <label htmlFor="shipFromState" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+                State
+              </label>
+              <input
+                id="shipFromState"
+                name="shipFromState"
+                type="text"
+                maxLength={2}
+                required
+                defaultValue={product.shipFromState}
+                className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+              />
+            </div>
+            <div>
+              <label htmlFor="shipFromZip" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+                ZIP
+              </label>
+              <input
+                id="shipFromZip"
+                name="shipFromZip"
+                type="text"
+                required
+                defaultValue={product.shipFromZip}
+                className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+              />
+            </div>
+          </div>
+          <div className="w-32">
+            <label htmlFor="shipFromCountry" className="mb-1 block text-xs uppercase tracking-wider text-white/50">
+              Country
+            </label>
+            <input
+              id="shipFromCountry"
+              name="shipFromCountry"
+              type="text"
+              maxLength={2}
+              required
+              defaultValue={product.shipFromCountry}
+              className="w-full border border-white/15 bg-black/40 px-3 py-2 text-sm text-[#f5f2ea] outline-none focus:border-[#c9a227]"
+            />
+          </div>
+        </div>
       </div>
 
       {state?.error && <p className="text-sm text-red-400">{state.error}</p>}

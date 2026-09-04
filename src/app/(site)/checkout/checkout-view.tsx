@@ -16,6 +16,7 @@ import { cormorant } from "../../ui";
 import { useCart } from "@/components/cart/CartContext";
 import { formatPrice } from "@/lib/products";
 import { checkoutAppearance, checkoutFonts } from "@/lib/stripe-appearance";
+import ShippingAddressForm, { type DestinationAddress, type ShippingQuote } from "./shipping-address-form";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -36,6 +37,8 @@ type Props = {
 
 export default function CheckoutView({ product, productImage, productImageAlt }: Props) {
   const { item } = useCart();
+  const [shippingAddress, setShippingAddress] = useState<DestinationAddress | null>(null);
+  const [shippingQuote, setShippingQuote] = useState<ShippingQuote | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,13 +46,13 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
   const quantity = item?.quantity ?? 1;
 
   useEffect(() => {
-    if (!inCart || !product) return;
+    if (!inCart || !product || !shippingAddress) return;
     let cancelled = false;
 
     fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId: product.id, quantity }),
+      body: JSON.stringify({ productId: product.id, quantity, shippingAddress }),
     })
       .then(async (res) => {
         const data = await res.json().catch(() => ({}));
@@ -66,7 +69,7 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inCart, product?.id, quantity]);
+  }, [inCart, product?.id, quantity, shippingAddress]);
 
   if (!inCart || !product) {
     return (
@@ -80,6 +83,30 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
           >
             Back to the drop
           </EditableLink>
+        </div>
+      </main>
+    );
+  }
+
+  if (!shippingAddress || !shippingQuote) {
+    return (
+      <main className="grain relative flex flex-1 flex-col items-center px-6 py-16 lg:py-24">
+        <Motes />
+        <div className="relative w-full max-w-md">
+          <h1 className={`${cormorant.className} text-center text-xl font-medium tracking-[0.3em] text-[#e9e1cd]`}>
+            CHECKOUT
+          </h1>
+          <div className="mt-10">
+            <ShippingAddressForm
+              productId={product.id}
+              quantity={quantity}
+              currency={product.currency}
+              onConfirm={(address, quote) => {
+                setShippingAddress(address);
+                setShippingQuote(quote);
+              }}
+            />
+          </div>
         </div>
       </main>
     );
@@ -122,6 +149,10 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
               <p className={`${cormorant.className} mt-2 text-lg text-[#e9e1cd]`}>
                 {formatPrice(product.priceCents * quantity, product.currency)}
               </p>
+              <p className="mt-1 text-xs text-[#9c9384]">
+                + {formatPrice(shippingQuote.amountCents, product.currency)} shipping ({shippingQuote.provider}{" "}
+                {shippingQuote.serviceLevel})
+              </p>
             </div>
           </div>
 
@@ -129,7 +160,7 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
             stripe={stripePromise}
             options={{ clientSecret, elementsOptions: { appearance: checkoutAppearance, fonts: checkoutFonts } }}
           >
-            <CheckoutForm />
+            <CheckoutForm shippingAddress={shippingAddress} />
           </CheckoutElementsProvider>
         </div>
       </div>
@@ -137,7 +168,7 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
   );
 }
 
-function CheckoutForm() {
+function CheckoutForm({ shippingAddress }: { shippingAddress: DestinationAddress }) {
   const checkoutState = useCheckoutElements();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -173,7 +204,23 @@ function CheckoutForm() {
       </div>
       <div>
         <p className="mb-2 text-[10px] tracking-[0.2em] text-[#9c9384]">SHIPPING ADDRESS</p>
-        <ShippingAddressElement />
+        <ShippingAddressElement
+          options={{
+            contacts: [
+              {
+                name: shippingAddress.name,
+                address: {
+                  line1: shippingAddress.street1,
+                  line2: shippingAddress.street2 || undefined,
+                  city: shippingAddress.city,
+                  state: shippingAddress.state,
+                  postal_code: shippingAddress.zip,
+                  country: shippingAddress.country,
+                },
+              },
+            ],
+          }}
+        />
       </div>
       <div>
         <p className="mb-2 text-[10px] tracking-[0.2em] text-[#9c9384]">PAYMENT</p>
