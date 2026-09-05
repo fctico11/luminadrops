@@ -135,8 +135,8 @@ export default async function Drop01Page() {
           className={`${cormorant.className} text-lg font-medium tracking-[0.3em] lg:text-2xl`}
         />
 
-        <Reveal className="mt-10 flex items-start gap-4 text-left">
-          <div className="relative h-24 w-24 shrink-0 overflow-hidden border border-[#3a352e] sm:h-28 sm:w-28">
+        <Reveal className="mt-10 flex flex-col items-center text-center">
+          <div className="relative h-28 w-28 shrink-0 overflow-hidden border border-[#3a352e] sm:h-32 sm:w-32">
             <EditableImage
               file="drop01"
               field="manualImage"
@@ -145,22 +145,20 @@ export default async function Drop01Page() {
               className="object-cover"
             />
           </div>
-          <div>
-            <EditableText
-              file="drop01"
-              field="manualTitle"
-              value={content.manualTitle}
-              as="h3"
-              className="text-sm font-medium tracking-[0.2em] text-[#e9e1cd] lg:text-base"
-            />
-            <EditableText
-              file="drop01"
-              field="manualDescription"
-              value={content.manualDescription}
-              as="p"
-              className="mt-2 text-[15px] leading-relaxed text-[#c4bba8] lg:text-base"
-            />
-          </div>
+          <EditableText
+            file="drop01"
+            field="manualTitle"
+            value={content.manualTitle}
+            as="h3"
+            className="mt-4 text-sm font-medium tracking-[0.2em] text-[#e9e1cd] lg:text-base"
+          />
+          <EditableText
+            file="drop01"
+            field="manualDescription"
+            value={content.manualDescription}
+            as="p"
+            className="mx-auto mt-2 max-w-md text-[15px] leading-relaxed text-[#c4bba8] lg:text-base"
+          />
         </Reveal>
 
         <div className="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2">
