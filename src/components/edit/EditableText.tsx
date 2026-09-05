@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, type ElementType, type FocusEvent, type KeyboardEvent } from "react";
+import { type CSSProperties, type ElementType, type FocusEvent, type KeyboardEvent, type MouseEvent } from "react";
 import { useEditMode } from "./EditModeContext";
 import type { ContentName } from "@/lib/content";
 
@@ -41,11 +41,22 @@ export default function EditableText({ file, field, value, as: Tag = "span", cla
       contentEditable
       suppressContentEditableWarning
       title="Click to edit"
+      // Stops a click meant to place a cursor for editing from also bubbling
+      // up to an ancestor's onClick (e.g. a button that opens a modal, or
+      // toggles state) — the two need to stay clearly separate: clicking the
+      // text edits it; clicking elsewhere on the ancestor still fires its
+      // own behavior normally.
+      onClick={(e: MouseEvent<HTMLElement>) => e.stopPropagation()}
       onBlur={(e: FocusEvent<HTMLElement>) => {
         const next = e.currentTarget.textContent ?? "";
         if (next !== current) setText(file, field, next);
       }}
       onKeyDown={(e: KeyboardEvent<HTMLElement>) => {
+        // Stopped for the same reason as the click above — without it, typing
+        // a space or Enter while editing bubbles up as a native keyboard
+        // activation on an ancestor <button> (e.g. Space "clicking" it),
+        // even though focus never left this text.
+        e.stopPropagation();
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
           e.currentTarget.blur();

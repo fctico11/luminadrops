@@ -60,6 +60,18 @@ body {
   }
 }
 
+@keyframes teaser-button-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(207, 176, 100, 0);
+    border-color: #6f695c;
+  }
+  50% {
+    box-shadow: 0 0 24px 4px rgba(207, 176, 100, 0.4);
+    border-color: #cfc0a0;
+  }
+}
+
 @keyframes teaser-float {
   0% {
     transform: translateY(0) translateX(0);
@@ -248,6 +260,17 @@ body {
   .teaser-mote {
     animation: teaser-float var(--mote-t, 16s) linear infinite;
     animation-delay: var(--mote-d, 0s);
+  }
+  .teaser-button-glow {
+    animation: teaser-button-glow 3.2s ease-in-out infinite;
+  }
+  /* an element with both classes needs the two animations composed,
+     or the later shorthand would cancel the entrance */
+  .teaser-rise.teaser-button-glow {
+    animation:
+      teaser-rise 1.1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards,
+      teaser-button-glow 3.2s ease-in-out infinite;
+    animation-delay: var(--rise, 0s), 1s;
   }
 }
 

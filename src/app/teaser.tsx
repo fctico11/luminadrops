@@ -76,7 +76,7 @@ export default function Teaser() {
             content={waitlistContent}
             cormorantClass={cormorant.className}
             garamondClass={cormorant.className}
-            buttonClassName="teaser-rise mt-9 border border-[#6f695c] px-8 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-12 lg:px-12 lg:py-4 lg:text-sm"
+            buttonClassName="teaser-rise teaser-button-glow mt-9 border border-[#6f695c] px-8 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-12 lg:px-12 lg:py-4 lg:text-sm"
             buttonStyle={rise(0.6)}
           />
 

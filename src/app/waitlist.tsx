@@ -85,9 +85,16 @@ export default function WaitlistButton({ content, cormorantClass, garamondClass,
 
   return (
     <>
-      <button
-        type="button"
-        className={buttonClassName}
+      {/* A real <button> would let a native browser behavior — Space/Enter
+          activates a button even when focus is on a descendant, not just the
+          button itself — reopen this every time an admin types a space while
+          editing the label text below. A plain div with a manual keydown
+          handler avoids that class of bug entirely while staying keyboard
+          operable for real visitors via Tab + Enter/Space. */}
+      <div
+        role="button"
+        tabIndex={0}
+        className={`inline-block cursor-pointer ${buttonClassName}`}
         style={buttonStyle}
         onClick={() => {
           setSubmitted(false);
@@ -95,9 +102,18 @@ export default function WaitlistButton({ content, cormorantClass, garamondClass,
           setError(null);
           setOpen(true);
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setSubmitted(false);
+            setRevealed(false);
+            setError(null);
+            setOpen(true);
+          }
+        }}
       >
         <EditableText file="waitlist" field="triggerLabel" value={content.triggerLabel} as="span" />
-      </button>
+      </div>
 
       {open && (
         <div
