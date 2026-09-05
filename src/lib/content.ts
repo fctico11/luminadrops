@@ -128,6 +128,10 @@ export type Drop01Content = {
   insideParagraph3: string;
   insideClosingLine: string;
   includesTitle: string;
+  manualImage: string;
+  manualImageAlt: string;
+  manualTitle: string;
+  manualDescription: string;
   items: Drop01Item[];
   includesClosingLine: string;
   badges: Drop01Badge[];

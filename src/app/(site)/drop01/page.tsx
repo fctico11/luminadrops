@@ -79,7 +79,7 @@ export default async function Drop01Page() {
       </section>
 
       {/* What's Waiting Inside */}
-      <Reveal as="section" className="relative mx-auto max-w-2xl px-6 py-20 text-center lg:py-28">
+      <Reveal as="section" className="relative mx-auto max-w-2xl px-6 pt-20 pb-8 text-center lg:pt-28 lg:pb-10">
         <EditableText
           file="drop01"
           field="insideSectionTitle"
@@ -134,6 +134,34 @@ export default async function Drop01Page() {
           as="h2"
           className={`${cormorant.className} text-lg font-medium tracking-[0.3em] lg:text-2xl`}
         />
+
+        <Reveal className="mt-10 flex items-start gap-4 text-left">
+          <div className="relative h-24 w-24 shrink-0 overflow-hidden border border-[#3a352e] sm:h-28 sm:w-28">
+            <EditableImage
+              file="drop01"
+              field="manualImage"
+              src={content.manualImage}
+              alt={content.manualImageAlt}
+              className="object-cover"
+            />
+          </div>
+          <div>
+            <EditableText
+              file="drop01"
+              field="manualTitle"
+              value={content.manualTitle}
+              as="h3"
+              className="text-sm font-medium tracking-[0.2em] text-[#e9e1cd] lg:text-base"
+            />
+            <EditableText
+              file="drop01"
+              field="manualDescription"
+              value={content.manualDescription}
+              as="p"
+              className="mt-2 text-[15px] leading-relaxed text-[#c4bba8] lg:text-base"
+            />
+          </div>
+        </Reveal>
 
         <div className="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2">
           {content.items.map((item, i) => (
