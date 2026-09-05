@@ -14,10 +14,10 @@
   "insideParagraph3": "Some things were made by hand while some were gathered. Some things will be gone by morning and others were made to stay with you for midnights to come.",
   "insideClosingLine": "Your place in the Club awaits.",
   "includesTitle": "INCLUDES...",
-  "manualImage": "/drops/midnight-margarita/manual.svg",
+  "manualImage": "/drops/midnight-margarita/drop01-manualImage.jpg",
   "manualImageAlt": "The Club Manual, a closed journal with a ribbon bookmark",
   "manualTitle": "THE CLUB MANUAL",
-  "manualDescription": "Your Guide to an Everlong Midnight. Part ritual, part field guide, part place to leave a few thoughts behind. The Club Manual carries you from first spark to Last Call — through traditions, small rituals, things to keep, things to leave behind, wishes, and reflections. Follow it through the evening, skip around, or return to its pages on another Everlong Midnight.",
+  "manualDescription": "Your guide to an Everlong Midnight. Part field guide, part keepsake, part place to leave a few thoughts behind. The Club Manual carries you from First Spark to Last Call - through traditions, small moments, things to keep, things to leave behind, wishes, and reflections. Follow it through the evening, skip around, or return to its pages on another Everlong Midnight",
   "items": [
     {
       "image": "/drops/midnight-margarita/drop01-items-0-image.jpg",
@@ -44,8 +44,8 @@
       "image": "/drops/midnight-margarita/drop01-items-3-image.jpg",
       "alt": "Jar of moonstones",
       "title": "A TOAST",
-      "description": "A ritual with the Club's finishing touches - equally suited to margaritas or mocktails",
-      "note": "Lime and liquor not included"
+      "description": "Glassware, a few Club details for setting the table, and a few finishing touches for your pour - margarita or mockarita",
+      "note": "Lime and Tequila (or alternative beverage) not included"
     },
     {
       "image": "/drops/midnight-margarita/envelope.jpg",
