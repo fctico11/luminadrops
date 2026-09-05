@@ -49,6 +49,15 @@ export default function CheckoutView({ content, product, productImage, productIm
   const quantity = item?.quantity ?? 1;
   const addOnIncluded = Boolean(addOn && cartAddOn?.addOnId === addOn.id);
 
+  // Read via a ref inside the effect below rather than as a dependency —
+  // once the session exists, removing the add-on is handled in place further
+  // down the tree (so the customer doesn't lose what they've already typed
+  // into the Stripe fields), and that removal also clears it from the shared
+  // cart. Without this, that cart update would flip addOnIncluded and re-run
+  // this effect, creating a brand-new session and wiping the in-progress form.
+  const addOnIncludedRef = useRef(addOnIncluded);
+  addOnIncludedRef.current = addOnIncluded;
+
   useEffect(() => {
     if (!inCart || !product) return;
     let cancelled = false;
@@ -59,7 +68,7 @@ export default function CheckoutView({ content, product, productImage, productIm
       body: JSON.stringify({
         productId: product.id,
         quantity,
-        ...(addOnIncluded && addOn ? { addOnId: addOn.id } : {}),
+        ...(addOnIncludedRef.current && addOn ? { addOnId: addOn.id } : {}),
       }),
     })
       .then(async (res) => {
@@ -77,7 +86,7 @@ export default function CheckoutView({ content, product, productImage, productIm
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inCart, product?.id, quantity, addOnIncluded]);
+  }, [inCart, product?.id, quantity]);
 
   if (!inCart || !product) {
     return (
@@ -153,11 +162,13 @@ function CheckoutContent({
   quantity: number;
   addOn: AddOn | null;
 }) {
+  const { setAddOn } = useCart();
   const checkoutState = useCheckoutElements();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [addressComplete, setAddressComplete] = useState(false);
   const [calculatingShipping, setCalculatingShipping] = useState(false);
+  const [removingAddOn, setRemovingAddOn] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   if (checkoutState.type === "loading") {
@@ -208,6 +219,28 @@ function CheckoutContent({
     }, 700);
   };
 
+  // Removes the add-on's line item from the *existing* session in place —
+  // preserves whatever the customer has already typed into the Stripe fields,
+  // unlike toggling it off from the bag page, which would tear down this
+  // whole session and start a fresh one.
+  const handleRemoveAddOn = async () => {
+    if (!addOn) return;
+    setRemovingAddOn(true);
+    try {
+      await checkout.runServerUpdate(async () => {
+        const res = await fetch("/api/checkout/remove-addon", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId: checkout.id }),
+        });
+        if (!res.ok) throw new Error("Failed to remove add-on.");
+      });
+      setAddOn(addOn.id, 0);
+    } finally {
+      setRemovingAddOn(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
@@ -247,9 +280,19 @@ function CheckoutContent({
             <div className="flex items-center justify-between text-[#c4bba8]">
               <span>
                 <EditableText file="checkout" field="addOnLabel" value={content.addOnLabel} as="span" />{" "}
-                <span className="text-xs text-[#9c9384]">({addOn.name})</span>
+                <span className="text-sm text-[#9c9384]">({addOn.name})</span>
               </span>
-              <span>{formatPrice(addOn.priceCents, addOn.currency)}</span>
+              <span className="flex items-center gap-3">
+                {formatPrice(addOn.priceCents, addOn.currency)}
+                <button
+                  type="button"
+                  onClick={handleRemoveAddOn}
+                  disabled={removingAddOn}
+                  className="text-sm italic text-[#9c9384] underline decoration-[#4c4740] underline-offset-4 transition-colors duration-300 hover:text-[#e9e1cd] disabled:opacity-50"
+                >
+                  {removingAddOn ? "Removing..." : "Remove"}
+                </button>
+              </span>
             </div>
           )}
           {!addressComplete ? (
@@ -266,7 +309,7 @@ function CheckoutContent({
             <div className="flex items-center justify-between text-[#c4bba8]">
               <span>
                 <EditableText file="checkout" field="shippingLabel" value={content.shippingLabel} as="span" />{" "}
-                <span className="text-xs text-[#9c9384]">({shippingName})</span>
+                <span className="text-sm text-[#9c9384]">({shippingName})</span>
               </span>
               <span>{formatPrice(checkout.total.shippingRate.minorUnitsAmount, product.currency)}</span>
             </div>
@@ -284,7 +327,7 @@ function CheckoutContent({
           field="shippingTerms"
           value={content.shippingTerms}
           as="p"
-          className="mt-5 text-xs leading-relaxed text-[#9c9384]"
+          className="mt-5 text-sm leading-relaxed text-[#9c9384]"
         />
       </div>
 
