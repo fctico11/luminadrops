@@ -12,13 +12,19 @@ export const metadata = {
 
 export default async function CheckoutPage() {
   const drop01Content = getContent("drop01");
+  const checkoutContent = getContent("checkout");
   const product = await prisma.product.findUnique({ where: { slug: DROP01_SLUG } });
+  const addOn = product
+    ? await prisma.addOn.findFirst({ where: { productId: product.id, status: "LIVE", inventory: { gt: 0 } } })
+    : null;
 
   return (
     <CheckoutView
+      content={checkoutContent}
       product={product}
       productImage={drop01Content.purchaseImage}
       productImageAlt={drop01Content.purchaseImageAlt}
+      addOn={addOn}
     />
   );
 }

@@ -8,6 +8,7 @@ import EditableLink from "@/components/edit/EditableLink";
 import { useCart } from "@/components/cart/CartContext";
 import { formatPrice } from "@/lib/products";
 import type { CartContent } from "@/lib/content";
+import type { AddOn } from "@/generated/prisma";
 import Motes from "../../motes";
 import { cormorant, rise } from "../../ui";
 
@@ -25,11 +26,12 @@ type Props = {
   product: Product | null;
   productImage: string;
   productImageAlt: string;
+  addOn: AddOn | null;
 };
 
-export default function CartView({ content, product, productImage, productImageAlt }: Props) {
+export default function CartView({ content, product, productImage, productImageAlt, addOn }: Props) {
   const router = useRouter();
-  const { item, setItem, clear } = useCart();
+  const { item, setItem, addOn: cartAddOn, setAddOn, clear } = useCart();
   const [showLimitMessage, setShowLimitMessage] = useState(false);
   const hideTimer = useRef<number | undefined>(undefined);
 
@@ -92,6 +94,7 @@ export default function CartView({ content, product, productImage, productImageA
 
   const quantity = item!.quantity;
   const soldOut = product.status !== "LIVE" || product.inventory <= 0;
+  const addOnInCart = Boolean(addOn && cartAddOn?.addOnId === addOn.id);
 
   const flashLimitMessage = () => {
     setShowLimitMessage(true);
@@ -198,6 +201,41 @@ export default function CartView({ content, product, productImage, productImageA
             </button>
           </div>
         </div>
+
+        {addOn && (
+          <div className="mt-6 grid gap-6 border border-[#4c4740] p-6 sm:grid-cols-[120px_1fr] sm:p-8">
+            <div className="relative aspect-square w-full overflow-hidden border border-[#3a352e] sm:aspect-auto sm:h-full">
+              {addOn.imageUrl ? (
+                <Image src={addOn.imageUrl} alt={addOn.name} fill className="object-cover" />
+              ) : (
+                <div className="h-full w-full bg-[#1c1815]" />
+              )}
+            </div>
+
+            <div className="flex flex-col text-left">
+              <p className="text-[10px] tracking-[0.3em] text-[#9c9384]">
+                LIMITED ADD-ON · {addOn.inventory} AVAILABLE
+              </p>
+              <h3 className={`${cormorant.className} mt-1 text-lg font-medium tracking-[0.1em] text-[#e9e1cd]`}>
+                {addOn.name}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#c4bba8]">{addOn.description}</p>
+
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+                <p className={`${cormorant.className} text-base text-[#e9e1cd]`}>
+                  +{formatPrice(addOn.priceCents, addOn.currency)}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setAddOn(addOn.id, addOnInCart ? 0 : 1)}
+                  className="border border-[#6f695c] px-5 py-2 text-xs tracking-[0.2em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04]"
+                >
+                  {addOnInCart ? "ADDED — REMOVE" : "ADD TO BAG"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {soldOut && (
           <p className="mt-6 text-center text-sm text-[#e07a5f]">

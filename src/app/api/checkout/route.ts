@@ -6,6 +6,7 @@ import { getStripe } from "@/lib/stripe";
 const bodySchema = z.object({
   productId: z.string().min(1),
   quantity: z.coerce.number().int().min(1).max(2).default(1),
+  addOnId: z.string().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -15,7 +16,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Invalid request." }, { status: 400 });
   }
 
-  const { productId, quantity } = parsed.data;
+  const { productId, quantity, addOnId } = parsed.data;
 
   const product = await prisma.product.findUnique({ where: { id: productId } });
   if (!product || product.status !== "LIVE") {
@@ -25,26 +26,54 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Not enough stock left." }, { status: 409 });
   }
 
+  // Re-validated server-side rather than trusting the client's claim that the
+  // add-on is still available — it may have sold out or been unpublished
+  // since the customer added it to their bag. Silently dropped rather than
+  // blocking checkout, consistent with how a Shippo outage never blocks a sale.
+  const addOn = addOnId
+    ? await prisma.addOn.findFirst({ where: { id: addOnId, productId, status: "LIVE", inventory: { gt: 0 } } })
+    : null;
+
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin;
   const stripe = getStripe();
+
+  const lineItems: Array<{
+    quantity: number;
+    price_data: {
+      currency: string;
+      unit_amount: number;
+      product_data: { name: string; description?: string };
+    };
+  }> = [
+    {
+      quantity,
+      price_data: {
+        currency: product.currency,
+        unit_amount: product.priceCents,
+        product_data: {
+          name: product.name,
+          description: product.description || undefined,
+        },
+      },
+    },
+  ];
+
+  if (addOn) {
+    lineItems.push({
+      quantity: 1,
+      price_data: {
+        currency: addOn.currency,
+        unit_amount: addOn.priceCents,
+        product_data: { name: addOn.name, description: addOn.description || undefined },
+      },
+    });
+  }
 
   const session = await stripe.checkout.sessions.create({
     ui_mode: "elements",
     mode: "payment",
     automatic_tax: { enabled: true },
-    line_items: [
-      {
-        quantity,
-        price_data: {
-          currency: product.currency,
-          unit_amount: product.priceCents,
-          product_data: {
-            name: product.name,
-            description: product.description || undefined,
-          },
-        },
-      },
-    ],
+    line_items: lineItems,
     shipping_address_collection: {
       allowed_countries: ["US", "CA"],
     },
@@ -61,7 +90,13 @@ export async function POST(request: NextRequest) {
         },
       },
     ],
-    metadata: { productId: product.id, quantity: String(quantity) },
+    metadata: {
+      productId: product.id,
+      quantity: String(quantity),
+      ...(addOn
+        ? { addOnId: addOn.id, addOnName: addOn.name, addOnPriceCents: String(addOn.priceCents) }
+        : {}),
+    },
     return_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
   });
 

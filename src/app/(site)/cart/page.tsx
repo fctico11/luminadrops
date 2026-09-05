@@ -14,6 +14,9 @@ export default async function CartPage() {
   const content = getContent("cart");
   const drop01Content = getContent("drop01");
   const product = await prisma.product.findUnique({ where: { slug: DROP01_SLUG } });
+  const addOn = product
+    ? await prisma.addOn.findFirst({ where: { productId: product.id, status: "LIVE", inventory: { gt: 0 } } })
+    : null;
 
   return (
     <CartView
@@ -21,6 +24,7 @@ export default async function CartPage() {
       product={product}
       productImage={drop01Content.purchaseImage}
       productImageAlt={drop01Content.purchaseImageAlt}
+      addOn={addOn}
     />
   );
 }

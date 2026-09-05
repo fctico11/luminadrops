@@ -29,6 +29,9 @@ export async function POST(request: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session;
     const productId = session.metadata?.productId;
     const quantity = Number(session.metadata?.quantity ?? "1");
+    const addOnId = session.metadata?.addOnId;
+    const addOnName = session.metadata?.addOnName;
+    const addOnPriceCents = session.metadata?.addOnPriceCents;
 
     if (productId && session.payment_status !== "unpaid") {
       await prisma.$transaction(async (tx) => {
@@ -45,6 +48,8 @@ export async function POST(request: NextRequest) {
             shippingAddress: session.collected_information?.shipping_details
               ? JSON.parse(JSON.stringify(session.collected_information.shipping_details))
               : undefined,
+            addOnName: addOnName ?? null,
+            addOnPriceCents: addOnPriceCents ? Number(addOnPriceCents) : null,
           },
         });
 
@@ -55,6 +60,17 @@ export async function POST(request: NextRequest) {
 
         if (product.inventory <= 0) {
           await tx.product.update({ where: { id: productId }, data: { status: "SOLD_OUT", inventory: 0 } });
+        }
+
+        if (addOnId) {
+          const addOn = await tx.addOn.update({
+            where: { id: addOnId },
+            data: { inventory: { decrement: 1 } },
+          });
+
+          if (addOn.inventory <= 0) {
+            await tx.addOn.update({ where: { id: addOnId }, data: { status: "SOLD_OUT", inventory: 0 } });
+          }
         }
       });
     }

@@ -57,8 +57,31 @@ model Product {
 
   images        ProductImage[]
   orders        Order[]
+  addOns        AddOn[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+}
+
+// Optional upsell shown on the /cart page once its linked product is already
+// in the customer's bag — e.g. "The After Midnight Charm" for drop01. Fully
+// managed by the client from /admin/addons (create/edit/delete), unlike the
+// single fixed Product row.
+model AddOn {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  name        String
+  description String
+  priceCents  Int
+  currency    String        @default("usd")
+  inventory   Int           @default(0)
+  imageUrl    String        @default("")
+  status      ProductStatus @default(DRAFT)
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ProductImage {
@@ -100,6 +123,11 @@ model Order {
   amountTotalCents      Int
   status                OrderStatus @default(PENDING)
   shippingAddress       Json?
+  // Snapshot of the add-on purchased with this order, if any — stored as plain
+  // values rather than a relation so the AddOn row can later be edited or
+  // deleted from admin without altering historical order records.
+  addOnName             String?
+  addOnPriceCents       Int?
   createdAt             DateTime    @default(now())
   updatedAt             DateTime    @updatedAt
 }

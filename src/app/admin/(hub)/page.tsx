@@ -16,6 +16,11 @@ const CONTENT_PAGES = [
     description: "/drop01 — reachable if visited directly, but not linked from nav yet.",
   },
   { href: "/admin/edit/cart", label: "Bag", description: "/cart" },
+  {
+    href: "/admin/edit/checkout",
+    label: "Checkout",
+    description: "/checkout — labels and fine print in the order summary box only, not the Stripe fields.",
+  },
   { href: "/admin/edit/success", label: "Order Confirmation", description: "/success" },
   { href: "/admin/edit/privacy", label: "Privacy Policy", description: "/privacy" },
   { href: "/admin/edit/shipping-returns", label: "Shipping & Returns", description: "/shipping-returns" },
@@ -26,6 +31,11 @@ const DATABASE_PAGES = [
     href: "/admin/product",
     label: "Drop 01 (Price & Inventory)",
     description: "Name, price, shipping, and stock count — reads from and writes to the database.",
+  },
+  {
+    href: "/admin/addons",
+    label: "Add-ons",
+    description: "Create, edit, or remove bag-page upsells like The After Midnight Charm.",
   },
 ];
 

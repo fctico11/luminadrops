@@ -100,6 +100,14 @@ export type FooterContent = {
   links: { label: string; href: string }[];
 };
 
+export type CheckoutContent = {
+  subtotalLabel: string;
+  shippingLabel: string;
+  addOnLabel: string;
+  totalLabel: string;
+  shippingTerms: string;
+};
+
 export type PolicySection = { heading: string; body: string[] };
 
 export type PolicyContent = {
@@ -152,6 +160,7 @@ export type ContentMap = {
   archive: ArchiveContent;
   drops: DropsContent;
   cart: CartContent;
+  checkout: CheckoutContent;
   success: SuccessContent;
   waitlist: WaitlistContent;
   drop01: Drop01Content;

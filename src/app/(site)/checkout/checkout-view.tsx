@@ -11,12 +11,15 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js/checkout";
 import Image from "next/image";
+import EditableText from "@/components/edit/EditableText";
 import EditableLink from "@/components/edit/EditableLink";
 import Motes from "../../motes";
 import { cormorant } from "../../ui";
 import { useCart } from "@/components/cart/CartContext";
 import { formatPrice } from "@/lib/products";
 import { checkoutAppearance, checkoutFonts } from "@/lib/stripe-appearance";
+import type { CheckoutContent as CheckoutCopy } from "@/lib/content";
+import type { AddOn } from "@/generated/prisma";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -30,18 +33,21 @@ type Product = {
 } | null;
 
 type Props = {
+  content: CheckoutCopy;
   product: Product;
   productImage: string;
   productImageAlt: string;
+  addOn: AddOn | null;
 };
 
-export default function CheckoutView({ product, productImage, productImageAlt }: Props) {
-  const { item } = useCart();
+export default function CheckoutView({ content, product, productImage, productImageAlt, addOn }: Props) {
+  const { item, addOn: cartAddOn } = useCart();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const inCart = Boolean(item && product && item.productId === product.id && item.quantity > 0);
   const quantity = item?.quantity ?? 1;
+  const addOnIncluded = Boolean(addOn && cartAddOn?.addOnId === addOn.id);
 
   useEffect(() => {
     if (!inCart || !product) return;
@@ -50,7 +56,11 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
     fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId: product.id, quantity }),
+      body: JSON.stringify({
+        productId: product.id,
+        quantity,
+        ...(addOnIncluded && addOn ? { addOnId: addOn.id } : {}),
+      }),
     })
       .then(async (res) => {
         const data = await res.json().catch(() => ({}));
@@ -67,7 +77,7 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inCart, product?.id, quantity]);
+  }, [inCart, product?.id, quantity, addOnIncluded]);
 
   if (!inCart || !product) {
     return (
@@ -114,7 +124,14 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
           stripe={stripePromise}
           options={{ clientSecret, elementsOptions: { appearance: checkoutAppearance, fonts: checkoutFonts } }}
         >
-          <CheckoutContent product={product} productImage={productImage} productImageAlt={productImageAlt} quantity={quantity} />
+          <CheckoutContent
+            content={content}
+            product={product}
+            productImage={productImage}
+            productImageAlt={productImageAlt}
+            quantity={quantity}
+            addOn={addOnIncluded ? addOn : null}
+          />
         </CheckoutElementsProvider>
       </div>
     </main>
@@ -122,15 +139,19 @@ export default function CheckoutView({ product, productImage, productImageAlt }:
 }
 
 function CheckoutContent({
+  content,
   product,
   productImage,
   productImageAlt,
   quantity,
+  addOn,
 }: {
+  content: CheckoutCopy;
   product: NonNullable<Product>;
   productImage: string;
   productImageAlt: string;
   quantity: number;
+  addOn: AddOn | null;
 }) {
   const checkoutState = useCheckoutElements();
   const [submitting, setSubmitting] = useState(false);
@@ -219,23 +240,33 @@ function CheckoutContent({
 
         <div className="mt-5 space-y-2 border-t border-[#4c4740] pt-4 text-base">
           <div className="flex items-center justify-between text-[#c4bba8]">
-            <span>Subtotal</span>
-            <span>{formatPrice(checkout.total.subtotal.minorUnitsAmount, product.currency)}</span>
+            <EditableText file="checkout" field="subtotalLabel" value={content.subtotalLabel} as="span" />
+            <span>{formatPrice(product.priceCents * quantity, product.currency)}</span>
           </div>
+          {addOn && (
+            <div className="flex items-center justify-between text-[#c4bba8]">
+              <span>
+                <EditableText file="checkout" field="addOnLabel" value={content.addOnLabel} as="span" />{" "}
+                <span className="text-xs text-[#9c9384]">({addOn.name})</span>
+              </span>
+              <span>{formatPrice(addOn.priceCents, addOn.currency)}</span>
+            </div>
+          )}
           {!addressComplete ? (
             <div className="flex items-center justify-between text-[#9c9384]">
-              <span>Shipping</span>
+              <EditableText file="checkout" field="shippingLabel" value={content.shippingLabel} as="span" />
               <span className="text-right italic">Enter address to calculate shipping</span>
             </div>
           ) : calculatingShipping ? (
             <div className="flex items-center justify-between text-[#9c9384]">
-              <span>Shipping</span>
+              <EditableText file="checkout" field="shippingLabel" value={content.shippingLabel} as="span" />
               <span className="text-right italic">Calculating shipping...</span>
             </div>
           ) : (
             <div className="flex items-center justify-between text-[#c4bba8]">
               <span>
-                Shipping <span className="text-xs text-[#9c9384]">({shippingName})</span>
+                <EditableText file="checkout" field="shippingLabel" value={content.shippingLabel} as="span" />{" "}
+                <span className="text-xs text-[#9c9384]">({shippingName})</span>
               </span>
               <span>{formatPrice(checkout.total.shippingRate.minorUnitsAmount, product.currency)}</span>
             </div>
@@ -243,10 +274,18 @@ function CheckoutContent({
           <div
             className={`${cormorant.className} mt-3 flex items-center justify-between border-t border-[#4c4740] pt-3 text-lg font-medium tracking-[0.05em] text-[#e9e1cd]`}
           >
-            <span>Total</span>
+            <EditableText file="checkout" field="totalLabel" value={content.totalLabel} as="span" />
             <span>{formatPrice(checkout.total.total.minorUnitsAmount, product.currency)}</span>
           </div>
         </div>
+
+        <EditableText
+          file="checkout"
+          field="shippingTerms"
+          value={content.shippingTerms}
+          as="p"
+          className="mt-5 text-xs leading-relaxed text-[#9c9384]"
+        />
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6 text-left">
