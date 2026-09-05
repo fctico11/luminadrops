@@ -9,21 +9,21 @@
   "heroImage": "/drops/midnight-margarita/drop01-heroImage.jpg",
   "heroImageAlt": "The Midnight Margarita Club box, candle, and glassware",
   "insideSectionTitle": "WHAT'S WAITING INSIDE",
-  "insideParagraph1": "Each TMMC member will receive the club manual alongside handcrafted pieces, stone and botanical elements, ingredients for the evening, and a handful of Club traditions you’ll discover as the night unfolds.",
-  "insideParagraph2": "Created, gathered, and chosen to accompany you through the night - from the first spark to last call.",
+  "insideParagraph1": "Each TMMC member will receive the Club Manual alongside glassware, handcrafted keepsakes, stone and botanical elements, and a handful of Club traditions you’ll discover as the night unfolds.",
+  "insideParagraph2": "Created, gathered, and chosen to accompany you through the night - from the First Spark to Last Call.",
   "insideParagraph3": "Some things were made by hand while some were gathered. Some things will be gone by morning and others were made to stay with you for midnights to come.",
   "insideClosingLine": "Your place in the Club awaits.",
   "includesTitle": "INCLUDES...",
   "manualImage": "/drops/midnight-margarita/drop01-manualImage.jpg",
   "manualImageAlt": "The Club Manual, a closed journal with a ribbon bookmark",
   "manualTitle": "THE CLUB MANUAL",
-  "manualDescription": "Your guide to an Everlong Midnight. Part field guide, part keepsake, part place to leave a few thoughts behind. The Club Manual carries you from First Spark to Last Call - through traditions, small moments, things to keep, things to leave behind, wishes, and reflections. Follow it through the evening, skip around, or return to its pages on another Everlong Midnight",
+  "manualDescription": "Your guide to an Everlong Midnight. Part field guide, part keepsake, part place to leave a few thoughts behind. Its pages hold Club traditions, wishes, reflections, and a few reasons to return long after the night is over. Follow it through the evening, skip around, or return to its pages on another Everlong Midnight",
   "items": [
     {
       "image": "/drops/midnight-margarita/drop01-items-0-image.jpg",
       "alt": "Hand-poured beeswax candle",
       "title": "A SPARK",
-      "description": "Hand-poured pure beeswax candle to start your evening",
+      "description": "A pure beeswax candle, hand-poured for the Club and made to light the beginning of your evening",
       "note": ""
     },
     {
@@ -44,7 +44,7 @@
       "image": "/drops/midnight-margarita/drop01-items-3-image.jpg",
       "alt": "Jar of moonstones",
       "title": "A TOAST",
-      "description": "Cocktail glassware, ingredients for the Club's signature pour, and a few details for setting the table - equally suited to margaritas or mockaritas",
+      "description": "Glassware, Club details for setting the table, and a few finishing touches for your pour - margarita or mockarita",
       "note": "Lime and Tequila (or alternative beverage) not included"
     },
     {
