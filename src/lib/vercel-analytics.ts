@@ -76,23 +76,30 @@ export async function getDailyTrend(days: number): Promise<DailyPoint[]> {
 
 export type TopRow = { label: string; pageviews: number; visitors: number };
 
-async function getTopByDimension(dimension: string, days: number, limit: number): Promise<TopRow[]> {
+async function getTopByDimension(
+  dimension: string,
+  days: number,
+  limit: number,
+  fallbackLabel: string
+): Promise<TopRow[]> {
   const { since, until } = rangeSince(days);
   const data = await vercelGet<{ data: Array<Record<string, string | number>> }>(
     "/v1/query/web-analytics/visits/aggregate",
     { since, until, by: dimension, limit: String(limit) }
   );
   return data.data.map((row) => ({
-    label: String(row[dimension] ?? "(unknown)"),
+    // Vercel returns an empty string (not omitted) for pageviews with no
+    // referrer, so `??` alone wouldn't catch it — `||` treats "" as missing too.
+    label: String(row[dimension] || fallbackLabel),
     pageviews: Number(row.pageviews ?? 0),
     visitors: Number(row.visitors ?? 0),
   }));
 }
 
 export function getTopPages(days: number, limit = 5) {
-  return getTopByDimension("route", days, limit);
+  return getTopByDimension("route", days, limit, "(unknown)");
 }
 
 export function getTopReferrers(days: number, limit = 5) {
-  return getTopByDimension("referrerHostname", days, limit);
+  return getTopByDimension("referrerHostname", days, limit, "Direct");
 }
