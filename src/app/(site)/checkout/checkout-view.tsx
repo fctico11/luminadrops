@@ -339,6 +339,13 @@ function CheckoutContent({
         <div>
           <p className="mb-2 text-[10px] tracking-[0.2em] text-[#9c9384]">SHIPPING ADDRESS</p>
           <ShippingAddressElement onChange={handleAddressChange} />
+          <p className="mt-2 text-sm italic text-[#9c9384]">
+            {!addressComplete
+              ? "Enter address to calculate shipping"
+              : calculatingShipping
+              ? "Calculating shipping..."
+              : `${shippingName} — ${formatPrice(checkout.total.shippingRate.minorUnitsAmount, product.currency)}`}
+          </p>
         </div>
         <div>
           <p className="mb-2 text-[10px] tracking-[0.2em] text-[#9c9384]">PAYMENT</p>
