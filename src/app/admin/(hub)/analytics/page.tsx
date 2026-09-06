@@ -117,19 +117,27 @@ export default async function AdminAnalyticsPage() {
           </p>
         ) : (
           <>
-            <div className="flex h-32 items-end gap-1 border border-white/10 bg-white/[0.03] p-4">
-              {daily.map((d) => (
-                <div
-                  key={d.date.toISOString()}
-                  className="flex h-full flex-1 flex-col items-center justify-end"
-                  title={`${formatDay(d.date)}: ${d.pageviews} views, ${d.visitors} visitors`}
-                >
+            <div className="border border-white/10 bg-white/[0.03] p-4">
+              <div className="flex h-28 items-end gap-[3px] border-b border-white/10">
+                {daily.map((d) => (
                   <div
-                    className="w-full bg-[#c9a227]"
-                    style={{ height: `${Math.max(2, (d.pageviews / maxPageviews) * 100)}%` }}
-                  />
-                </div>
-              ))}
+                    key={d.date.toISOString()}
+                    className="group flex h-full flex-1 items-end"
+                    title={`${formatDay(d.date)}: ${d.pageviews} views, ${d.visitors} visitors`}
+                  >
+                    {d.pageviews > 0 && (
+                      <div
+                        className="w-full rounded-t-[2px] bg-[#c9a227] transition-opacity group-hover:opacity-70"
+                        style={{ height: `${Math.max(4, (d.pageviews / maxPageviews) * 100)}%` }}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-2 flex justify-between text-[10px] text-white/30">
+                <span>{formatDay(daily[0].date)}</span>
+                <span>{formatDay(daily[daily.length - 1].date)}</span>
+              </div>
             </div>
 
             <div className="mt-4 max-h-64 overflow-y-auto border border-white/10">
