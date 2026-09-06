@@ -15,6 +15,26 @@ body {
   color: #f5f2ea;
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Small inline loading ring — sized in em so it scales with surrounding
+   text, colored via currentColor so it inherits whatever muted text
+   color it's dropped into. */
+.spinner {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  border: 1.5px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 9999px;
+  opacity: 0.7;
+  animation: spin 0.7s linear infinite;
+}
+
 /* ---- teaser page ---- */
 
 @keyframes teaser-rise {

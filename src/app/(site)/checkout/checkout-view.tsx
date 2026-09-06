@@ -303,7 +303,10 @@ function CheckoutContent({
           ) : calculatingShipping ? (
             <div className="flex items-center justify-between text-[#9c9384]">
               <EditableText file="checkout" field="shippingLabel" value={content.shippingLabel} as="span" />
-              <span className="text-right italic">Calculating shipping...</span>
+              <span className="flex items-center justify-end gap-2 text-right italic">
+                <span className="spinner" aria-hidden />
+                Calculating shipping...
+              </span>
             </div>
           ) : (
             <div className="flex items-center justify-between text-[#c4bba8]">
@@ -339,7 +342,8 @@ function CheckoutContent({
         <div>
           <p className="mb-2 text-[10px] tracking-[0.2em] text-[#9c9384]">SHIPPING ADDRESS</p>
           <ShippingAddressElement onChange={handleAddressChange} />
-          <p className="mt-2 text-sm italic text-[#9c9384]">
+          <p className="mt-2 flex items-center gap-2 text-sm italic text-[#9c9384]">
+            {calculatingShipping && <span className="spinner" aria-hidden />}
             {!addressComplete
               ? "Enter address to calculate shipping"
               : calculatingShipping
