@@ -7,7 +7,7 @@
       "heading": "Information We Collect",
       "body": [
         "Contact information you give us, such as your email address when you join the waitlist for a drop.",
-        "Order information collected at checkout, including your name, shipping address, and email. Checkout is handled by our payment processor, Stripe — we never see or store your full card details."
+        "Order information collected at checkout, including your name, shipping address, and email. Checkout is handled by our payment processor - we never see or store your full card details."
       ]
     },
     {
@@ -22,7 +22,7 @@
     {
       "heading": "Sharing Your Information",
       "body": [
-        "We don't sell your information. We share only what's necessary with the service providers who help us run Lumina Drops — namely Stripe for payment processing and our shipping carriers for delivery."
+        "We don't sell your information. We share only what's necessary with the service providers who help us run Lumina Drops - namely for payment processing and our shipping carriers for delivery."
       ]
     },
     {
@@ -38,7 +38,7 @@
       ]
     },
     {
-      "heading": "Children'sPprivacy",
+      "heading": "Children's Privacy",
       "body": [
         "Lumina Drops is not directed at children under 13, and we do not knowingly collect information from them."
       ]
