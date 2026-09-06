@@ -8,6 +8,7 @@ import {
   getTopDevices,
   type TopRow,
 } from "@/lib/vercel-analytics";
+import TrafficChart, { type ChartPoint } from "./traffic-chart";
 
 export const dynamic = "force-dynamic";
 
@@ -73,12 +74,20 @@ export default async function AdminAnalyticsPage() {
   // whole point of the nightly sync (see /api/cron/sync-analytics): Vercel's
   // own reporting window caps out at 1 month on Hobby, so this is what lets
   // "which day had how many views" keep working past that window.
-  const dailyRows = await prisma.analyticsDaily.findMany({
+  // Fetched well beyond 30 days so the week/month chart views have real
+  // history to bucket into as it accumulates — the raw table below still
+  // only shows the most recent 30 rows.
+  const historyRows = await prisma.analyticsDaily.findMany({
     orderBy: { date: "desc" },
-    take: 30,
+    take: 180,
   });
-  const daily = [...dailyRows].reverse();
-  const maxPageviews = Math.max(1, ...daily.map((d) => d.pageviews));
+  const history = [...historyRows].reverse();
+  const chartData: ChartPoint[] = history.map((d) => ({
+    date: d.date.toISOString().slice(0, 10),
+    pageviews: d.pageviews,
+    visitors: d.visitors,
+  }));
+  const daily = history.slice(-30);
 
   if (error) {
     return (
@@ -110,57 +119,29 @@ export default async function AdminAnalyticsPage() {
       </div>
 
       <div className="mt-8">
-        <p className="mb-3 text-xs uppercase tracking-wider text-white/50">Daily pageviews</p>
-        {daily.length === 0 ? (
-          <p className="text-sm text-white/40">
-            No synced days yet — the nightly job hasn&apos;t run, or hasn&apos;t been backfilled.
-          </p>
-        ) : (
-          <>
-            <div className="border border-white/10 bg-white/[0.03] p-4">
-              <div className="flex h-28 items-end gap-[3px] border-b border-white/10">
-                {daily.map((d) => (
-                  <div
-                    key={d.date.toISOString()}
-                    className="group flex h-full flex-1 items-end"
-                    title={`${formatDay(d.date)}: ${d.pageviews} views, ${d.visitors} visitors`}
-                  >
-                    {d.pageviews > 0 && (
-                      <div
-                        className="w-full rounded-t-[2px] bg-[#c9a227] transition-opacity group-hover:opacity-70"
-                        style={{ height: `${Math.max(4, (d.pageviews / maxPageviews) * 100)}%` }}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div className="mt-2 flex justify-between text-[10px] text-white/30">
-                <span>{formatDay(daily[0].date)}</span>
-                <span>{formatDay(daily[daily.length - 1].date)}</span>
-              </div>
-            </div>
+        <TrafficChart data={chartData} />
 
-            <div className="mt-4 max-h-64 overflow-y-auto border border-white/10">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-white/40">
-                    <th className="px-4 py-2 font-normal">Date</th>
-                    <th className="px-4 py-2 font-normal">Pageviews</th>
-                    <th className="px-4 py-2 font-normal">Visitors</th>
+        {daily.length > 0 && (
+          <div className="mt-4 max-h-64 overflow-y-auto border border-white/10">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-white/40">
+                  <th className="px-4 py-2 font-normal">Date</th>
+                  <th className="px-4 py-2 font-normal">Pageviews</th>
+                  <th className="px-4 py-2 font-normal">Visitors</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...daily].reverse().map((d) => (
+                  <tr key={d.date.toISOString()} className="border-b border-white/5 last:border-0">
+                    <td className="px-4 py-2 text-[#f5f2ea]">{formatDay(d.date)}</td>
+                    <td className="px-4 py-2 text-white/60">{d.pageviews}</td>
+                    <td className="px-4 py-2 text-white/60">{d.visitors}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {[...daily].reverse().map((d) => (
-                    <tr key={d.date.toISOString()} className="border-b border-white/5 last:border-0">
-                      <td className="px-4 py-2 text-[#f5f2ea]">{formatDay(d.date)}</td>
-                      <td className="px-4 py-2 text-white/60">{d.pageviews}</td>
-                      <td className="px-4 py-2 text-white/60">{d.visitors}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 
