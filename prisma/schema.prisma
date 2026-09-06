@@ -131,3 +131,19 @@ model Order {
   createdAt             DateTime    @default(now())
   updatedAt             DateTime    @updatedAt
 }
+
+// One row per calendar day, synced from the Vercel Web Analytics API by a
+// daily cron job. Vercel's own reporting window is capped (1 month on
+// Hobby), so this is what lets month-over-month traffic comparisons keep
+// working past that window instead of the older data just aging out.
+model AnalyticsDaily {
+  date         DateTime @id @db.Date
+  pageviews    Int
+  visitors     Int
+  topPages     Json?
+  topReferrers Json?
+  topCountries Json?
+  topDevices   Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

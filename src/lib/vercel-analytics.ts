@@ -14,15 +14,24 @@ export function isAnalyticsConfigured() {
   return getConfig() !== null;
 }
 
+export type DateRange = { since: string; until: string };
+
 function dateStr(d: Date) {
   return d.toISOString().slice(0, 10);
 }
 
-function rangeSince(days: number) {
+/** Rolling window ending today — used by the live dashboard cards. */
+export function rangeSince(days: number): DateRange {
   const until = new Date();
   const since = new Date();
   since.setDate(since.getDate() - days);
   return { since: dateStr(since), until: dateStr(until) };
+}
+
+/** A single calendar day — used by the nightly sync job. */
+export function rangeForDay(date: Date): DateRange {
+  const iso = dateStr(date);
+  return { since: iso, until: iso };
 }
 
 async function vercelGet<T>(path: string, params: Record<string, string>): Promise<T> {
@@ -50,22 +59,21 @@ async function vercelGet<T>(path: string, params: Record<string, string>): Promi
 
 export type PageviewSummary = { pageviews: number; visitors: number };
 
-export async function getPageviewSummary(days: number): Promise<PageviewSummary> {
-  const { since, until } = rangeSince(days);
-  const data = await vercelGet<{ data: PageviewSummary }>("/v1/query/web-analytics/visits/count", {
-    since,
-    until,
-  });
+export async function getPageviewSummaryFor(range: DateRange): Promise<PageviewSummary> {
+  const data = await vercelGet<{ data: PageviewSummary }>("/v1/query/web-analytics/visits/count", range);
   return data.data;
+}
+
+export function getPageviewSummary(days: number) {
+  return getPageviewSummaryFor(rangeSince(days));
 }
 
 export type DailyPoint = { date: string; pageviews: number; visitors: number };
 
 export async function getDailyTrend(days: number): Promise<DailyPoint[]> {
-  const { since, until } = rangeSince(days);
   const data = await vercelGet<{ data: Array<{ timestamp: string; pageviews: number; visitors: number }> }>(
     "/v1/query/web-analytics/visits/aggregate",
-    { since, until, by: "day" }
+    { ...rangeSince(days), by: "day" }
   );
   return data.data.map((row) => ({
     date: row.timestamp.slice(0, 10),
@@ -76,20 +84,20 @@ export async function getDailyTrend(days: number): Promise<DailyPoint[]> {
 
 export type TopRow = { label: string; pageviews: number; visitors: number };
 
-async function getTopByDimension(
+async function getTopByDimensionFor(
   dimension: string,
-  days: number,
+  range: DateRange,
   limit: number,
   fallbackLabel: string
 ): Promise<TopRow[]> {
-  const { since, until } = rangeSince(days);
   const data = await vercelGet<{ data: Array<Record<string, string | number>> }>(
     "/v1/query/web-analytics/visits/aggregate",
-    { since, until, by: dimension, limit: String(limit) }
+    { ...range, by: dimension, limit: String(limit) }
   );
   return data.data.map((row) => ({
-    // Vercel returns an empty string (not omitted) for pageviews with no
-    // referrer, so `??` alone wouldn't catch it — `||` treats "" as missing too.
+    // Vercel returns an empty string (not an omitted field) for pageviews
+    // with no referrer, so `??` alone wouldn't catch it — `||` treats "" as
+    // missing too.
     label: String(row[dimension] || fallbackLabel),
     pageviews: Number(row.pageviews ?? 0),
     visitors: Number(row.visitors ?? 0),
@@ -97,9 +105,31 @@ async function getTopByDimension(
 }
 
 export function getTopPages(days: number, limit = 5) {
-  return getTopByDimension("route", days, limit, "(unknown)");
+  return getTopByDimensionFor("route", rangeSince(days), limit, "(unknown)");
 }
 
 export function getTopReferrers(days: number, limit = 5) {
-  return getTopByDimension("referrerHostname", days, limit, "Direct");
+  return getTopByDimensionFor("referrerHostname", rangeSince(days), limit, "Direct");
+}
+
+export function getTopCountries(days: number, limit = 5) {
+  return getTopByDimensionFor("country", rangeSince(days), limit, "(unknown)");
+}
+
+export function getTopDevices(days: number, limit = 5) {
+  return getTopByDimensionFor("deviceType", rangeSince(days), limit, "(unknown)");
+}
+
+/** Everything needed for one day's row in the AnalyticsDaily table — used
+ * by the nightly cron sync, not the live dashboard. */
+export async function getDaySnapshot(date: Date) {
+  const range = rangeForDay(date);
+  const [summary, topPages, topReferrers, topCountries, topDevices] = await Promise.all([
+    getPageviewSummaryFor(range),
+    getTopByDimensionFor("route", range, 10, "(unknown)"),
+    getTopByDimensionFor("referrerHostname", range, 10, "Direct"),
+    getTopByDimensionFor("country", range, 10, "(unknown)"),
+    getTopByDimensionFor("deviceType", range, 10, "(unknown)"),
+  ]);
+  return { ...summary, topPages, topReferrers, topCountries, topDevices };
 }

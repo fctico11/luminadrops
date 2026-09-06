@@ -1,10 +1,11 @@
+import { prisma } from "@/lib/prisma";
 import {
   isAnalyticsConfigured,
   getPageviewSummary,
-  getDailyTrend,
   getTopPages,
   getTopReferrers,
-  type DailyPoint,
+  getTopCountries,
+  getTopDevices,
   type TopRow,
 } from "@/lib/vercel-analytics";
 
@@ -30,6 +31,10 @@ function TopList({ title, rows, emptyLabel }: { title: string; rows: TopRow[]; e
   );
 }
 
+function formatDay(date: Date) {
+  return date.toLocaleDateString("en-US", { month: "numeric", day: "numeric", timeZone: "UTC" });
+}
+
 export default async function AdminAnalyticsPage() {
   if (!isAnalyticsConfigured()) {
     return (
@@ -45,22 +50,35 @@ export default async function AdminAnalyticsPage() {
 
   let week: { pageviews: number; visitors: number } | null = null;
   let month: { pageviews: number; visitors: number } | null = null;
-  let trend: DailyPoint[] = [];
   let topPages: TopRow[] = [];
   let topReferrers: TopRow[] = [];
+  let topCountries: TopRow[] = [];
+  let topDevices: TopRow[] = [];
   let error: string | null = null;
 
   try {
-    [week, month, trend, topPages, topReferrers] = await Promise.all([
+    [week, month, topPages, topReferrers, topCountries, topDevices] = await Promise.all([
       getPageviewSummary(7),
       getPageviewSummary(30),
-      getDailyTrend(14),
       getTopPages(30),
       getTopReferrers(30),
+      getTopCountries(30),
+      getTopDevices(30),
     ]);
   } catch (err) {
     error = err instanceof Error ? err.message : "Failed to load analytics.";
   }
+
+  // Daily breakdown comes from our own DB, not live Vercel — that's the
+  // whole point of the nightly sync (see /api/cron/sync-analytics): Vercel's
+  // own reporting window caps out at 1 month on Hobby, so this is what lets
+  // "which day had how many views" keep working past that window.
+  const dailyRows = await prisma.analyticsDaily.findMany({
+    orderBy: { date: "desc" },
+    take: 30,
+  });
+  const daily = [...dailyRows].reverse();
+  const maxPageviews = Math.max(1, ...daily.map((d) => d.pageviews));
 
   if (error) {
     return (
@@ -70,12 +88,12 @@ export default async function AdminAnalyticsPage() {
     );
   }
 
-  const maxPageviews = Math.max(1, ...trend.map((d) => d.pageviews));
-
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
       <p className="text-sm text-white/50">
-        Traffic pulled live from Vercel Web Analytics. May lag the Vercel dashboard by a few minutes.
+        Live totals pulled from Vercel Web Analytics. Daily history below is synced nightly into our own
+        database (see <code>/api/cron/sync-analytics</code>) so it survives past Vercel&apos;s 1-month reporting
+        window.
       </p>
 
       <div className="mt-8 grid grid-cols-2 gap-4">
@@ -92,30 +110,60 @@ export default async function AdminAnalyticsPage() {
       </div>
 
       <div className="mt-8">
-        <p className="mb-3 text-xs uppercase tracking-wider text-white/50">Daily pageviews (last 14 days)</p>
-        {trend.length === 0 ? (
-          <p className="text-sm text-white/40">No data yet.</p>
+        <p className="mb-3 text-xs uppercase tracking-wider text-white/50">Daily pageviews</p>
+        {daily.length === 0 ? (
+          <p className="text-sm text-white/40">
+            No synced days yet — the nightly job hasn&apos;t run, or hasn&apos;t been backfilled.
+          </p>
         ) : (
-          <div className="flex h-32 items-end gap-1 border border-white/10 bg-white/[0.03] p-4">
-            {trend.map((d) => (
-              <div
-                key={d.date}
-                className="flex h-full flex-1 flex-col items-center justify-end"
-                title={`${d.date}: ${d.pageviews} views, ${d.visitors} visitors`}
-              >
+          <>
+            <div className="flex h-32 items-end gap-1 border border-white/10 bg-white/[0.03] p-4">
+              {daily.map((d) => (
                 <div
-                  className="w-full bg-[#c9a227]"
-                  style={{ height: `${Math.max(2, (d.pageviews / maxPageviews) * 100)}%` }}
-                />
-              </div>
-            ))}
-          </div>
+                  key={d.date.toISOString()}
+                  className="flex h-full flex-1 flex-col items-center justify-end"
+                  title={`${formatDay(d.date)}: ${d.pageviews} views, ${d.visitors} visitors`}
+                >
+                  <div
+                    className="w-full bg-[#c9a227]"
+                    style={{ height: `${Math.max(2, (d.pageviews / maxPageviews) * 100)}%` }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 max-h-64 overflow-y-auto border border-white/10">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-white/40">
+                    <th className="px-4 py-2 font-normal">Date</th>
+                    <th className="px-4 py-2 font-normal">Pageviews</th>
+                    <th className="px-4 py-2 font-normal">Visitors</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...daily].reverse().map((d) => (
+                    <tr key={d.date.toISOString()} className="border-b border-white/5 last:border-0">
+                      <td className="px-4 py-2 text-[#f5f2ea]">{formatDay(d.date)}</td>
+                      <td className="px-4 py-2 text-white/60">{d.pageviews}</td>
+                      <td className="px-4 py-2 text-white/60">{d.visitors}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2">
         <TopList title="Top pages (30 days)" rows={topPages} emptyLabel="No data yet." />
         <TopList title="Top referrers (30 days)" rows={topReferrers} emptyLabel="No referrer data yet." />
+      </div>
+
+      <div className="mt-8 grid gap-6 sm:grid-cols-2">
+        <TopList title="Top countries (30 days)" rows={topCountries} emptyLabel="No data yet." />
+        <TopList title="Devices (30 days)" rows={topDevices} emptyLabel="No data yet." />
       </div>
     </div>
   );
