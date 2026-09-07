@@ -273,8 +273,7 @@ export default async function Drop01Page() {
               <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
             </h2>
             <p className="mt-3 text-sm tracking-[0.2em] text-[#9c9384]">
-              <EditableText file="drop01" field="dropLabel" value={content.dropLabel} as="span" />
-              <span className="mx-2">•</span>
+              <EditableText file="drop01" field="dropLabel" value={content.dropLabel} as="span" />{" "}
               <EditableText file="drop01" field="dateLabel" value={content.dateLabel} as="span" />
             </p>
 
