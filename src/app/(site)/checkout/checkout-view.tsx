@@ -255,6 +255,7 @@ function CheckoutContent({
   };
 
   const shippingName = checkout.shipping?.shippingOption.displayName ?? "Standard Shipping";
+  const taxTotal = (checkout.taxAmounts ?? []).reduce((sum, tax) => sum + tax.minorUnitsAmount, 0);
 
   return (
     <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.2fr]">
@@ -315,6 +316,12 @@ function CheckoutContent({
                 <span className="text-sm text-[#9c9384]">({shippingName})</span>
               </span>
               <span>{formatPrice(checkout.total.shippingRate.minorUnitsAmount, product.currency)}</span>
+            </div>
+          )}
+          {addressComplete && !calculatingShipping && taxTotal > 0 && (
+            <div className="flex items-center justify-between text-[#c4bba8]">
+              <EditableText file="checkout" field="taxLabel" value={content.taxLabel} as="span" />
+              <span>{formatPrice(taxTotal, product.currency)}</span>
             </div>
           )}
           <div

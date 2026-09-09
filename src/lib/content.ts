@@ -104,6 +104,7 @@ export type CheckoutContent = {
   subtotalLabel: string;
   shippingLabel: string;
   addOnLabel: string;
+  taxLabel: string;
   totalLabel: string;
   shippingTerms: string;
 };
