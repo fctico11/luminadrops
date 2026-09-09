@@ -9,7 +9,7 @@
   "heroImage": "/drops/midnight-margarita/drop01-heroImage.jpg",
   "heroImageAlt": "The Midnight Margarita Club box, candle, and glassware",
   "insideSectionTitle": "WHAT'S WAITING INSIDE",
-  "insideParagraph1": "Each TMMC member will receive the Club Manual alongside handcrafted pieces, botanical elements, stones chosen for different moments of the evening, and a handful of Club traditions you’ll discover as the night unfolds.",
+  "insideParagraph1": "Each TMMC member will receive the Club Manual alongside glassware and everything you need to finish the Club’s Margarita or Mockarita, a botanical simmer blend, a hand-poured pure beeswax candle, four stones chosen for different moments of the evening, handcrafted keepsakes, pieces of Club ephemera, access to the members-only After Hours and a handful of Club traditions you’ll discover as the night unfolds.",
   "insideParagraph2": "Created, gathered, and chosen to accompany you through the night - from the First Spark to Last Call.",
   "insideParagraph3": "Some things were made by hand while some were gathered. Some things will be gone by morning and others were made to stay with you for midnights to come.",
   "insideClosingLine": "Your place in the Club awaits.",
@@ -17,7 +17,7 @@
   "manualImage": "/drops/midnight-margarita/drop01-manualImage.jpg",
   "manualImageAlt": "The Club Manual, a closed journal with a ribbon bookmark",
   "manualTitle": "THE CLUB MANUAL",
-  "manualDescription": "Your guide to an Everlong Midnight. Part field guide, part keepsake, part place to leave a few thoughts behind. Its pages hold Club traditions, wishes, reflections, and a few reasons to return long after the night is over. Follow it through the evening, skip around, or return to its pages on another Everlong Midnight",
+  "manualDescription": "Part field guide, part keepsake, part place to leave a few thoughts behind. Its pages hold Your guide to an Everlong Midnight. From making wishes beneath the moon and letting go of whatever you’re ready to leave behind, to planting lavender seed paper and discovering the meaning behind the stones you’ve gathered, to pausing for a few Midnight Reflections.Follow it through the evening, skip around, or return to its pages on another Everlong Midnight.",
   "items": [
     {
       "image": "/drops/midnight-margarita/drop01-items-0-image.jpg",
@@ -45,7 +45,7 @@
       "alt": "Jar of moonstones",
       "title": "A TOAST",
       "description": "Glassware, Club details for setting the table, and a few finishing touches for your pour - margarita or mockarita",
-      "note": "Fresh Lime and Tequila (or alternative beverage) not included"
+      "note": "Fresh Lime and Tequila (if using) not included"
     },
     {
       "image": "/drops/midnight-margarita/envelope.jpg",
