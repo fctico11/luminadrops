@@ -11,10 +11,17 @@ type FullscreenVideo = HTMLVideoElement & {
   webkitRequestFullscreen?: () => void;
 };
 
+// How close to the end of the video (in seconds) the scroll cue should
+// start fading in, so it reads as "the video's wrapping up" rather than
+// appearing arbitrarily mid-playback.
+const SCROLL_CUE_LEAD_SECONDS = 3;
+
 export default function HeroVideo() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const [ended, setEnded] = useState(false);
+  const [nearEnd, setNearEnd] = useState(false);
 
   const toggleMute = () => {
     const video = videoRef.current;
@@ -37,6 +44,14 @@ export default function HeroVideo() {
     video.currentTime = 0;
     video.play();
     setEnded(false);
+    setNearEnd(false);
+  };
+
+  const scrollPastVideo = () => {
+    const container = containerRef.current;
+    if (!container) return;
+    const bottom = container.getBoundingClientRect().bottom + window.scrollY;
+    window.scrollTo({ top: bottom, behavior: "smooth" });
   };
 
   // The browser's back/forward cache can restore this page exactly as it was
@@ -51,8 +66,22 @@ export default function HeroVideo() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Surfaces the down-scroll cue only once the video is winding down, so it
+  // reads as "there's more below" rather than distracting from the video itself.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const onTimeUpdate = () => {
+      if (video.duration && video.duration - video.currentTime <= SCROLL_CUE_LEAD_SECONDS) {
+        setNearEnd(true);
+      }
+    };
+    video.addEventListener("timeupdate", onTimeUpdate);
+    return () => video.removeEventListener("timeupdate", onTimeUpdate);
+  }, []);
+
   return (
-    <div className="relative h-full w-full overflow-hidden">
+    <div ref={containerRef} className="relative h-full w-full overflow-hidden">
       <video
         ref={videoRef}
         src={HERO_VIDEO_URL}
@@ -115,6 +144,20 @@ export default function HeroVideo() {
           </svg>
         </button>
       </div>
+
+      <button
+        type="button"
+        onClick={scrollPastVideo}
+        aria-label="Scroll down"
+        tabIndex={nearEnd || ended ? 0 : -1}
+        className={`absolute inset-x-0 bottom-6 z-10 hidden justify-center text-[#e9e1cd]/70 transition-opacity duration-1000 hover:text-[#e9e1cd] lg:flex ${
+          nearEnd || ended ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="scroll-cue h-6 w-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
     </div>
   );
 }

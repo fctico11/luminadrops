@@ -41,8 +41,10 @@ export default function Teaser() {
             />
           </header>
 
-          {/* Hero video */}
-          <div className="teaser-rise aspect-video w-full bg-black" style={rise(0.15)}>
+          {/* Hero video — full-bleed by aspect ratio on mobile, capped to the
+              viewport height on desktop so the controls at the bottom of the
+              video stay on screen instead of running off below the fold */}
+          <div className="teaser-rise aspect-video w-full bg-black lg:aspect-auto lg:h-screen" style={rise(0.15)}>
             <HeroVideo />
           </div>
         </div>

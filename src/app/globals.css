@@ -92,6 +92,16 @@ body {
   }
 }
 
+@keyframes scroll-cue-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
 @keyframes teaser-float {
   0% {
     transform: translateY(0) translateX(0);
@@ -283,6 +293,9 @@ body {
   }
   .teaser-button-glow {
     animation: teaser-button-glow 3.2s ease-in-out infinite;
+  }
+  .scroll-cue {
+    animation: scroll-cue-bounce 2.2s ease-in-out infinite;
   }
   /* an element with both classes needs the two animations composed,
      or the later shorthand would cancel the entrance */
