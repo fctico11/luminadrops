@@ -17,7 +17,7 @@
   "manualImage": "/drops/midnight-margarita/drop01-manualImage.jpg",
   "manualImageAlt": "The Club Manual, a closed journal with a ribbon bookmark",
   "manualTitle": "THE CLUB MANUAL",
-  "manualDescription": "Part field guide, part keepsake, part place to leave a few thoughts behind. Its pages hold your guide to an Everlong Midnight. From making wishes beneath the moon and letting go of whatever you’re ready to leave behind, to planting lavender seed paper and discovering the meaning behind the stones you’ve gathered, to pausing for a few Midnight Reflections. Follow it through the evening, skip around, or return to its pages on another Everlong Midnight.",
+  "manualDescription": "Part field guide, part keepsake, part place to leave a few thoughts behind. Its pages hold Your guide to an Everlong Midnight. From making wishes beneath the moon and letting go of whatever you’re ready to leave behind, to planting lavender seed paper and discovering the meaning behind the stones you’ve gathered, to pausing for a few Midnight Reflections. Follow it through the evening, skip around, or return to its pages on another Everlong Midnight.",
   "items": [
     {
       "image": "/drops/midnight-margarita/drop01-items-0-image.jpg",
@@ -51,7 +51,7 @@
       "image": "/drops/midnight-margarita/envelope.jpg",
       "alt": "Wax-sealed plantable lavender-seed paper",
       "title": "A BURIAL",
-      "description": "Handmade plantable lavender-seed paper, created for one of the Club's stranger traditions",
+      "description": "Plantable lavender-seed paper, created for one of the Club's stranger traditions",
       "note": ""
     },
     {
