@@ -1,10 +1,14 @@
 import { getStripe } from "@/lib/stripe";
 import { getContent } from "@/lib/content";
+import { prisma } from "@/lib/prisma";
+import { DROP01_SLUG } from "@/lib/products";
 import EditableText from "@/components/edit/EditableText";
 import EditableLink from "@/components/edit/EditableLink";
 import Motes from "../../motes";
 import { cormorant, rise } from "../../ui";
 import ClearCart from "./clear-cart";
+import TrackPurchase from "./track-purchase";
+import type { TikTokContent } from "@/lib/tiktok-pixel";
 
 export const dynamic = "force-dynamic";
 
@@ -20,10 +24,38 @@ export default async function SuccessPage({ searchParams }: Props) {
   const content = getContent("success");
 
   let email: string | null = null;
+  let purchaseEvent: { contents: TikTokContent[]; value: number; currency: string } | null = null;
+
   if (session_id) {
     try {
       const session = await getStripe().checkout.sessions.retrieve(session_id);
       email = session.customer_details?.email ?? null;
+
+      // Only ever tracked as a real Purchase once Stripe confirms the money
+      // actually moved — never on the mere presence of a session_id, which a
+      // customer could reach via back-button on an abandoned/failed attempt.
+      if (session.payment_status === "paid" && session.amount_total != null) {
+        const productId = session.metadata?.productId;
+        const product = productId
+          ? await prisma.product.findUnique({ where: { id: productId } })
+          : await prisma.product.findUnique({ where: { slug: DROP01_SLUG } });
+
+        if (product) {
+          const contents: TikTokContent[] = [
+            { content_id: product.id, content_type: "product", content_name: product.name },
+          ];
+          const addOnName = session.metadata?.addOnName;
+          const addOnId = session.metadata?.addOnId;
+          if (addOnId && addOnName) {
+            contents.push({ content_id: addOnId, content_type: "product", content_name: addOnName });
+          }
+          purchaseEvent = {
+            contents,
+            value: session.amount_total / 100,
+            currency: (session.currency ?? product.currency).toUpperCase(),
+          };
+        }
+      }
     } catch {
       // ignore — still show a generic confirmation
     }
@@ -33,6 +65,7 @@ export default async function SuccessPage({ searchParams }: Props) {
     <main className="grain relative flex flex-1 flex-col items-center justify-center px-6 py-20 text-center lg:py-28">
       <Motes />
       <ClearCart />
+      {session_id && purchaseEvent && <TrackPurchase sessionId={session_id} event={purchaseEvent} />}
       <div className="relative w-full max-w-xl">
         <EditableText
           file="success"

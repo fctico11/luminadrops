@@ -8,6 +8,7 @@ import Motes from "../../motes";
 import { cormorant, rise } from "../../ui";
 import PurchaseControls from "./purchase-controls";
 import Reveal from "./reveal";
+import TrackViewContent from "./track-view-content";
 
 export const metadata = {
   title: "The Midnight Margarita Club — Lumina Drops",
@@ -27,6 +28,14 @@ export default async function Drop01Page() {
   return (
     <main className="grain relative flex flex-1 flex-col">
       <Motes />
+      {product && (
+        <TrackViewContent
+          productId={product.id}
+          productName={product.name}
+          priceCents={product.priceCents}
+          currency={product.currency}
+        />
+      )}
 
       {/* Hero */}
       <section className="teaser-rise relative w-full overflow-hidden border-b border-[#2a2620]" style={rise(0.1)}>
@@ -293,6 +302,7 @@ export default async function Drop01Page() {
             <div className="mt-3 w-full">
               <PurchaseControls
                 productId={product?.id ?? ""}
+                productName={product?.name ?? ""}
                 priceCents={product?.priceCents ?? 0}
                 currency={product?.currency ?? "usd"}
                 ctaLabel={content.ctaLabel}

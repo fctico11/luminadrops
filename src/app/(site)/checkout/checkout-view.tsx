@@ -20,6 +20,7 @@ import { formatPrice } from "@/lib/products";
 import { checkoutAppearance, checkoutFonts } from "@/lib/stripe-appearance";
 import type { CheckoutContent as CheckoutCopy } from "@/lib/content";
 import type { AddOn } from "@/generated/prisma";
+import { trackTikTokEvent, type TikTokContent } from "@/lib/tiktok-pixel";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -85,6 +86,27 @@ export default function CheckoutView({ content, product, productImage, productIm
     return () => {
       cancelled = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inCart, product?.id, quantity]);
+
+  // Fires once per checkout page load, not per session-creation retry —
+  // "began checkout" means arriving here with a real cart, independent of
+  // whether the Stripe session has finished loading yet.
+  const trackedInitiateCheckoutRef = useRef(false);
+  useEffect(() => {
+    if (!inCart || !product || trackedInitiateCheckoutRef.current) return;
+    trackedInitiateCheckoutRef.current = true;
+
+    const contents: TikTokContent[] = [
+      { content_id: product.id, content_type: "product", content_name: product.name },
+    ];
+    let value = (product.priceCents * quantity) / 100;
+    if (addOnIncludedRef.current && addOn) {
+      contents.push({ content_id: addOn.id, content_type: "product", content_name: addOn.name });
+      value += addOn.priceCents / 100;
+    }
+
+    trackTikTokEvent("InitiateCheckout", { contents, value, currency: product.currency.toUpperCase() });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inCart, product?.id, quantity]);
 

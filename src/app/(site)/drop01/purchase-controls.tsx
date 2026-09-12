@@ -6,9 +6,11 @@ import { formatPrice } from "@/lib/products";
 import EditableText from "@/components/edit/EditableText";
 import { useEditMode } from "@/components/edit/EditModeContext";
 import { useCart } from "@/components/cart/CartContext";
+import { trackTikTokEvent } from "@/lib/tiktok-pixel";
 
 type Props = {
   productId: string;
+  productName: string;
   priceCents: number;
   currency: string;
   ctaLabel: string;
@@ -18,6 +20,7 @@ type Props = {
 
 export default function PurchaseControls({
   productId,
+  productName,
   priceCents,
   currency,
   ctaLabel,
@@ -34,6 +37,11 @@ export default function PurchaseControls({
   const handleJoin = () => {
     if (isAdmin || soldOut) return;
     setItem(productId, quantity);
+    trackTikTokEvent("AddToCart", {
+      contents: [{ content_id: productId, content_type: "product", content_name: productName }],
+      value: (priceCents * quantity) / 100,
+      currency: currency.toUpperCase(),
+    });
     router.push("/cart");
   };
 
