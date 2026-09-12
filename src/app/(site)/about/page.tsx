@@ -85,7 +85,7 @@ export default function AboutPage() {
         </dl>
 
         <EditableLink
-          href="/drops"
+          href="/drop01"
           className="teaser-rise mt-16 inline-block border border-[#6f695c] px-9 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-20 lg:px-12 lg:py-4 lg:text-sm"
           style={rise(1)}
         >
