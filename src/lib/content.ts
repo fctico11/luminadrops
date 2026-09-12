@@ -12,12 +12,12 @@ export type TeaserContent = {
   dropLabel: string;
   headline: string;
   dateLabel: string;
+  ctaLabel: string;
   stats: string[];
   sectionTitle: string;
   sectionLead: string;
   sectionBody: string;
   footerLabel: string;
-  footerButton: string;
   tiles: Tile[];
 };
 

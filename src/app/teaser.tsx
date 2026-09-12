@@ -74,13 +74,13 @@ export default function Teaser() {
             style={rise(0.45)}
           />
 
-          <WaitlistButton
-            content={waitlistContent}
-            cormorantClass={cormorant.className}
-            garamondClass={cormorant.className}
-            buttonClassName="teaser-rise teaser-button-glow mt-9 border border-[#6f695c] px-8 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-12 lg:px-12 lg:py-4 lg:text-sm"
-            buttonStyle={rise(0.6)}
-          />
+          <EditableLink
+            href="/drop01"
+            className="teaser-rise teaser-button-glow mt-9 inline-block border border-[#6f695c] px-8 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-12 lg:px-12 lg:py-4 lg:text-sm"
+            style={rise(0.6)}
+          >
+            <EditableText file="teaser" field="ctaLabel" value={content.ctaLabel} as="span" />
+          </EditableLink>
 
           {/* Star divider */}
           <div className="teaser-rise mx-auto mt-12 flex max-w-xs items-center gap-5 lg:mt-20 lg:max-w-md" style={rise(0.75)} aria-hidden>
@@ -159,13 +159,12 @@ export default function Teaser() {
             className="teaser-rise text-[11px] tracking-[0.28em] text-[#b9b09d] lg:text-sm"
             style={rise(1.9)}
           />
-          <EditableText
-            file="teaser"
-            field="footerButton"
-            value={content.footerButton}
-            as="button"
-            className="teaser-rise mt-6 border border-[#6f695c] px-9 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-9 lg:px-12 lg:py-4 lg:text-sm"
-            style={rise(2)}
+          <WaitlistButton
+            content={waitlistContent}
+            cormorantClass={cormorant.className}
+            garamondClass={cormorant.className}
+            buttonClassName="teaser-rise mt-6 border border-[#6f695c] px-9 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-9 lg:px-12 lg:py-4 lg:text-sm"
+            buttonStyle={rise(2)}
           />
         </footer>
       </div>
