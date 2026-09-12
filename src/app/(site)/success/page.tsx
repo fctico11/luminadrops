@@ -8,7 +8,6 @@ import Motes from "../../motes";
 import { cormorant, rise } from "../../ui";
 import ClearCart from "./clear-cart";
 import TrackPurchase from "./track-purchase";
-import SubscribeFutureDrops from "./subscribe-future-drops";
 import type { TikTokContent } from "@/lib/tiktok-pixel";
 
 export const dynamic = "force-dynamic";
@@ -121,8 +120,6 @@ export default async function SuccessPage({ searchParams }: Props) {
         >
           <EditableText file="success" field="backLabel" value={content.backLabel} as="span" />
         </EditableLink>
-
-        <SubscribeFutureDrops content={content} />
       </div>
     </main>
   );

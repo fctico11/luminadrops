@@ -82,11 +82,6 @@ export type SuccessContent = {
   bodyNoEmail: string;
   shippingNote: string;
   backLabel: string;
-  futureDropsTitle: string;
-  futureDropsBody: string;
-  futureDropsPlaceholder: string;
-  futureDropsSubmitLabel: string;
-  futureDropsSuccessMessage: string;
 };
 
 export type WaitlistContent = {
@@ -113,6 +108,7 @@ export type CheckoutContent = {
   taxLabel: string;
   totalLabel: string;
   shippingTerms: string;
+  subscribeLabel: string;
 };
 
 export type PolicySection = { heading: string; body: string[] };

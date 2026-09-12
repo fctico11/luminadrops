@@ -191,6 +191,7 @@ function CheckoutContent({
   const [addressComplete, setAddressComplete] = useState(false);
   const [calculatingShipping, setCalculatingShipping] = useState(false);
   const [removingAddOn, setRemovingAddOn] = useState(false);
+  const [subscribeToUpdates, setSubscribeToUpdates] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   if (checkoutState.type === "loading") {
@@ -267,6 +268,18 @@ function CheckoutContent({
     e.preventDefault();
     setSubmitting(true);
     setMessage(null);
+
+    // Best-effort, not awaited — a slow or failed Resend call should never
+    // hold up or block an actual payment. The email is already collected via
+    // ContactDetailsElement, so this just opts the same address in, no
+    // second form for the customer to fill out.
+    if (subscribeToUpdates && checkout.email) {
+      fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: checkout.email }),
+      }).catch(() => {});
+    }
 
     const result = await checkout.confirm();
     if (result.type === "error") {
@@ -367,6 +380,15 @@ function CheckoutContent({
         <div>
           <p className="mb-2 text-[10px] tracking-[0.2em] text-[#9c9384]">CONTACT</p>
           <ContactDetailsElement />
+          <label className="mt-3 flex cursor-pointer items-start gap-3 text-left text-[13px] leading-snug text-[#b9b09d]">
+            <input
+              type="checkbox"
+              checked={subscribeToUpdates}
+              onChange={(e) => setSubscribeToUpdates(e.target.checked)}
+              className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-[#b9a06a]"
+            />
+            <EditableText file="checkout" field="subscribeLabel" value={content.subscribeLabel} as="span" />
+          </label>
         </div>
         <div>
           <p className="mb-2 text-[10px] tracking-[0.2em] text-[#9c9384]">SHIPPING ADDRESS</p>

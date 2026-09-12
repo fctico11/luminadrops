@@ -4,5 +4,6 @@
   "addOnLabel": "Add-on",
   "taxLabel": "Tax",
   "totalLabel": "Total",
-  "shippingTerms": "Boxes will begin shipping shortly after the Club opens and will ship in the order purchases are received. Each box is hand-finished before it leaves the Club so shipping times will vary depending on when your order is placed. Most orders are expected to ship within 1-2 weeks, though later orders may take a little longer. You’ll receive tracking by email as soon as yours is on its way."
+  "shippingTerms": "Boxes will begin shipping shortly after the Club opens and will ship in the order purchases are received. Each box is hand-finished before it leaves the Club so shipping times will vary depending on when your order is placed. Most orders are expected to ship within 1-2 weeks, though later orders may take a little longer. You’ll receive tracking by email as soon as yours is on its way.",
+  "subscribeLabel": "Keep me updated on future drops and specials"
 }
