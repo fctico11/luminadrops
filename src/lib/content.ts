@@ -18,6 +18,7 @@ export type TeaserContent = {
   sectionLead: string;
   sectionBody: string;
   footerLabel: string;
+  subscribeCaption: string;
   tiles: Tile[];
 };
 
@@ -81,6 +82,11 @@ export type SuccessContent = {
   bodyNoEmail: string;
   shippingNote: string;
   backLabel: string;
+  futureDropsTitle: string;
+  futureDropsBody: string;
+  futureDropsPlaceholder: string;
+  futureDropsSubmitLabel: string;
+  futureDropsSuccessMessage: string;
 };
 
 export type WaitlistContent = {

@@ -73,7 +73,7 @@ export default function DropsPage() {
             />
 
             <EditableLink
-              href="/"
+              href="/drop01"
               className="mt-10 border border-[#6f695c] px-9 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-12 lg:px-12 lg:py-4 lg:text-sm"
             >
               <EditableText file="drops" field="ctaLabel" value={content.ctaLabel} as="span" />

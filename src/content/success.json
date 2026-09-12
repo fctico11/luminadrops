@@ -4,5 +4,10 @@
   "bodyWithEmail": "A receipt is on its way to {email}.",
   "bodyNoEmail": "A receipt is on its way to your inbox - we'll send tracking as soon as your box leaves us. See you after midnight.",
   "shippingNote": "",
-  "backLabel": "Back To Site"
+  "backLabel": "Back To Site",
+  "futureDropsTitle": "One More Thing",
+  "futureDropsBody": "Want to know when the next drop opens? Leave your email and we'll let you know.",
+  "futureDropsPlaceholder": "your@email.com",
+  "futureDropsSubmitLabel": "SUBSCRIBE",
+  "futureDropsSuccessMessage": "You're on the list for what's next."
 }
