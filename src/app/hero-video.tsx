@@ -2,10 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// One-time manual upload to Vercel Blob — see project notes for how to
-// replace this if a new cut of the header video is ever needed.
-const HERO_VIDEO_URL = "https://4crfi1phembmhxzs.public.blob.vercel-storage.com/hero-compressed.mp4";
-
 type FullscreenVideo = HTMLVideoElement & {
   webkitEnterFullscreen?: () => void;
   webkitRequestFullscreen?: () => void;
@@ -16,7 +12,14 @@ type FullscreenVideo = HTMLVideoElement & {
 // appearing arbitrarily mid-playback.
 const SCROLL_CUE_LEAD_SECONDS = 3;
 
-export default function HeroVideo() {
+type Props = {
+  /** Vercel Blob URL — each cut is a one-time manual upload, there's no
+   * upload path in-app. See AGENTS.md-adjacent project notes for how to
+   * replace one. */
+  src: string;
+};
+
+export default function HeroVideo({ src }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
@@ -84,7 +87,7 @@ export default function HeroVideo() {
     <div ref={containerRef} className="relative h-full w-full overflow-hidden">
       <video
         ref={videoRef}
-        src={HERO_VIDEO_URL}
+        src={src}
         autoPlay
         muted
         playsInline

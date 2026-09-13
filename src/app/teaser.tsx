@@ -10,6 +10,10 @@ import WaitlistButton from "./waitlist";
 import MoonReveal from "./moon-reveal";
 import HeroVideo from "./hero-video";
 
+// One-time manual upload to Vercel Blob — see project notes for how to
+// replace this if a new cut of the teaser video is ever needed.
+const TEASER_HERO_VIDEO_URL = "https://4crfi1phembmhxzs.public.blob.vercel-storage.com/hero-compressed.mp4";
+
 export default function Teaser() {
   const content = getContent("teaser");
   const waitlistContent = getContent("waitlist");
@@ -45,7 +49,7 @@ export default function Teaser() {
               viewport height on desktop so the controls at the bottom of the
               video stay on screen instead of running off below the fold */}
           <div className="teaser-rise aspect-video w-full bg-black lg:aspect-auto lg:h-screen" style={rise(0.15)}>
-            <HeroVideo />
+            <HeroVideo src={TEASER_HERO_VIDEO_URL} />
           </div>
         </div>
 

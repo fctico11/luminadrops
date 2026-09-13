@@ -9,6 +9,11 @@ import { cormorant, rise } from "../../ui";
 import PurchaseControls from "./purchase-controls";
 import Reveal from "./reveal";
 import TrackViewContent from "./track-view-content";
+import HeroVideo from "../../hero-video";
+
+// One-time manual upload to Vercel Blob — see project notes for how to
+// replace this if a new cut of the product page video is ever needed.
+const DROP01_HERO_VIDEO_URL = "https://4crfi1phembmhxzs.public.blob.vercel-storage.com/productpage-compressed.mp4";
 
 export const metadata = {
   title: "The Midnight Margarita Club — Lumina Drops",
@@ -38,23 +43,12 @@ export default async function Drop01Page() {
       )}
 
       {/* Hero */}
-      <section className="teaser-rise relative w-full overflow-hidden border-b border-[#2a2620]" style={rise(0.1)}>
-        <EditableImage
-          file="drop01"
-          field="heroImage"
-          src={content.heroImage}
-          alt={content.heroImageAlt}
-          controlPlacement="above"
-          exportWidth={1600}
-          exportHeight={1000}
-          className="object-cover opacity-35"
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-[#141115] via-[#141115]/85 to-[#141115]/45"
-          aria-hidden
-        />
+      <section className="relative w-full border-b border-[#2a2620]">
+        <div className="teaser-rise aspect-video w-full bg-black lg:aspect-auto lg:h-screen" style={rise(0.1)}>
+          <HeroVideo src={DROP01_HERO_VIDEO_URL} />
+        </div>
 
-        <div className="relative px-6 py-20 text-left sm:px-10 lg:py-28 lg:px-16">
+        <div className="teaser-rise relative px-6 py-20 text-left sm:px-10 lg:py-28 lg:px-16" style={rise(0.3)}>
           <EditableText
             file="drop01"
             field="dropLabel"
