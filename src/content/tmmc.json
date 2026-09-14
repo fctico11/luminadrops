@@ -1,0 +1,96 @@
+{
+  "pageTitle": "AFTER HOURS",
+  "pageSubtitle": "A few more doors for when the candles are low, and the house is quiet.",
+
+  "listeningRoomTagline": "Music for your Everlong Midnight.",
+  "playlistCoverImage": "/drops/midnight-margarita/moonstone.jpg",
+  "playlistCoverAlt": "The Everlong Midnight playlist cover",
+  "playlistTitle": "The Everlong Midnight",
+  "playlistSubtitle": "A Lumina Drops playlist",
+  "spotifyUrl": "https://open.spotify.com",
+  "appleMusicUrl": "https://music.apple.com",
+  "listeningRoomClosingLine": "Some songs find you at exactly the right hour.",
+
+  "galleryTagline": "Take a piece of the Club with you.",
+  "galleryBody": "A collection of phone wallpapers, created for your Everlong Midnights. Save your favorites and keep a little magic close.",
+  "wallpaperTimeLabel": "11:11",
+  "wallpaperDateLabel": "Monday, September 8",
+  "wallpapers": [
+    {
+      "image": "/drops/midnight-margarita/candle.jpg",
+      "alt": "Wallpaper: candlelight and blossoms",
+      "caption": "Good company finds you here."
+    },
+    {
+      "image": "/drops/midnight-margarita/glass.jpg",
+      "alt": "Wallpaper: a single star",
+      "caption": "An Everlong Midnight."
+    },
+    {
+      "image": "/drops/midnight-margarita/keepsakes.jpg",
+      "alt": "Wallpaper: coupe glasses and blossoms",
+      "caption": "A little magic goes a long way."
+    }
+  ],
+
+  "drawingRoomTagline": "A quiet place to color, create, and let your mind wander.",
+  "drawingRoomBody": "A printable coloring page inspired by the Club. Light a candle, pour something good, and make it your own.",
+  "coloringPages": [
+    { "image": "/drops/midnight-margarita/drop01-heroImage.jpg", "alt": "Coloring page: mushrooms and citrus" },
+    { "image": "/drops/midnight-margarita/drop01-manualImage.jpg", "alt": "Coloring page: An Everlong Midnight" },
+    { "image": "/drops/midnight-margarita/drop01-purchaseImage.jpg", "alt": "Coloring page: citrus and leaves" }
+  ],
+  "drawingRoomClosingLine": "Make space for the things that make you feel like you.",
+
+  "kitchenTagline": "Something sweet for the morning after.",
+  "kitchenImage": "/drops/midnight-margarita/keepsakes.jpg",
+  "kitchenImageAlt": "Chocolate cake in a mug, fresh from the microwave",
+  "recipeTitle": "Chocolate Cake in a Mug",
+  "recipeBody": "Rich, warm, and ready in minutes. Because a softer tomorrow still deserves something sweet.",
+  "ingredients": [
+    "4 tbsp all-purpose flour",
+    "4 tbsp granulated sugar",
+    "2 tbsp unsweetened cocoa powder",
+    "1/8 tsp baking powder",
+    "1/8 tsp salt",
+    "3 tbsp milk (dairy or non-dairy)",
+    "2 tbsp neutral oil (or melted butter)",
+    "1/4 tsp vanilla extract",
+    "2 tbsp chocolate chips (optional, but recommended)"
+  ],
+  "directions": [
+    "In a large mug, whisk together flour, sugar, cocoa powder, baking powder, and salt.",
+    "Add milk, oil, and vanilla. Stir until smooth.",
+    "Fold in chocolate chips.",
+    "Microwave for 60-90 seconds (start with 60 and add time as needed).",
+    "Let cool for a minute, then enjoy."
+  ],
+  "kitchenClosingLine": "A softer tomorrow counts too.",
+  "allergensTitle": "Allergens & Ingredients",
+  "allergensBody": "Buttermints: contains milk and soy. Everything else in the box is store-bought and individually labeled — check each item's packaging for a full ingredient list before enjoying.",
+
+  "libraryTagline": "Stories for the in-between.",
+  "libraryBody": "A rotating collection of books, essays, and other treasures for late nights, slow mornings, and everything in between. One recommendation at a time.",
+  "books": [
+    {
+      "coverImage": "/drops/midnight-margarita/card.jpg",
+      "coverAlt": "The Night Circus book cover",
+      "monthLabel": "This month",
+      "title": "The Night Circus",
+      "author": "Erin Morgenstern",
+      "description": "A dreamlike novel about a mysterious circus that only appears at night — full of magic, beauty, and the kind of atmosphere that lingers long after the last page.",
+      "quote": "We lead strange lives, chasing our dreams from place to place.",
+      "quoteAuthor": "Erin Morgenstern"
+    }
+  ],
+
+  "noteTitle": "A Note from Lumina",
+  "noteBody": [
+    "Thank you for being here — for scanning the code, finding the door, and staying a little longer than you needed to.",
+    "This box was made slowly, and on purpose, for nights like the one you're having. I hope some part of it found you at the right hour."
+  ],
+  "noteSignature": "With love, Lumina",
+
+  "backRoomTagline": "A quieter corner for the ones who get it.",
+  "backRoomBody": "Share your thoughts, favorite parts of the evening, what you're watching, reading, drinking, or dreaming about. A little corner of the Club, for you."
+}

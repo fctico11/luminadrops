@@ -17,6 +17,16 @@ const CONTENT_PAGES = [
   },
   { href: "/admin/edit/cart", label: "Bag", description: "/cart" },
   {
+    href: "/admin/edit/tmmc",
+    label: "After Hours",
+    description: "/tmmc — QR-code-only page inside the box, not linked from the site or search results.",
+  },
+  {
+    href: "/admin/edit/tmmc/back-room",
+    label: "After Hours — The Back Room",
+    description: "/tmmc/back-room — tagline and intro copy only; posts come from visitors, not the editor.",
+  },
+  {
     href: "/admin/edit/checkout",
     label: "Checkout",
     description: "/checkout — labels and fine print in the order summary box only, not the Stripe fields.",

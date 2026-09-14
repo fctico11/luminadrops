@@ -155,6 +155,66 @@ export type Drop01Content = {
   footNote2: string;
 };
 
+export type TmmcWallpaper = { image: string; alt: string; caption: string };
+export type TmmcColoringPage = { image: string; alt: string };
+export type TmmcBook = {
+  coverImage: string;
+  coverAlt: string;
+  monthLabel: string;
+  title: string;
+  author: string;
+  description: string;
+  quote: string;
+  quoteAuthor: string;
+};
+
+export type TmmcContent = {
+  pageTitle: string;
+  pageSubtitle: string;
+
+  listeningRoomTagline: string;
+  playlistCoverImage: string;
+  playlistCoverAlt: string;
+  playlistTitle: string;
+  playlistSubtitle: string;
+  spotifyUrl: string;
+  appleMusicUrl: string;
+  listeningRoomClosingLine: string;
+
+  galleryTagline: string;
+  galleryBody: string;
+  wallpaperTimeLabel: string;
+  wallpaperDateLabel: string;
+  wallpapers: TmmcWallpaper[];
+
+  drawingRoomTagline: string;
+  drawingRoomBody: string;
+  coloringPages: TmmcColoringPage[];
+  drawingRoomClosingLine: string;
+
+  kitchenTagline: string;
+  kitchenImage: string;
+  kitchenImageAlt: string;
+  recipeTitle: string;
+  recipeBody: string;
+  ingredients: string[];
+  directions: string[];
+  kitchenClosingLine: string;
+  allergensTitle: string;
+  allergensBody: string;
+
+  libraryTagline: string;
+  libraryBody: string;
+  books: TmmcBook[];
+
+  noteTitle: string;
+  noteBody: string[];
+  noteSignature: string;
+
+  backRoomTagline: string;
+  backRoomBody: string;
+};
+
 export type ContentMap = {
   teaser: TeaserContent;
   "site-header": SiteHeaderContent;
@@ -167,6 +227,7 @@ export type ContentMap = {
   success: SuccessContent;
   waitlist: WaitlistContent;
   drop01: Drop01Content;
+  tmmc: TmmcContent;
   footer: FooterContent;
   privacy: PolicyContent;
   "shipping-returns": PolicyContent;

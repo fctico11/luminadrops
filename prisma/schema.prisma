@@ -132,6 +132,24 @@ model Order {
   updatedAt             DateTime    @updatedAt
 }
 
+enum TmmcPostCategory {
+  NOTE
+  RECOMMENDATION
+  LITTLE_JOY
+}
+
+// A single public message on /tmmc/back-room's community board. Fully
+// anonymous by design — no visitor identity is stored, just a whimsical
+// handle generated at post time (see src/lib/tmmc-handles.ts).
+model TmmcPost {
+  id        String           @id @default(cuid())
+  handle    String
+  body      String
+  category  TmmcPostCategory @default(NOTE)
+  likes     Int              @default(0)
+  createdAt DateTime         @default(now())
+}
+
 // One row per calendar day, synced from the Vercel Web Analytics API by a
 // daily cron job. Vercel's own reporting window is capped (1 month on
 // Hobby), so this is what lets month-over-month traffic comparisons keep
