@@ -2,6 +2,7 @@ import { getContent } from "@/lib/content";
 import EditableText from "@/components/edit/EditableText";
 import EditableLink from "@/components/edit/EditableLink";
 import BagLink from "./bag-link";
+import HeaderShell from "./header-shell";
 import { cormorant } from "../ui";
 
 const NAV = [
@@ -15,7 +16,7 @@ export default function SiteHeader() {
 
   // stacks on mobile: side by side the wordmark and nav collide
   return (
-    <header className="flex flex-col items-center gap-4 border-b border-white/10 px-6 py-5 sm:flex-row sm:justify-between sm:gap-0 sm:px-10">
+    <HeaderShell>
       <EditableLink
         href="/home"
         className={`${cormorant.className} text-sm font-medium tracking-[0.35em] whitespace-nowrap transition-colors duration-500 hover:text-[#fff6e0] lg:text-lg`}
@@ -41,6 +42,6 @@ export default function SiteHeader() {
 
         <BagLink />
       </nav>
-    </header>
+    </HeaderShell>
   );
 }

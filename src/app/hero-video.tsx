@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type FullscreenVideo = HTMLVideoElement & {
   webkitEnterFullscreen?: () => void;
@@ -17,9 +17,13 @@ type Props = {
    * upload path in-app. See AGENTS.md-adjacent project notes for how to
    * replace one. */
   src: string;
+  /** Revealed over a darkened video once playback ends — a reward for
+   * watching it through, rather than competing with the video itself while
+   * it's playing. */
+  endedContent?: ReactNode;
 };
 
-export default function HeroVideo({ src }: Props) {
+export default function HeroVideo({ src, endedContent }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
@@ -94,6 +98,21 @@ export default function HeroVideo({ src }: Props) {
         onEnded={() => setEnded(true)}
         className="h-full w-full object-contain"
       />
+
+      {endedContent && (
+        <div
+          className={`absolute inset-0 flex items-center justify-center bg-[#141115]/80 px-6 pb-16 text-center transition-opacity duration-1000 lg:pb-10 ${
+            ended ? "opacity-100" : "pointer-events-none opacity-0"
+          }`}
+          aria-hidden={!ended}
+        >
+          <div
+            className={`transition-all duration-1000 ${ended ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+          >
+            {endedContent}
+          </div>
+        </div>
+      )}
 
       <div className="absolute bottom-4 right-4 z-10 flex gap-2">
         {ended && (

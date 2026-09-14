@@ -363,6 +363,19 @@ body {
   outline-offset: -3px;
 }
 
+/* drop01's header floats transparently over its hero video, then fills
+   solid on scroll — !important because Tailwind's preflight applies a
+   border-color to every element by default, which otherwise beats a plain
+   inline border-bottom-color override. */
+.float-header-transparent {
+  background-color: transparent !important;
+  border-bottom-color: transparent !important;
+}
+.float-header-filled {
+  background-color: #141115 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+
 /* subtle grain overlay used on the landing page hero */
 .grain::before {
   content: "";

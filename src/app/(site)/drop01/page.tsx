@@ -13,7 +13,7 @@ import HeroVideo from "../../hero-video";
 
 // One-time manual upload to Vercel Blob — see project notes for how to
 // replace this if a new cut of the product page video is ever needed.
-const DROP01_HERO_VIDEO_URL = "https://4crfi1phembmhxzs.public.blob.vercel-storage.com/productpage-compressed.mp4";
+const DROP01_HERO_VIDEO_URL = "https://4crfi1phembmhxzs.public.blob.vercel-storage.com/productpage-clearer.mp4";
 
 export const metadata = {
   title: "The Midnight Margarita Club — Lumina Drops",
@@ -45,38 +45,37 @@ export default async function Drop01Page() {
       {/* Hero */}
       <section className="relative w-full border-b border-[#2a2620]">
         <div className="teaser-rise aspect-video w-full bg-black lg:aspect-auto lg:h-screen" style={rise(0.1)}>
-          <HeroVideo src={DROP01_HERO_VIDEO_URL} />
-        </div>
-
-        <div className="teaser-rise relative px-6 py-20 text-left sm:px-10 lg:py-28 lg:px-16" style={rise(0.3)}>
-          <EditableText
-            file="drop01"
-            field="dropLabel"
-            value={content.dropLabel}
-            as="p"
-            className="text-[11px] tracking-[0.28em] text-[#b9b09d] lg:text-xs"
-          />
-          <h1 className="relative mt-5 aspect-[901/528] w-72 sm:w-[28rem] lg:w-[34rem]">
-            <EditableImage
-              file="drop01"
-              field="titleImage"
-              src={content.titleImage}
-              alt={content.titleImageAlt}
-              exportWidth={1200}
-              exportHeight={700}
-              className="object-contain object-left"
-            />
-          </h1>
-          <div className="mt-6 flex items-center gap-4" aria-hidden>
-            <span className="h-px w-10 bg-[#4c4740]" />
-            <span className="teaser-twinkle text-[11px] text-[#cfc6b1]">✦</span>
-          </div>
-          <EditableText
-            file="drop01"
-            field="tagline"
-            value={content.tagline}
-            as="p"
-            className={`${cormorant.className} mt-6 max-w-sm text-lg italic text-[#d6cdb8] lg:text-xl`}
+          <HeroVideo
+            src={DROP01_HERO_VIDEO_URL}
+            endedContent={
+              <div>
+                <EditableText
+                  file="drop01"
+                  field="dropLabel"
+                  value={content.dropLabel}
+                  as="p"
+                  className="text-[11px] tracking-[0.28em] text-[#b9b09d] lg:text-xs"
+                />
+                <h1 className="relative mx-auto mt-3 aspect-[901/528] w-40 sm:w-72 lg:mt-5 lg:w-[30rem]">
+                  <EditableImage
+                    file="drop01"
+                    field="titleImage"
+                    src={content.titleImage}
+                    alt={content.titleImageAlt}
+                    exportWidth={1200}
+                    exportHeight={700}
+                    className="object-contain"
+                  />
+                </h1>
+                <EditableText
+                  file="drop01"
+                  field="tagline"
+                  value={content.tagline}
+                  as="p"
+                  className={`${cormorant.className} mx-auto mt-3 max-w-[15rem] text-sm italic text-[#d6cdb8] sm:max-w-sm sm:text-base lg:mt-6 lg:max-w-sm lg:text-xl`}
+                />
+              </div>
+            }
           />
         </div>
       </section>
