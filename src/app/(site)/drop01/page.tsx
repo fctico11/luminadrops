@@ -3,6 +3,7 @@ import { isAdminSession } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import { DROP01_SLUG } from "@/lib/products";
 import EditableText from "@/components/edit/EditableText";
+import EditableRichText from "@/components/edit/EditableRichText";
 import EditableImage from "@/components/edit/EditableImage";
 import Motes from "../../motes";
 import { cormorant, rise } from "../../ui";
@@ -89,26 +90,11 @@ export default async function Drop01Page() {
           as="h2"
           className={`${cormorant.className} text-lg font-medium tracking-[0.3em] lg:text-2xl`}
         />
-        <div className="mt-8 space-y-5">
-          <EditableText
+        <div className="mt-8 text-left">
+          <EditableRichText
             file="drop01"
-            field="insideParagraph1"
-            value={content.insideParagraph1}
-            as="p"
-            className="text-[15px] leading-relaxed text-[#c4bba8] lg:text-lg"
-          />
-          <EditableText
-            file="drop01"
-            field="insideParagraph2"
-            value={content.insideParagraph2}
-            as="p"
-            className="text-[15px] leading-relaxed text-[#c4bba8] lg:text-lg"
-          />
-          <EditableText
-            file="drop01"
-            field="insideParagraph3"
-            value={content.insideParagraph3}
-            as="p"
+            field="insideBody"
+            value={content.insideBody}
             className="text-[15px] leading-relaxed text-[#c4bba8] lg:text-lg"
           />
         </div>

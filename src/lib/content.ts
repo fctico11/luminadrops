@@ -134,9 +134,9 @@ export type Drop01Content = {
   heroImage: string;
   heroImageAlt: string;
   insideSectionTitle: string;
-  insideParagraph1: string;
-  insideParagraph2: string;
-  insideParagraph3: string;
+  /** Rich HTML (paragraphs, bold/italic, lists) — edited via EditableRichText,
+   * not plain EditableText. */
+  insideBody: string;
   insideClosingLine: string;
   includesTitle: string;
   manualImage: string;

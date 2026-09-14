@@ -363,6 +363,59 @@ body {
   outline-offset: -3px;
 }
 
+/* rich-text fields (EditableRichText) — paragraphs, lists, and an optional
+   larger line, styled to match the surrounding serif body copy */
+.rich-text p {
+  margin-top: 1.25em;
+}
+
+.rich-text p:first-child {
+  margin-top: 0;
+}
+
+.rich-text ul,
+.rich-text ol {
+  margin-top: 1.25em;
+  padding-left: 1.4em;
+}
+
+.rich-text ul {
+  list-style: disc;
+}
+
+.rich-text ol {
+  list-style: decimal;
+}
+
+.rich-text li {
+  margin-top: 0.4em;
+}
+
+.rich-text li:first-child {
+  margin-top: 0;
+}
+
+.rich-text h3 {
+  margin-top: 1.5em;
+  font-size: 1.15em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #e9e1cd;
+}
+
+.rich-text h3:first-child {
+  margin-top: 0;
+}
+
+.rich-text strong {
+  font-weight: 600;
+  color: #e9e1cd;
+}
+
+.rich-text em {
+  font-style: italic;
+}
+
 /* drop01's header floats transparently over its hero video, then fills
    solid on scroll — !important because Tailwind's preflight applies a
    border-color to every element by default, which otherwise beats a plain
