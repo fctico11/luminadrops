@@ -21,6 +21,10 @@ const TOOLBAR_BUTTONS: { label: string; title: string; command: string; arg?: st
   { label: "1. List", title: "Numbered list", command: "insertOrderedList" },
   { label: "Large", title: "Large text", command: "formatBlock", arg: "h3" },
   { label: "Normal", title: "Normal text", command: "formatBlock", arg: "p" },
+  { label: "Left", title: "Align left", command: "justifyLeft" },
+  { label: "Center", title: "Align center", command: "justifyCenter" },
+  { label: "Right", title: "Align right", command: "justifyRight" },
+  { label: "↵ Space", title: "Add extra space between lines", command: "insertHTML", arg: "<br><br>" },
 ];
 
 /** Rich-text sibling to EditableText for the rare field that needs real

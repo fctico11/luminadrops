@@ -90,7 +90,7 @@ export default async function Drop01Page() {
           as="h2"
           className={`${cormorant.className} text-lg font-medium tracking-[0.3em] lg:text-2xl`}
         />
-        <div className="mt-8 text-left">
+        <div className="mt-8 text-center">
           <EditableRichText
             file="drop01"
             field="insideBody"
