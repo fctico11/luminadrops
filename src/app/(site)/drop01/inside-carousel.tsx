@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
-  type PointerEvent as ReactPointerEvent,
-} from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Lottie, type LottieHandle } from "lottie-react";
 import EditableRichText from "@/components/edit/EditableRichText";
 import { useEditMode } from "@/components/edit/EditModeContext";
@@ -54,7 +47,6 @@ export default function InsideCarousel({ cards }: Props) {
   const [direction, setDirection] = useState(1);
   const [phase, setPhase] = useState<Phase>("idle");
   const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
-  const [prevActive, setPrevActive] = useState(false);
   const measureStackRef = useRef<HTMLDivElement>(null);
   const measureRefs = useRef<(HTMLDivElement | null)[]>([]);
   const prevSparkleRef = useRef<LottieHandle>(null);
@@ -93,19 +85,14 @@ export default function InsideCarousel({ cards }: Props) {
     } else {
       prevSparkleRef.current?.seek(0);
       prevSparkleRef.current?.play();
-      setPrevActive(true);
-      window.setTimeout(() => setPrevActive(false), BUTTON_SPARKLE_MS);
     }
 
     window.setTimeout(() => {
       setIndex((i) => (i + delta + cards.length) % cards.length);
       setPhase("in");
-      // A plain timer rather than the usual double-rAF: rAF only fires once
-      // the browser actually schedules a paint, which this specific tab
-      // (Chrome-extension-driven, not a normal foreground render loop)
-      // sometimes never does — leaving the card permanently snapped at its
-      // "entering" position. A timer fires regardless of paint scheduling.
-      window.setTimeout(() => setPhase("idle"), 20);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setPhase("idle"));
+      });
       window.setTimeout(() => {
         transitioning.current = false;
       }, ENTER_MS);
@@ -130,22 +117,14 @@ export default function InsideCarousel({ cards }: Props) {
     else if (delta > SWIPE_THRESHOLD) go(-1);
   };
 
-  // Duration/easing live in inline style rather than Tailwind's arbitrary-
-  // value classes (`duration-[280ms]` etc.) — those are built from a
-  // runtime template literal, so Tailwind's build-time content scanner
-  // never sees the literal class name and never generates the CSS for it.
-  // The transition silently no-ops without it, which read as "jittery":
-  // the card was snapping straight to its end state instead of easing.
   const enterFrom = direction > 0 ? "translate-x-6" : "-translate-x-6";
   const exitTo = direction > 0 ? "-translate-x-6" : "translate-x-6";
   const cardClass =
-    phase === "out" ? `opacity-0 ${exitTo}` : phase === "in" ? `opacity-0 ${enterFrom}` : "opacity-100 translate-x-0";
-  const cardTransitionStyle: CSSProperties =
-    phase === "in"
-      ? { transitionDuration: "0ms" }
-      : phase === "out"
-        ? { transitionDuration: `${EXIT_MS}ms`, transitionTimingFunction: "cubic-bezier(0.55,0,1,0.45)" }
-        : { transitionDuration: `${ENTER_MS}ms`, transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)" };
+    phase === "out"
+      ? `opacity-0 ${exitTo} duration-[${EXIT_MS}ms] ease-[cubic-bezier(0.55,0,1,0.45)]`
+      : phase === "in"
+        ? `opacity-0 ${enterFrom} duration-0`
+        : `opacity-100 translate-x-0 duration-[${ENTER_MS}ms] ease-[cubic-bezier(0.22,1,0.36,1)]`;
 
   return (
     <div className="mx-auto w-full max-w-xl">
@@ -169,7 +148,7 @@ export default function InsideCarousel({ cards }: Props) {
         <div
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
-          style={{ minHeight, ...cardTransitionStyle }}
+          style={{ minHeight }}
           className={`relative flex flex-col justify-center text-center transition-[opacity,transform] ${cardClass} ${
             !isAdmin ? "cursor-grab touch-pan-y active:cursor-grabbing" : ""
           }`}
@@ -195,9 +174,7 @@ export default function InsideCarousel({ cards }: Props) {
           type="button"
           onClick={() => go(-1)}
           aria-label="Previous"
-          className={`relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border transition-colors duration-300 ${
-            prevActive ? "border-[#cfc0a0]" : "border-transparent"
-          }`}
+          className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#6f695c]/70 transition-colors duration-300 hover:border-[#cfc0a0]"
         >
           <Lottie
             src={sparkleBurst}
