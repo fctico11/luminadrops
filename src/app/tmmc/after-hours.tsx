@@ -18,6 +18,20 @@ import type { TmmcContent } from "@/lib/content";
 /* matches the modal-fade-out / modal-panel-out animation duration */
 const CLOSE_MS = 420;
 
+// On desktop the 4 top-row doors sit on an 8-column grid, each spanning 2
+// columns; the 3 second-row doors are offset by one column so they land
+// exactly in the gaps between the doors above them, instead of just being
+// centered as their own independent (and subtly misaligned) row.
+const GRID_COL_START: Record<RoomId, number> = {
+  "listening-room": 1,
+  gallery: 3,
+  "drawing-room": 5,
+  "back-room": 7,
+  library: 2,
+  kitchen: 4,
+  note: 6,
+};
+
 function getModalMeta(id: RoomId, content: TmmcContent): { tagline?: string; closingLine?: string } {
   switch (id) {
     case "listening-room":
@@ -109,7 +123,14 @@ export default function AfterHours({ content }: { content: TmmcContent }) {
         className={`${cormorant.className} mx-auto mt-4 max-w-md text-base italic text-[#d6cdb8]`}
       />
 
-      <div className="mt-16 flex flex-wrap justify-center gap-x-8 gap-y-12 sm:gap-x-10">
+      <div className="mt-16 hidden lg:grid lg:grid-cols-8 lg:gap-x-2 lg:gap-y-14">
+        {ROOMS.map((room) => (
+          <div key={room.id} className="flex justify-center" style={{ gridColumn: `${GRID_COL_START[room.id]} / span 2` }}>
+            <DoorButton room={room} onOpen={open} />
+          </div>
+        ))}
+      </div>
+      <div className="mt-16 flex flex-wrap justify-center gap-x-8 gap-y-12 sm:gap-x-10 lg:hidden">
         {ROOMS.map((room) => (
           <DoorButton key={room.id} room={room} onOpen={open} />
         ))}
