@@ -3,11 +3,11 @@ import { isAdminSession } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import { DROP01_SLUG } from "@/lib/products";
 import EditableText from "@/components/edit/EditableText";
-import EditableRichText from "@/components/edit/EditableRichText";
 import EditableImage from "@/components/edit/EditableImage";
 import Motes from "../../motes";
 import { cormorant, rise } from "../../ui";
 import PurchaseControls from "./purchase-controls";
+import InsideCarousel from "./inside-carousel";
 import Reveal from "./reveal";
 import TrackViewContent from "./track-view-content";
 import HeroVideo from "../../hero-video";
@@ -82,7 +82,7 @@ export default async function Drop01Page() {
       </section>
 
       {/* Purchase */}
-      <Reveal as="section" className="relative mx-auto w-full max-w-4xl px-6 pt-10 pb-14 sm:pt-14 lg:pt-16 lg:pb-16">
+      <Reveal as="section" className="relative mx-auto w-full max-w-4xl px-6 pt-10 pb-6 sm:pt-14 sm:pb-8 lg:pt-16 lg:pb-10">
         <div className="flex flex-row overflow-hidden border border-[#4c4740]">
           <div className="relative w-2/5 shrink-0 sm:w-1/2">
             <EditableImage
@@ -155,7 +155,7 @@ export default async function Drop01Page() {
       </Reveal>
 
       {/* What's Waiting Inside */}
-      <Reveal as="section" className="relative mx-auto max-w-2xl px-6 pt-20 pb-8 text-center lg:pt-28 lg:pb-10">
+      <Reveal as="section" className="relative mx-auto max-w-2xl px-6 pt-10 pb-8 text-center lg:pt-14 lg:pb-10">
         <EditableText
           file="drop01"
           field="insideSectionTitle"
@@ -163,13 +163,8 @@ export default async function Drop01Page() {
           as="h2"
           className={`${cormorant.className} text-lg font-medium tracking-[0.3em] lg:text-2xl`}
         />
-        <div className="mt-8 text-center">
-          <EditableRichText
-            file="drop01"
-            field="insideBody"
-            value={content.insideBody}
-            className="text-[15px] leading-relaxed text-[#c4bba8] lg:text-lg"
-          />
+        <div className="mt-8">
+          <InsideCarousel cards={content.insideBodyCards} />
         </div>
         <EditableText
           file="drop01"

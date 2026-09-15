@@ -135,8 +135,8 @@ export type Drop01Content = {
   heroImageAlt: string;
   insideSectionTitle: string;
   /** Rich HTML (paragraphs, bold/italic, lists) — edited via EditableRichText,
-   * not plain EditableText. */
-  insideBody: string;
+   * not plain EditableText. One entry per swipeable card in InsideCarousel. */
+  insideBodyCards: string[];
   insideClosingLine: string;
   includesTitle: string;
   manualImage: string;
