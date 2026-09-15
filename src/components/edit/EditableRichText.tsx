@@ -24,7 +24,12 @@ const TOOLBAR_BUTTONS: { label: string; title: string; command: string; arg?: st
   { label: "Left", title: "Align left", command: "justifyLeft" },
   { label: "Center", title: "Align center", command: "justifyCenter" },
   { label: "Right", title: "Align right", command: "justifyRight" },
-  { label: "↵ Space", title: "Add extra space between lines", command: "insertHTML", arg: "<br><br>" },
+  {
+    label: "✦ Divider",
+    title: "Insert a spaced divider with the Club mark",
+    command: "insertHTML",
+    arg: '<p style="text-align:center; margin: 1.5em 0;"><img src="/drops/midnight-margarita/mmc-logo-icon.png" alt="" style="display:inline-block; height:22px; width:auto; opacity:0.85;" /></p>',
+  },
 ];
 
 /** Rich-text sibling to EditableText for the rare field that needs real
