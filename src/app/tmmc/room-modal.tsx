@@ -53,7 +53,7 @@ export default function RoomModal({ room, tagline, closingLine, closing, onClose
         role="dialog"
         aria-modal="true"
         aria-label={room.label}
-        className={`grain relative max-h-[88vh] w-full max-w-xl overflow-y-auto border border-[#4c4740] bg-[#141115] px-6 py-10 text-center text-[#e9e1cd] sm:px-10 ${
+        className={`relative max-h-[88vh] w-full max-w-xl overflow-y-auto border border-[#4c4740] bg-[#141115] px-6 py-10 text-center text-[#e9e1cd] sm:px-10 ${
           closing ? "modal-panel-out" : "modal-panel-in"
         }`}
         onClick={(e) => e.stopPropagation()}

@@ -90,7 +90,7 @@ export default function AfterHours({ content }: { content: TmmcContent }) {
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16 text-center sm:max-w-4xl sm:py-24">
+    <div className="mx-auto max-w-3xl px-6 py-16 text-center sm:py-24">
       <span className="teaser-twinkle inline-block text-base text-[#cfc6b1]" aria-hidden>
         ✦
       </span>
@@ -109,7 +109,7 @@ export default function AfterHours({ content }: { content: TmmcContent }) {
         className={`${cormorant.className} mx-auto mt-4 max-w-md text-base italic text-[#d6cdb8]`}
       />
 
-      <div className="mt-16 flex flex-wrap justify-center gap-x-10 gap-y-16 sm:gap-x-14">
+      <div className="mt-16 flex flex-wrap justify-center gap-x-8 gap-y-12 sm:gap-x-10">
         {ROOMS.map((room) => (
           <DoorButton key={room.id} room={room} onOpen={open} />
         ))}
