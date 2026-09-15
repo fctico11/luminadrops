@@ -81,6 +81,79 @@ export default async function Drop01Page() {
         </div>
       </section>
 
+      {/* Purchase */}
+      <Reveal as="section" className="relative mx-auto w-full max-w-4xl px-6 pt-10 pb-14 sm:pt-14 lg:pt-16 lg:pb-16">
+        <div className="flex flex-row overflow-hidden border border-[#4c4740]">
+          <div className="relative w-2/5 shrink-0 sm:w-1/2">
+            <EditableImage
+              file="drop01"
+              field="purchaseImage"
+              src={content.purchaseImage}
+              alt={content.purchaseImageAlt}
+              className="object-cover"
+            />
+          </div>
+          <div className="flex w-3/5 flex-1 flex-col items-center justify-center px-4 py-6 text-center sm:w-1/2 sm:px-8 sm:py-12">
+            <h2 className={`${cormorant.className} text-base font-medium tracking-[0.15em] sm:text-xl lg:text-2xl`}>
+              <EditableText file="drop01" field="titleLine1" value={content.titleLine1} as="span" />{" "}
+              <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
+            </h2>
+            <p className="mt-2 text-[11px] tracking-[0.15em] text-[#9c9384] sm:mt-3 sm:text-sm sm:tracking-[0.2em]">
+              <EditableText file="drop01" field="dropLabel" value={content.dropLabel} as="span" />{" "}
+              <EditableText file="drop01" field="dateLabel" value={content.dateLabel} as="span" />
+            </p>
+
+            <div className="mt-4 flex w-full max-w-[140px] items-center gap-3 sm:mt-6 sm:max-w-[200px] sm:gap-4" aria-hidden>
+              <span className="h-px flex-1 bg-[#4c4740]" />
+              <span className="teaser-twinkle text-[11px] text-[#cfc6b1]">✦</span>
+              <span className="h-px flex-1 bg-[#4c4740]" />
+            </div>
+
+            <EditableText
+              file="drop01"
+              field="quantityLabel"
+              value={content.quantityLabel}
+              as="p"
+              className="mt-5 text-[10px] tracking-[0.25em] text-[#9c9384] sm:mt-8 sm:text-xs sm:tracking-[0.3em]"
+            />
+            <div className="mt-2 w-full sm:mt-3">
+              <PurchaseControls
+                productId={product?.id ?? ""}
+                productName={product?.name ?? ""}
+                priceCents={product?.priceCents ?? 0}
+                currency={product?.currency ?? "usd"}
+                ctaLabel={content.ctaLabel}
+                maxQuantity={maxQuantity}
+                soldOut={soldOut}
+              />
+            </div>
+
+            <EditableText
+              file="drop01"
+              field="footNote1"
+              value={content.footNote1}
+              as="p"
+              className="mt-3 text-xs text-[#9c9384] sm:mt-5 sm:text-sm"
+            />
+
+            <EditableText
+              file="drop01"
+              field="finePrintLabel"
+              value={content.finePrintLabel}
+              as="p"
+              className="mt-5 text-[10px] tracking-[0.25em] text-[#9c9384] sm:mt-8 sm:text-xs sm:tracking-[0.3em]"
+            />
+            <EditableText
+              file="drop01"
+              field="footNote2"
+              value={content.footNote2}
+              as="p"
+              className="mt-2 text-xs leading-relaxed text-[#9c9384] sm:text-sm"
+            />
+          </div>
+        </div>
+      </Reveal>
+
       {/* What's Waiting Inside */}
       <Reveal as="section" className="relative mx-auto max-w-2xl px-6 pt-20 pb-8 text-center lg:pt-28 lg:pb-10">
         <EditableText
@@ -240,79 +313,6 @@ export default async function Drop01Page() {
               </div>
             </div>
           ))}
-        </div>
-      </Reveal>
-
-      {/* Purchase */}
-      <Reveal as="section" className="relative mx-auto w-full max-w-4xl px-6 pb-20 lg:pb-28">
-        <div className="flex flex-col overflow-hidden border border-[#4c4740] sm:flex-row">
-          <div className="relative aspect-[4/5] sm:aspect-auto sm:w-1/2">
-            <EditableImage
-              file="drop01"
-              field="purchaseImage"
-              src={content.purchaseImage}
-              alt={content.purchaseImageAlt}
-              className="object-cover"
-            />
-          </div>
-          <div className="flex flex-col items-center justify-center px-8 py-12 text-center sm:w-1/2">
-            <h2 className={`${cormorant.className} text-xl font-medium tracking-[0.2em] lg:text-2xl`}>
-              <EditableText file="drop01" field="titleLine1" value={content.titleLine1} as="span" />{" "}
-              <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
-            </h2>
-            <p className="mt-3 text-sm tracking-[0.2em] text-[#9c9384]">
-              <EditableText file="drop01" field="dropLabel" value={content.dropLabel} as="span" />{" "}
-              <EditableText file="drop01" field="dateLabel" value={content.dateLabel} as="span" />
-            </p>
-
-            <div className="mt-6 flex w-full max-w-[200px] items-center gap-4" aria-hidden>
-              <span className="h-px flex-1 bg-[#4c4740]" />
-              <span className="teaser-twinkle text-[11px] text-[#cfc6b1]">✦</span>
-              <span className="h-px flex-1 bg-[#4c4740]" />
-            </div>
-
-            <EditableText
-              file="drop01"
-              field="quantityLabel"
-              value={content.quantityLabel}
-              as="p"
-              className="mt-8 text-xs tracking-[0.3em] text-[#9c9384]"
-            />
-            <div className="mt-3 w-full">
-              <PurchaseControls
-                productId={product?.id ?? ""}
-                productName={product?.name ?? ""}
-                priceCents={product?.priceCents ?? 0}
-                currency={product?.currency ?? "usd"}
-                ctaLabel={content.ctaLabel}
-                maxQuantity={maxQuantity}
-                soldOut={soldOut}
-              />
-            </div>
-
-            <EditableText
-              file="drop01"
-              field="footNote1"
-              value={content.footNote1}
-              as="p"
-              className="mt-5 text-sm text-[#9c9384]"
-            />
-
-            <EditableText
-              file="drop01"
-              field="finePrintLabel"
-              value={content.finePrintLabel}
-              as="p"
-              className="mt-8 text-xs tracking-[0.3em] text-[#9c9384]"
-            />
-            <EditableText
-              file="drop01"
-              field="footNote2"
-              value={content.footNote2}
-              as="p"
-              className="mt-2 text-sm leading-relaxed text-[#9c9384]"
-            />
-          </div>
         </div>
       </Reveal>
     </main>
