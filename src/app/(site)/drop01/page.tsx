@@ -8,6 +8,7 @@ import Motes from "../../motes";
 import { cormorant, rise } from "../../ui";
 import PurchaseControls from "./purchase-controls";
 import InsideCarousel from "./inside-carousel";
+import FinePrintModal from "./fine-print-modal";
 import Reveal from "./reveal";
 import TrackViewContent from "./track-view-content";
 import HeroVideo from "../../hero-video";
@@ -83,8 +84,8 @@ export default async function Drop01Page() {
 
       {/* Purchase */}
       <Reveal as="section" className="relative mx-auto w-full max-w-4xl px-6 pt-10 pb-6 sm:pt-14 sm:pb-8 lg:pt-16 lg:pb-10">
-        <div className="flex flex-row overflow-hidden border border-[#4c4740]">
-          <div className="relative w-2/5 shrink-0 sm:w-1/2">
+        <div className="flex flex-col overflow-hidden border border-[#4c4740] sm:flex-row">
+          <div className="relative aspect-[4/5] w-full sm:aspect-auto sm:w-1/2 sm:shrink-0">
             <EditableImage
               file="drop01"
               field="purchaseImage"
@@ -93,7 +94,7 @@ export default async function Drop01Page() {
               className="object-cover"
             />
           </div>
-          <div className="flex w-3/5 flex-1 flex-col items-center justify-center px-4 py-6 text-center sm:w-1/2 sm:px-8 sm:py-12">
+          <div className="flex w-full flex-1 flex-col items-center justify-center px-4 py-6 text-center sm:w-1/2 sm:px-8 sm:py-12">
             <h2 className={`${cormorant.className} text-base font-medium tracking-[0.15em] sm:text-xl lg:text-2xl`}>
               <EditableText file="drop01" field="titleLine1" value={content.titleLine1} as="span" />{" "}
               <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
@@ -136,19 +137,13 @@ export default async function Drop01Page() {
               className="mt-3 text-xs text-[#9c9384] sm:mt-5 sm:text-sm"
             />
 
-            <EditableText
+            <FinePrintModal
               file="drop01"
-              field="finePrintLabel"
-              value={content.finePrintLabel}
-              as="p"
-              className="mt-5 text-[10px] tracking-[0.25em] text-[#9c9384] sm:mt-8 sm:text-xs sm:tracking-[0.3em]"
-            />
-            <EditableText
-              file="drop01"
-              field="footNote2"
-              value={content.footNote2}
-              as="p"
-              className="mt-2 text-xs leading-relaxed text-[#9c9384] sm:text-sm"
+              labelField="finePrintLabel"
+              labelValue={content.finePrintLabel}
+              bodyField="footNote2"
+              bodyValue={content.footNote2}
+              triggerClassName="mt-5 text-[10px] tracking-[0.25em] text-[#9c9384] sm:mt-8 sm:text-xs sm:tracking-[0.3em]"
             />
           </div>
         </div>
