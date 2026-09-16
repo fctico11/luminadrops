@@ -11,6 +11,7 @@ type Props = {
   as?: "div" | "section";
   className?: string;
   style?: React.CSSProperties;
+  id?: string;
   /** Extra delay (ms) after the element enters the viewport before it animates in —
    * used to stagger a group of siblings (e.g. the includes grid) as they come into view. */
   delayMs?: number;
@@ -42,7 +43,7 @@ const motionFor: Record<Direction, { duration: number; ease: [number, number, nu
  * whileInView-based triggers can occasionally miss firing for content that's
  * already in view before web fonts finish loading and shift the layout — a
  * timeout fallback guarantees content never stays permanently hidden. */
-export default function Reveal({ children, as = "div", className, style, delayMs = 0, direction = "up" }: Props) {
+export default function Reveal({ children, as = "div", className, style, id, delayMs = 0, direction = "up" }: Props) {
   const reduceMotion = useReducedMotion();
   const offset = offsetFor[direction];
   const { duration, ease } = motionFor[direction];
@@ -77,6 +78,7 @@ export default function Reveal({ children, as = "div", className, style, delayMs
 
   return (
     <Tag
+      id={id}
       className={className}
       style={style}
       initial={reduceMotion ? "visible" : "hidden"}

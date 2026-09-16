@@ -9,6 +9,7 @@ import { cormorant, rise } from "../../ui";
 import PurchaseControls from "./purchase-controls";
 import InsideCarousel from "./inside-carousel";
 import FinePrintModal from "./fine-print-modal";
+import MobileFlow from "./mobile-flow";
 import Reveal from "./reveal";
 import TrackViewContent from "./track-view-content";
 import HeroVideo from "../../hero-video";
@@ -89,8 +90,22 @@ export default async function Drop01Page() {
         </div>
       </section>
 
+      <MobileFlow
+        content={content}
+        isAdmin={isAdmin}
+        soldOut={soldOut}
+        maxQuantity={maxQuantity}
+        productId={product?.id ?? ""}
+        productName={product?.name ?? ""}
+        priceCents={product?.priceCents ?? 0}
+        currency={product?.currency ?? "usd"}
+      />
+
       {/* Purchase */}
-      <Reveal as="section" className="relative mx-auto w-full max-w-4xl px-6 pt-10 pb-6 sm:pt-14 sm:pb-8 lg:pt-16 lg:pb-10">
+      <Reveal
+        as="section"
+        className="relative mx-auto hidden w-full max-w-4xl px-6 pt-10 pb-6 sm:block sm:pt-14 sm:pb-8 lg:pt-16 lg:pb-10"
+      >
         <div className="flex flex-col overflow-hidden border border-[#4c4740] sm:flex-row">
           <div className="relative aspect-[4/5] w-full sm:aspect-auto sm:w-1/2 sm:shrink-0">
             <EditableImage
@@ -157,7 +172,10 @@ export default async function Drop01Page() {
       </Reveal>
 
       {/* What's Waiting Inside */}
-      <Reveal as="section" className="relative mx-auto max-w-2xl px-6 pt-10 pb-8 text-center lg:pt-14 lg:pb-10">
+      <Reveal
+        as="section"
+        className="relative mx-auto hidden max-w-2xl px-6 pt-10 pb-8 text-center sm:block lg:pt-14 lg:pb-10"
+      >
         <EditableText
           file="drop01"
           field="insideSectionTitle"
@@ -184,7 +202,10 @@ export default async function Drop01Page() {
       </Reveal>
 
       {/* Includes */}
-      <Reveal as="section" className="relative mx-auto w-full max-w-3xl px-6 pb-16 text-center lg:pb-20">
+      <Reveal
+        as="section"
+        className="relative mx-auto hidden w-full max-w-3xl px-6 pb-16 text-center sm:block lg:pb-20"
+      >
         <EditableText
           file="drop01"
           field="includesTitle"

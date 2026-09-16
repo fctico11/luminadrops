@@ -146,6 +146,9 @@ export type Drop01Content = {
   items: Drop01Item[];
   includesClosingLine: string;
   badges: Drop01Badge[];
+  /** Short intro blurb shown above the product photo/buy box on mobile. */
+  snippetTitle: string;
+  snippetBody: string;
   purchaseImage: string;
   purchaseImageAlt: string;
   quantityLabel: string;
