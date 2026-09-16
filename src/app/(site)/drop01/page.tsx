@@ -58,7 +58,14 @@ export default async function Drop01Page() {
                   as="p"
                   className="text-[11px] tracking-[0.28em] text-[#b9b09d] lg:text-xs"
                 />
-                <h1 className="relative mx-auto mt-3 aspect-[901/528] w-40 sm:w-72 lg:mt-5 lg:w-[30rem]">
+                {/* The wordmark image centers "THE / Midnight" and
+                    "MARGARITA CLUB" as one fixed graphic, but "THE" sits far
+                    enough left that centering the image's own bounding box
+                    visibly throws "MARGARITA CLUB" — the line most people
+                    actually read as the title — off-center. Shifted left by
+                    the measured 90px/901px gap between the two so the
+                    bottom line lands on the page's true center instead. */}
+                <h1 className="relative mx-auto mt-3 aspect-[901/528] w-40 -translate-x-[10%] sm:w-72 lg:mt-5 lg:w-[30rem]">
                   <EditableImage
                     file="drop01"
                     field="titleImage"

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointer
 import { Lottie, type LottieHandle } from "lottie-react";
 import EditableRichText from "@/components/edit/EditableRichText";
 import { useEditMode } from "@/components/edit/EditModeContext";
+import { cormorant } from "../../ui";
 import sparkleBurst from "./sparkle-burst.json";
 
 type Props = {
@@ -212,7 +213,11 @@ export default function InsideCarousel({ cards }: Props) {
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-center gap-6">
+      <p className={`${cormorant.className} mt-3 text-center text-[11px] italic text-[#6f695c]`}>
+        ← swipe to explore →
+      </p>
+
+      <div className="mt-4 flex items-center justify-center gap-6">
         <button
           type="button"
           onClick={() => go(-1)}
