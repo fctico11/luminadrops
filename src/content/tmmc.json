@@ -50,8 +50,8 @@
   "kitchenTagline": "Something sweet for the morning after.",
   "kitchenImage": "/drops/midnight-margarita/keepsakes.jpg",
   "kitchenImageAlt": "Chocolate cake in a mug, fresh from the microwave",
-  "recipeTitle": "Chocolate Cake in a Mug",
-  "recipeBody": "Rich, warm, and ready in minutes. Because a softer tomorrow still deserves something sweet.",
+  "recipeTitle": "Chocolate Cake for breakfast",
+  "recipeBody": "in a mug",
   "ingredients": [
     "4 tbsp all-purpose flour",
     "4 tbsp granulated sugar",
@@ -71,13 +71,13 @@
     "Let cool for a minute, then enjoy."
   ],
   "kitchenClosingLine": "A softer tomorrow counts too.",
-  "allergensTitle": "Allergens & Ingredients",
-  "allergensBody": "Buttermints: contains milk and soy. Everything else in the box is store-bought and individually labeled — check each item's packaging for a full ingredient list before enjoying.",
+  "allergensTitle": "",
+  "allergensBody": "",
   "libraryTagline": "Stories for the in-between.",
   "libraryBody": "One for your nightstand",
   "books": [
     {
-      "coverImage": "/drops/midnight-margarita/tmmc-books-0-coverImage.jpg",
+      "coverImage": "/drops/midnight-margarita/card.jpg",
       "coverAlt": "The Night Circus book cover",
       "monthLabel": "the find",
       "title": "Garden Spells",
