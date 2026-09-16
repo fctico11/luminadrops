@@ -11,19 +11,31 @@ type Props = {
 };
 
 const SWIPE_THRESHOLD = 60;
-// The old card fades/slides out first, then the new one slides/fades in —
-// plain CSS transitions on className changes, the same technique already
-// used elsewhere in this codebase (e.g. the hero video's darken overlay),
-// picked deliberately after `motion`'s AnimatePresence/`animate`-object
-// reactivity proved unreliable here for a repeatedly-swapped keyed child.
-const EXIT_MS = 280;
-const ENTER_MS = 520;
+const EXIT_MS = 320;
+const ENTER_MS = 560;
 const SPARKLE_NATURAL_MS = (91 / 60) * 1000;
 // The nav-button sparkle plays over roughly the same span as the card swap,
 // so clicking feels like it's what set the whole thing in motion.
 const BUTTON_SPARKLE_MS = EXIT_MS + ENTER_MS;
+const SLIDE_PX = 28;
 
-type Phase = "idle" | "out" | "in";
+/** Resolves when the animation finishes, or after its own duration plus a
+ * buffer — whichever comes first. `.finished` alone is one bad edge case
+ * (an element detached mid-animation, a timeline that never advances) away
+ * from leaving the carousel permanently stuck mid-swipe, since everything
+ * downstream is gated on this promise settling. */
+function waitForAnimation(animation: Animation, durationMs: number): Promise<void> {
+  return new Promise((resolve) => {
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      resolve();
+    };
+    animation.finished.then(finish, finish);
+    window.setTimeout(finish, durationMs + 150);
+  });
+}
 
 /** Swipeable, animated stand-in for what used to be one long paragraph of
  * "What's Waiting Inside" copy — split into 3 cards (at the same points the
@@ -35,6 +47,17 @@ type Phase = "idle" | "out" | "in";
  * width, and pinned to the tallest — a one-shot measurement risked locking
  * in a too-short height if it ran before web fonts finished swapping in.
  *
+ * The card swap itself runs on the Web Animations API (`element.animate`)
+ * instead of toggling Tailwind/CSS classes. Two earlier approaches — an
+ * inline `animate`-object on a `motion` component, and Tailwind's
+ * arbitrary-value duration classes built from a template literal — each
+ * turned out to silently no-op in ways that were hard to detect (the
+ * latter because Tailwind's build-time scanner never sees a class name
+ * assembled at runtime, so it never generates the CSS for it). WAAPI's
+ * `.finished` promise gives an exact, real completion signal instead of a
+ * guessed timeout, and the keyframes carry their own start/end values, so
+ * there's no separate "snap to start, then transition" step to get wrong.
+ *
  * Swiping is a plain pointer-drag distance check rather than a live
  * finger-follow, and dragging is skipped entirely in admin mode so it
  * doesn't fight with clicking into the text to edit it — arrows/dots still
@@ -44,9 +67,8 @@ type Phase = "idle" | "out" | "in";
 export default function InsideCarousel({ cards }: Props) {
   const { isAdmin } = useEditMode();
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const [phase, setPhase] = useState<Phase>("idle");
   const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
+  const cardRef = useRef<HTMLDivElement>(null);
   const measureStackRef = useRef<HTMLDivElement>(null);
   const measureRefs = useRef<(HTMLDivElement | null)[]>([]);
   const prevSparkleRef = useRef<LottieHandle>(null);
@@ -72,12 +94,10 @@ export default function InsideCarousel({ cards }: Props) {
     return () => observer.disconnect();
   }, [cards]);
 
-  const go = (delta: number) => {
+  const go = async (delta: number) => {
     if (transitioning.current) return;
     transitioning.current = true;
     const dir = delta > 0 ? 1 : -1;
-    setDirection(dir);
-    setPhase("out");
 
     if (dir > 0) {
       nextSparkleRef.current?.seek(0);
@@ -87,16 +107,47 @@ export default function InsideCarousel({ cards }: Props) {
       prevSparkleRef.current?.play();
     }
 
-    window.setTimeout(() => {
-      setIndex((i) => (i + delta + cards.length) % cards.length);
-      setPhase("in");
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => setPhase("idle"));
-      });
-      window.setTimeout(() => {
-        transitioning.current = false;
-      }, ENTER_MS);
-    }, EXIT_MS);
+    const el = cardRef.current;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (el && !reduceMotion) {
+      // Fades and slides away while softening out of focus — a gentle
+      // "dissolving" exit rather than a flat cut.
+      const exitAnim = el.animate(
+        [
+          { opacity: 1, transform: "translateX(0) scale(1)", filter: "blur(0px)" },
+          {
+            opacity: 0,
+            transform: `translateX(${dir > 0 ? -SLIDE_PX : SLIDE_PX}px) scale(0.96)`,
+            filter: "blur(6px)",
+          },
+        ],
+        { duration: EXIT_MS, easing: "cubic-bezier(0.6,0,1,0.4)", fill: "forwards" }
+      );
+      await waitForAnimation(exitAnim, EXIT_MS);
+    }
+
+    setIndex((i) => (i + delta + cards.length) % cards.length);
+
+    if (el && !reduceMotion) {
+      // ...then materializes back into focus from the opposite side —
+      // the "magic" beat, since it reads as the new card resolving out of
+      // a soft blur rather than just arriving.
+      const enterAnim = el.animate(
+        [
+          {
+            opacity: 0,
+            transform: `translateX(${dir > 0 ? SLIDE_PX : -SLIDE_PX}px) scale(0.96)`,
+            filter: "blur(6px)",
+          },
+          { opacity: 1, transform: "translateX(0) scale(1)", filter: "blur(0px)" },
+        ],
+        { duration: ENTER_MS, easing: "cubic-bezier(0.16,1,0.3,1)", fill: "forwards" }
+      );
+      await waitForAnimation(enterAnim, ENTER_MS);
+    }
+
+    transitioning.current = false;
   };
 
   const jumpTo = (i: number) => {
@@ -116,15 +167,6 @@ export default function InsideCarousel({ cards }: Props) {
     if (delta < -SWIPE_THRESHOLD) go(1);
     else if (delta > SWIPE_THRESHOLD) go(-1);
   };
-
-  const enterFrom = direction > 0 ? "translate-x-6" : "-translate-x-6";
-  const exitTo = direction > 0 ? "-translate-x-6" : "translate-x-6";
-  const cardClass =
-    phase === "out"
-      ? `opacity-0 ${exitTo} duration-[${EXIT_MS}ms] ease-[cubic-bezier(0.55,0,1,0.45)]`
-      : phase === "in"
-        ? `opacity-0 ${enterFrom} duration-0`
-        : `opacity-100 translate-x-0 duration-[${ENTER_MS}ms] ease-[cubic-bezier(0.22,1,0.36,1)]`;
 
   return (
     <div className="mx-auto w-full max-w-xl">
@@ -146,10 +188,11 @@ export default function InsideCarousel({ cards }: Props) {
         </div>
 
         <div
+          ref={cardRef}
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           style={{ minHeight }}
-          className={`relative flex flex-col justify-center text-center transition-[opacity,transform] ${cardClass} ${
+          className={`relative flex flex-col justify-center text-center ${
             !isAdmin ? "cursor-grab touch-pan-y active:cursor-grabbing" : ""
           }`}
         >
@@ -183,7 +226,6 @@ export default function InsideCarousel({ cards }: Props) {
             loop={false}
             speed={buttonSparkleSpeed}
             className="pointer-events-none absolute inset-0 h-full w-full"
-            style={{ transform: "scaleX(-1)" }}
           />
         </button>
         <div className="flex gap-2">
@@ -212,6 +254,7 @@ export default function InsideCarousel({ cards }: Props) {
             loop={false}
             speed={buttonSparkleSpeed}
             className="pointer-events-none absolute inset-0 h-full w-full"
+            style={{ transform: "scaleX(-1)" }}
           />
         </button>
       </div>
