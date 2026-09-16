@@ -68,10 +68,11 @@ export default function MobileFlow({
           <span className="h-px flex-1 bg-[#4c4740]" />
         </div>
 
-        <div className="mt-6 -ml-6 flex w-[calc(100%+1.5rem)] items-start gap-4">
-          {/* Bleeds to the true screen edge (cancels the section's px-6
-              on this side only) so the image can run bigger without
-              taking width away from the text column. */}
+        <div className="mt-6 -ml-[18px] flex w-[calc(100%+18px)] items-start gap-4">
+          {/* Bleeds most of the way to the screen edge (cancels most of the
+              section's px-6 on this side only, leaving a tiny 6px gap) so
+              the image can run bigger without taking width away from the
+              text column. */}
           <div className="relative aspect-[4/5] w-1/2 shrink-0 overflow-hidden border border-[#4c4740]">
             <EditableImage
               file="drop01"
@@ -118,6 +119,11 @@ export default function MobileFlow({
               className="mt-4 text-[10px] tracking-[0.2em] text-[#9c9384]"
             />
             <div className="mt-2 w-full">
+              {/* The CTA button and the footnote below it break out past
+                  this column (via ctaWrapperClassName here, and the
+                  matching wrapper below) to center under the full
+                  two-column row instead of just this half — the quantity
+                  stepper above stays put, centered under its own label. */}
               <PurchaseControls
                 productId={productId}
                 productName={productName}
@@ -126,16 +132,20 @@ export default function MobileFlow({
                 ctaLabel={content.ctaLabel}
                 maxQuantity={maxQuantity}
                 soldOut={soldOut}
+                ctaWrapperClassName="flex w-[calc(200%+1rem)] -ml-[calc(100%+1rem)] justify-center"
+                ctaEmphasis
               />
             </div>
 
-            <EditableText
-              file="drop01"
-              field="footNote1"
-              value={content.footNote1}
-              as="p"
-              className="mt-2 text-xs text-[#9c9384]"
-            />
+            <div className="mt-2 flex w-[calc(200%+1rem)] -ml-[calc(100%+1rem)] justify-center">
+              <EditableText
+                file="drop01"
+                field="footNote1"
+                value={content.footNote1}
+                as="p"
+                className="text-xs text-[#9c9384]"
+              />
+            </div>
           </div>
         </div>
 

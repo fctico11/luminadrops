@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatPrice } from "@/lib/products";
 import EditableText from "@/components/edit/EditableText";
+import AnimatedStatText from "@/components/edit/AnimatedStatText";
 import { useEditMode } from "@/components/edit/EditModeContext";
 import { useCart } from "@/components/cart/CartContext";
 import { trackTikTokEvent } from "@/lib/tiktok-pixel";
@@ -16,6 +17,14 @@ type Props = {
   ctaLabel: string;
   maxQuantity: number;
   soldOut: boolean;
+  /** When set, wraps just the CTA button in a div with this className —
+   * used by the mobile buy box to break the button out of the quantity
+   * stepper's column and center it under the full two-column row. */
+  ctaWrapperClassName?: string;
+  /** Mobile-only: bolds the CTA label and plays a letter-wave once the
+   * button scrolls into view, so it reads as more inviting to tap.
+   * Desktop keeps the plain label when this is left off. */
+  ctaEmphasis?: boolean;
 };
 
 export default function PurchaseControls({
@@ -26,6 +35,8 @@ export default function PurchaseControls({
   ctaLabel,
   maxQuantity,
   soldOut,
+  ctaWrapperClassName,
+  ctaEmphasis,
 }: Props) {
   const router = useRouter();
   const { isAdmin } = useEditMode();
@@ -97,22 +108,38 @@ export default function PurchaseControls({
         {limitMessage}
       </p>
 
-      <button
-        type="button"
-        onClick={handleJoin}
-        disabled={soldOut}
-        className="mt-2 w-full max-w-[320px] border border-[#6f695c] bg-[#e9e1cd] px-3 py-3 text-[11px] font-medium tracking-[0.08em] text-[#141115] transition-all duration-500 hover:bg-[#fff6e0] disabled:cursor-not-allowed disabled:border-[#4c4740] disabled:bg-[#4c4740] disabled:text-[#9c9384] disabled:hover:bg-[#4c4740] sm:px-8 sm:py-3.5 sm:text-sm sm:tracking-[0.28em]"
-      >
-        {soldOut ? (
-          "SOLD OUT"
-        ) : (
-          <>
-            <EditableText file="drop01" field="ctaLabel" value={ctaLabel} as="span" className="whitespace-nowrap" />
-            <span className="mx-1 sm:mx-2">•</span>
-            {formatPrice(priceCents * quantity, currency)}
-          </>
-        )}
-      </button>
+      {(() => {
+        const cta = (
+          <button
+            type="button"
+            onClick={handleJoin}
+            disabled={soldOut}
+            className={`mt-2 w-full max-w-[320px] border border-[#6f695c] bg-[#e9e1cd] px-3 py-3 text-[11px] ${ctaEmphasis ? "font-bold" : "font-medium"} tracking-[0.08em] text-[#141115] transition-all duration-500 hover:bg-[#fff6e0] disabled:cursor-not-allowed disabled:border-[#4c4740] disabled:bg-[#4c4740] disabled:text-[#9c9384] disabled:hover:bg-[#4c4740] sm:px-8 sm:py-3.5 sm:text-sm sm:tracking-[0.28em]`}
+          >
+            {soldOut ? (
+              "SOLD OUT"
+            ) : (
+              <>
+                {ctaEmphasis ? (
+                  <AnimatedStatText
+                    file="drop01"
+                    field="ctaLabel"
+                    value={ctaLabel}
+                    className="whitespace-nowrap"
+                    charClassName="cta-wave-ch"
+                    triggerOnView
+                  />
+                ) : (
+                  <EditableText file="drop01" field="ctaLabel" value={ctaLabel} as="span" className="whitespace-nowrap" />
+                )}
+                <span className="mx-1 sm:mx-2">•</span>
+                {formatPrice(priceCents * quantity, currency)}
+              </>
+            )}
+          </button>
+        );
+        return ctaWrapperClassName ? <div className={ctaWrapperClassName}>{cta}</div> : cta;
+      })()}
     </div>
   );
 }

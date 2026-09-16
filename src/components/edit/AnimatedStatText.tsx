@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, type FocusEvent, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type FocusEvent, type KeyboardEvent } from "react";
 import { useEditMode } from "./EditModeContext";
 import type { ContentName } from "@/lib/content";
 
@@ -17,6 +17,10 @@ type Props = {
    * everything before it renders as plain, unanimated text. Defaults to 0 (animate
    * the whole string), e.g. the stats row. */
   waveFromIndex?: number;
+  /** Instead of playing on mount (the about page's behavior), wait until the
+   * text scrolls into view, then play once — adds a "wave-trigger" wrapper
+   * class plus "in-view" once it fires, for CSS gated on both. */
+  triggerOnView?: boolean;
 };
 
 /** Same edit behavior as EditableText, but the signed-out view renders per-character
@@ -29,14 +33,37 @@ export default function AnimatedStatText({
   className,
   charClassName = "stat-ch",
   waveFromIndex = 0,
+  triggerOnView = false,
 }: Props) {
   const { isAdmin, textEdits, setText } = useEditMode();
+  const ref = useRef<HTMLSpanElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    if (!triggerOnView || inView) return;
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.6 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [triggerOnView, inView]);
 
   if (!isAdmin) {
     const prefix = value.slice(0, waveFromIndex);
     const animated = value.slice(waveFromIndex);
+    const wrapperClassName = triggerOnView
+      ? `${className ?? ""} wave-trigger${inView ? " in-view" : ""}`.trim()
+      : className;
     return (
-      <span className={className}>
+      <span ref={triggerOnView ? ref : undefined} className={wrapperClassName}>
         {prefix}
         {animated.split("").map((ch, j) => (
           <span key={j} className={charClassName} style={{ "--ch-d": `${j * 28}ms` } as CSSProperties}>

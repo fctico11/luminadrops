@@ -271,6 +271,31 @@ body {
   }
 }
 
+/* CTA button label: same letter-lift wave, but just the lift (no color/glow
+   swap, since this sits as dark text on a light button) and gated behind an
+   ancestor "in-view" class so it plays once the button actually scrolls into
+   view instead of firing at mount while still off-screen. */
+@keyframes cta-letter-wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-3px);
+  }
+}
+
+.wave-trigger .cta-wave-ch {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wave-trigger.in-view .cta-wave-ch {
+    animation: cta-letter-wave 0.9s ease-in-out 1;
+    animation-delay: var(--ch-d, 0s);
+  }
+}
+
 .teaser-mote {
   position: absolute;
   border-radius: 9999px;
