@@ -1,7 +1,6 @@
 {
   "pageTitle": "AFTER HOURS",
   "pageSubtitle": "A few more doors for when the candles are low, and the house is quiet.",
-
   "listeningRoomTagline": "Music for your Everlong Midnight.",
   "playlistCoverImage": "/drops/midnight-margarita/moonstone.jpg",
   "playlistCoverAlt": "The Everlong Midnight playlist cover",
@@ -10,7 +9,6 @@
   "spotifyUrl": "https://open.spotify.com",
   "appleMusicUrl": "https://music.apple.com",
   "listeningRoomClosingLine": "Some songs find you at exactly the right hour.",
-
   "galleryTagline": "Take a piece of the Club with you.",
   "galleryBody": "A collection of phone wallpapers, created for your Everlong Midnights. Save your favorites and keep a little magic close.",
   "wallpaperTimeLabel": "11:11",
@@ -32,16 +30,23 @@
       "caption": "A little magic goes a long way."
     }
   ],
-
   "drawingRoomTagline": "A quiet place to color, create, and let your mind wander.",
   "drawingRoomBody": "A printable coloring page inspired by the Club. Light a candle, pour something good, and make it your own.",
   "coloringPages": [
-    { "image": "/drops/midnight-margarita/drop01-heroImage.jpg", "alt": "Coloring page: mushrooms and citrus" },
-    { "image": "/drops/midnight-margarita/drop01-manualImage.jpg", "alt": "Coloring page: An Everlong Midnight" },
-    { "image": "/drops/midnight-margarita/drop01-purchaseImage.jpg", "alt": "Coloring page: citrus and leaves" }
+    {
+      "image": "/drops/midnight-margarita/drop01-heroImage.jpg",
+      "alt": "Coloring page: mushrooms and citrus"
+    },
+    {
+      "image": "/drops/midnight-margarita/drop01-manualImage.jpg",
+      "alt": "Coloring page: An Everlong Midnight"
+    },
+    {
+      "image": "/drops/midnight-margarita/drop01-purchaseImage.jpg",
+      "alt": "Coloring page: citrus and leaves"
+    }
   ],
   "drawingRoomClosingLine": "Make space for the things that make you feel like you.",
-
   "kitchenTagline": "Something sweet for the morning after.",
   "kitchenImage": "/drops/midnight-margarita/keepsakes.jpg",
   "kitchenImageAlt": "Chocolate cake in a mug, fresh from the microwave",
@@ -68,29 +73,26 @@
   "kitchenClosingLine": "A softer tomorrow counts too.",
   "allergensTitle": "Allergens & Ingredients",
   "allergensBody": "Buttermints: contains milk and soy. Everything else in the box is store-bought and individually labeled — check each item's packaging for a full ingredient list before enjoying.",
-
   "libraryTagline": "Stories for the in-between.",
-  "libraryBody": "A rotating collection of books, essays, and other treasures for late nights, slow mornings, and everything in between. One recommendation at a time.",
+  "libraryBody": "One for your nightstand",
   "books": [
     {
       "coverImage": "/drops/midnight-margarita/card.jpg",
       "coverAlt": "The Night Circus book cover",
-      "monthLabel": "This month",
-      "title": "The Night Circus",
-      "author": "Erin Morgenstern",
-      "description": "A dreamlike novel about a mysterious circus that only appears at night — full of magic, beauty, and the kind of atmosphere that lingers long after the last page.",
-      "quote": "We lead strange lives, chasing our dreams from place to place.",
-      "quoteAuthor": "Erin Morgenstern"
+      "monthLabel": "the find",
+      "title": "Garden Spells",
+      "author": "Sarah Addison Allen",
+      "description": "Family, magic, small towns, complicated women, and a garden with a mind of its own. If you're looking for somewhere to go after Midnight, start here.",
+      "quote": "An additional fun read: In The Company of Witches",
+      "quoteAuthor": "by Auralee Wallace"
     }
   ],
-
   "noteTitle": "A Note from Lumina",
   "noteBody": [
     "Thank you for being here — for scanning the code, finding the door, and staying a little longer than you needed to.",
     "This box was made slowly, and on purpose, for nights like the one you're having. I hope some part of it found you at the right hour."
   ],
   "noteSignature": "With love, Lumina",
-
   "backRoomTagline": "A quieter corner for the ones who get it.",
   "backRoomBody": "Share your thoughts, favorite parts of the evening, what you're watching, reading, drinking, or dreaming about. A little corner of the Club, for you."
 }
