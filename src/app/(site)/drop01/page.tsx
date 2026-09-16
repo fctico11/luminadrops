@@ -101,6 +101,25 @@ export default async function Drop01Page() {
         currency={product?.currency ?? "usd"}
       />
 
+      {/* Intro snippet — desktop only for now, shares copy with the mobile
+          flow; desktop's own layout still needs further refinement. */}
+      <Reveal as="section" className="relative mx-auto hidden max-w-xl px-6 pt-10 pb-6 text-center sm:block lg:pt-14 lg:pb-8">
+        <EditableText
+          file="drop01"
+          field="snippetTitle"
+          value={content.snippetTitle}
+          as="h2"
+          className="text-sm font-medium tracking-[0.2em] text-[#e9e1cd] lg:text-base"
+        />
+        <EditableText
+          file="drop01"
+          field="snippetBody"
+          value={content.snippetBody}
+          as="p"
+          className="mx-auto mt-3 max-w-lg text-[15px] leading-relaxed text-[#c4bba8] lg:text-base"
+        />
+      </Reveal>
+
       {/* Purchase */}
       <Reveal
         as="section"
