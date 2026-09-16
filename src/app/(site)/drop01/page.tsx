@@ -297,8 +297,8 @@ export default async function Drop01Page() {
         </p>
       </Reveal>
 
-      {/* Trust badges */}
-      <Reveal as="section" className="relative mx-auto w-full max-w-3xl px-6 pb-16 lg:pb-20">
+      {/* Trust badges — desktop only; mobile keeps its own copy right under the product */}
+      <Reveal as="section" className="relative mx-auto hidden w-full max-w-3xl px-6 pb-16 sm:block lg:pb-20">
         <div className="grid grid-cols-3 divide-x divide-[#3a352e] border border-[#3a352e]">
           {content.badges.map((badge, i) => (
             <div key={i} className="flex flex-col items-center gap-2 px-2 py-5 text-center sm:gap-3 sm:px-6 sm:py-8">

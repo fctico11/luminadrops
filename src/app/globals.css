@@ -92,6 +92,21 @@ body {
   }
 }
 
+/* A quieter variant of teaser-button-glow for secondary drop01 buttons
+   (Read About the Details / See What's Inside) — same idea, less blur
+   and less border-color swing so it doesn't compete with the primary CTA. */
+@keyframes soft-button-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(207, 176, 100, 0);
+    border-color: #6f695c;
+  }
+  50% {
+    box-shadow: 0 0 10px 1px rgba(207, 176, 100, 0.22);
+    border-color: #a89a7c;
+  }
+}
+
 @keyframes scroll-cue-bounce {
   0%,
   100% {
@@ -293,6 +308,9 @@ body {
   }
   .teaser-button-glow {
     animation: teaser-button-glow 3.2s ease-in-out infinite;
+  }
+  .soft-button-glow {
+    animation: soft-button-glow 3.2s ease-in-out infinite;
   }
   .scroll-cue {
     animation: scroll-cue-bounce 2.2s ease-in-out infinite;

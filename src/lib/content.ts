@@ -149,6 +149,19 @@ export type Drop01Content = {
   /** Short intro blurb shown above the product photo/buy box on mobile. */
   snippetTitle: string;
   snippetBody: string;
+  /** Mobile-only scroll link under the snippet body, jumping down to the
+   * "detailsLabel" accordion row at the bottom of the mobile flow. */
+  readDetailsLabel: string;
+  /** Mobile-only relabel of the long narrative-text accordion — desktop
+   * keeps showing insideSectionTitle ("WHAT'S WAITING INSIDE") on its
+   * carousel heading instead. */
+  detailsLabel: string;
+  /** Mobile-only heading for the merged Club Manual + items section that
+   * replaces desktop's separate Includes heading. */
+  insideMobileTitle: string;
+  /** Mobile-only "see more" toggle that expands the items grid below the
+   * Club Manual photo/description. */
+  expandInsideLabel: string;
   purchaseImage: string;
   purchaseImageAlt: string;
   quantityLabel: string;

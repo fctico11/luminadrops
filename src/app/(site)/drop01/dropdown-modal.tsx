@@ -9,6 +9,9 @@ type Props = {
   labelField: string;
   labelValue: string;
   children: ReactNode;
+  /** Anchors the trigger row so other elements (e.g. a "read about the
+   * details" scroll link) can jump straight to it. */
+  id?: string;
 };
 
 /* matches the modal-fade-out / modal-panel-out animation duration */
@@ -19,7 +22,7 @@ const CLOSE_MS = 420;
  * mobile "What's Waiting Inside" / "The Fine Print" triggers. Reuses the
  * same modal-fade-in/out + modal-panel-in/out CSS as the waitlist and
  * desktop fine-print modals for a consistent open/close feel. */
-export default function DropdownModal({ file, labelField, labelValue, children }: Props) {
+export default function DropdownModal({ file, labelField, labelValue, children, id }: Props) {
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
   const closeTimer = useRef<number | undefined>(undefined);
@@ -53,6 +56,7 @@ export default function DropdownModal({ file, labelField, labelValue, children }
           reopen this every time an admin types a space while editing the
           label text (same reasoning as the waitlist trigger). */}
       <div
+        id={id}
         role="button"
         tabIndex={0}
         onClick={() => setOpen(true)}

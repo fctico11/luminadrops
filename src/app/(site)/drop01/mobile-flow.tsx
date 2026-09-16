@@ -6,6 +6,7 @@ import { cormorant } from "../../ui";
 import Reveal from "./reveal";
 import PurchaseControls from "./purchase-controls";
 import DropdownModal from "./dropdown-modal";
+import MobileInsideExpandable from "./mobile-inside-expandable";
 
 type Props = {
   content: Drop01Content;
@@ -19,12 +20,13 @@ type Props = {
 };
 
 /** The mobile-specific flow for drop01, sitting alongside (not replacing)
- * the existing sm:-and-up layout: product photo + buy box first, then the
- * Club Manual promoted to its own full-width beat, a 2-column grid of
- * what's inside, and two accordion-styled rows that each open a modal
- * (matching the client's reference screenshots) instead of the desktop's
- * swipeable card carousel + inline fine print. Hidden at sm: and up via
- * the wrapping `sm:hidden` on each section in page.tsx. */
+ * the existing sm:-and-up layout: product photo + buy box first, then a
+ * merged "What's Waiting Inside" beat (Club Manual photo/description,
+ * expanding in place to the rest of the items grid), and two
+ * accordion-styled rows that each open a modal ("The Details" holding the
+ * long narrative text, and "The Fine Print") instead of the desktop's
+ * swipeable card carousel + separate Includes grid. Hidden at sm: and up
+ * via the wrapping `sm:hidden` on each section in page.tsx. */
 export default function MobileFlow({
   content,
   isAdmin,
@@ -53,6 +55,12 @@ export default function MobileFlow({
           as="p"
           className="mx-auto mt-3 max-w-sm text-[15px] leading-relaxed text-[#c4bba8]"
         />
+        <a
+          href="#drop01-details"
+          className="soft-button-glow mt-4 inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0]"
+        >
+          <EditableText file="drop01" field="readDetailsLabel" value={content.readDetailsLabel} as="span" />
+        </a>
 
         <div className="mx-auto mt-6 flex w-full max-w-[160px] items-center gap-3" aria-hidden>
           <span className="h-px flex-1 bg-[#4c4740]" />
@@ -60,75 +68,77 @@ export default function MobileFlow({
           <span className="h-px flex-1 bg-[#4c4740]" />
         </div>
 
-        <div className="relative mx-auto mt-6 aspect-[4/5] w-2/3 overflow-hidden border border-[#4c4740]">
-          <EditableImage
-            file="drop01"
-            field="purchaseImage"
-            src={content.purchaseImage}
-            alt={content.purchaseImageAlt}
-            className="object-cover"
-          />
+        <div className="mt-6 -ml-6 flex w-[calc(100%+1.5rem)] items-start gap-4">
+          {/* Bleeds to the true screen edge (cancels the section's px-6
+              on this side only) so the image can run bigger without
+              taking width away from the text column. */}
+          <div className="relative aspect-[4/5] w-1/2 shrink-0 overflow-hidden border border-[#4c4740]">
+            <EditableImage
+              file="drop01"
+              field="purchaseImage"
+              src={content.purchaseImage}
+              alt={content.purchaseImageAlt}
+              className="object-cover"
+            />
+          </div>
+
+          <div className="flex w-1/2 flex-col items-center text-center">
+            {(isAdmin || content.dropLabel) && (
+              <EditableText
+                file="drop01"
+                field="dropLabel"
+                value={content.dropLabel}
+                as="p"
+                className="text-[10px] tracking-[0.25em] text-[#9c9384]"
+              />
+            )}
+            <h2 className={`${cormorant.className} mt-1 text-lg font-medium tracking-[0.1em]`}>
+              <EditableText file="drop01" field="titleLine1" value={content.titleLine1} as="span" />{" "}
+              <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
+            </h2>
+            <EditableText
+              file="drop01"
+              field="dateLabel"
+              value={content.dateLabel}
+              as="p"
+              className="mt-1 text-xs tracking-[0.1em] text-[#9c9384]"
+            />
+
+            <div className="mx-auto mt-4 flex w-full max-w-[130px] items-center gap-2" aria-hidden>
+              <span className="h-px flex-1 bg-[#4c4740]" />
+              <span className="teaser-twinkle text-xs text-[#cfc6b1]">✦</span>
+              <span className="h-px flex-1 bg-[#4c4740]" />
+            </div>
+
+            <EditableText
+              file="drop01"
+              field="quantityLabel"
+              value={content.quantityLabel}
+              as="p"
+              className="mt-4 text-[10px] tracking-[0.2em] text-[#9c9384]"
+            />
+            <div className="mt-2 w-full">
+              <PurchaseControls
+                productId={productId}
+                productName={productName}
+                priceCents={priceCents}
+                currency={currency}
+                ctaLabel={content.ctaLabel}
+                maxQuantity={maxQuantity}
+                soldOut={soldOut}
+              />
+            </div>
+
+            <EditableText
+              file="drop01"
+              field="footNote1"
+              value={content.footNote1}
+              as="p"
+              className="mt-2 text-xs text-[#9c9384]"
+            />
+          </div>
         </div>
 
-        {(isAdmin || content.dropLabel) && (
-          <EditableText
-            file="drop01"
-            field="dropLabel"
-            value={content.dropLabel}
-            as="p"
-            className="mt-5 text-[10px] tracking-[0.3em] text-[#9c9384]"
-          />
-        )}
-        <h2 className={`${cormorant.className} mt-2 text-xl font-medium tracking-[0.15em]`}>
-          <EditableText file="drop01" field="titleLine1" value={content.titleLine1} as="span" />{" "}
-          <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
-        </h2>
-        <EditableText
-          file="drop01"
-          field="dateLabel"
-          value={content.dateLabel}
-          as="p"
-          className="mt-1 text-[11px] tracking-[0.15em] text-[#9c9384]"
-        />
-
-        <div className="mx-auto mt-6 flex w-full max-w-[160px] items-center gap-3" aria-hidden>
-          <span className="h-px flex-1 bg-[#4c4740]" />
-          <span className="teaser-twinkle text-[11px] text-[#cfc6b1]">✦</span>
-          <span className="h-px flex-1 bg-[#4c4740]" />
-        </div>
-
-        <EditableText
-          file="drop01"
-          field="quantityLabel"
-          value={content.quantityLabel}
-          as="p"
-          className="mt-5 text-[10px] tracking-[0.25em] text-[#9c9384]"
-        />
-        <div className="mt-2 w-full">
-          <PurchaseControls
-            productId={productId}
-            productName={productName}
-            priceCents={priceCents}
-            currency={currency}
-            ctaLabel={content.ctaLabel}
-            maxQuantity={maxQuantity}
-            soldOut={soldOut}
-          />
-        </div>
-
-        <EditableText
-          file="drop01"
-          field="footNote1"
-          value={content.footNote1}
-          as="p"
-          className="mt-3 text-xs text-[#9c9384]"
-        />
-
-        {/* Trial placement: same trust-badges block that lives at the
-            bottom of the page, duplicated here to compare which position
-            reads better. Both instances edit the same content.badges
-            fields, so admin edits stay in sync regardless of which one is
-            used to make the change. Remove whichever placement loses. */}
         <div className="mt-8 grid grid-cols-3 divide-x divide-[#3a352e] border border-[#3a352e]">
           {content.badges.map((badge, i) => (
             <div key={i} className="flex flex-col items-center gap-2 px-2 py-5 text-center">
@@ -164,101 +174,15 @@ export default function MobileFlow({
         </div>
       </Reveal>
 
-      {/* Club Manual, promoted to its own full-width beat */}
-      <Reveal as="section" className="relative mx-auto w-full max-w-md px-6 pb-4 text-center">
-        {/* Matches one column's exact width from the 2-col grid below
-            (grid-cols-2 gap-x-4 → each column is 50% minus half the
-            1rem gap), and its aspect-square, so both read as the same
-            size. */}
-        <div className="relative mx-auto aspect-square w-[calc(50%-0.5rem)] overflow-hidden border border-[#3a352e]">
-          <EditableImage
-            file="drop01"
-            field="manualImage"
-            src={content.manualImage}
-            alt={content.manualImageAlt}
-            className="object-cover"
-          />
-        </div>
-        <EditableText
-          file="drop01"
-          field="manualTitle"
-          value={content.manualTitle}
-          as="h3"
-          className="mt-5 text-sm font-medium tracking-[0.2em] text-[#e9e1cd]"
-        />
-        <EditableText
-          file="drop01"
-          field="manualDescription"
-          value={content.manualDescription}
-          as="p"
-          className="mx-auto mt-3 max-w-sm text-[15px] leading-relaxed text-[#c4bba8]"
-        />
-      </Reveal>
-
-      {/* Includes, 2-column grid */}
-      <Reveal id="drop01-mobile-inside" as="section" className="relative mx-auto w-full max-w-md px-6 pb-10 text-center">
-        <EditableText
-          file="drop01"
-          field="includesTitle"
-          value={content.includesTitle}
-          as="h2"
-          className={`${cormorant.className} text-lg font-medium tracking-[0.3em]`}
-        />
-        <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8">
-          {content.items.map((item, i) => (
-            <Reveal
-              key={i}
-              direction={i % 2 === 0 ? "left" : "right"}
-              delayMs={(i % 2) * 100}
-              className="text-left"
-            >
-              <div className="relative aspect-square w-full overflow-hidden border border-[#3a352e]">
-                <EditableImage
-                  file="drop01"
-                  field={`items.${i}.image`}
-                  src={item.image}
-                  alt={item.alt}
-                  className="object-cover"
-                />
-              </div>
-              <EditableText
-                file="drop01"
-                field={`items.${i}.title`}
-                value={item.title}
-                as="h3"
-                className="mt-3 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd]"
-              />
-              <EditableText
-                file="drop01"
-                field={`items.${i}.description`}
-                value={item.description}
-                as="p"
-                className="mt-1.5 text-[13px] leading-relaxed text-[#c4bba8]"
-              />
-              {(isAdmin || item.note) && (
-                <EditableText
-                  file="drop01"
-                  field={`items.${i}.note`}
-                  value={item.note}
-                  as="p"
-                  className={`${cormorant.className} mt-1.5 text-[13px] italic text-[#9c9384]`}
-                />
-              )}
-            </Reveal>
-          ))}
-        </div>
-        <EditableText
-          file="drop01"
-          field="includesClosingLine"
-          value={content.includesClosingLine}
-          as="p"
-          className={`${cormorant.className} mt-10 text-sm italic text-[#9c9384]`}
-        />
+      {/* What's Waiting Inside — Club Manual photo/description by default,
+          expands in place to the rest of the items grid. */}
+      <Reveal as="section" className="relative mx-auto w-full max-w-md px-6 pb-10 text-center">
+        <MobileInsideExpandable content={content} isAdmin={isAdmin} />
       </Reveal>
 
       {/* Details + fine print, each opening a modal */}
       <Reveal as="section" className="relative mx-auto w-full max-w-md px-6 pb-16">
-        <DropdownModal file="drop01" labelField="insideSectionTitle" labelValue={content.insideSectionTitle}>
+        <DropdownModal id="drop01-details" file="drop01" labelField="detailsLabel" labelValue={content.detailsLabel}>
           <div className="text-center">
             {content.insideBodyCards.map((card, i) => (
               <div key={i}>
