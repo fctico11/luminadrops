@@ -5,26 +5,9 @@ type IconProps = { className?: string };
    class, and share a 48x48 viewBox so they drop into DoorFrame at any size. */
 
 /** A tiny 4-point sparkle, reused at small scale as a decorative accent
- * along a few of the icons below (the swirl trail, the wax seal). */
+ * along a few of the icons below (the swirl trail). */
 function tinyStar(cx: number, cy: number, r: number) {
   return `M${cx} ${cy - r} L${cx + r * 0.28} ${cy - r * 0.28} L${cx + r} ${cy} L${cx + r * 0.28} ${cy + r * 0.28} L${cx} ${cy + r} L${cx - r * 0.28} ${cy + r * 0.28} L${cx - r} ${cy} L${cx - r * 0.28} ${cy - r * 0.28} Z`;
-}
-
-/** A scalloped ring — a wax-seal-style wavy edge — built from `bumps` outward
- * bulges around a circle of radius `r`, rather than a plain smooth circle. */
-function scallopedRing(cx: number, cy: number, r: number, bumps: number, depth: number) {
-  const pts = Array.from({ length: bumps + 1 }, (_, i) => {
-    const a = (i / bumps) * Math.PI * 2;
-    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
-  });
-  let d = `M ${pts[0][0]} ${pts[0][1]} `;
-  for (let i = 0; i < bumps; i++) {
-    const mid = ((i + 0.5) / bumps) * Math.PI * 2;
-    const bx = cx + (r + depth) * Math.cos(mid);
-    const by = cy + (r + depth) * Math.sin(mid);
-    d += `Q ${bx} ${by} ${pts[i + 1][0]} ${pts[i + 1][1]} `;
-  }
-  return d;
 }
 
 export function FrameIcon({ className }: IconProps) {
@@ -85,18 +68,6 @@ export function ChestIcon({ className }: IconProps) {
   );
 }
 
-export function SealIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1" className={className}>
-      <path d={scallopedRing(23, 22, 12.5, 20, 1.4)} />
-      <circle cx="23" cy="22" r="9" />
-      <path d="M23 16 L24.6 20.4 L29 22 L24.6 23.6 L23 28 L21.4 23.6 L17 22 L21.4 20.4 Z" />
-      <circle cx="33" cy="33" r="1.6" fill="currentColor" stroke="none" />
-      <circle cx="36.5" cy="36.5" r="0.9" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
 export function SpotifyIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className={className}>
@@ -104,17 +75,6 @@ export function SpotifyIcon({ className }: IconProps) {
       <path d="M6.5 9.8c3.5-1 8-0.6 11 1.1" strokeLinecap="round" />
       <path d="M7 13.1c2.9-0.8 6.6-0.5 9.1 0.9" strokeLinecap="round" />
       <path d="M7.6 16.2c2.4-0.6 5.3-0.4 7.3 0.8" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-export function AppleMusicIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className={className}>
-      <rect x="2.5" y="2.5" width="19" height="19" rx="5" />
-      <path d="M10 15.2a1.9 1.9 0 1 1 -1.9 -1.9c0.4 0 0.8 0.1 1.1 0.3" strokeLinecap="round" />
-      <path d="M15.6 13.6a1.9 1.9 0 1 1 -1.9 -1.9c0.4 0 0.8 0.1 1.1 0.3" strokeLinecap="round" />
-      <path d="M10 13.6V8.4l5.6 -1.2v5.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

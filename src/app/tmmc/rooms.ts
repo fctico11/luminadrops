@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { FrameIcon, PencilIcon, ChestIcon, SealIcon } from "./door-icons";
+import { FrameIcon, PencilIcon, ChestIcon } from "./door-icons";
 
 export type RoomId = "listening-room" | "gallery" | "drawing-room" | "back-room" | "library" | "kitchen" | "note";
 
@@ -35,7 +35,11 @@ export const ROOMS: Room[] = [
     iconImage: { src: "/drops/midnight-margarita/tmmc-back-room-door.png", alt: "The Back Room door" },
     href: "/tmmc/back-room",
   },
-  { id: "note", label: "A Note from Lumina", icon: SealIcon },
+  {
+    id: "note",
+    label: "A Note from Lumina",
+    iconImage: { src: "/drops/midnight-margarita/tmmc-note-door.png", alt: "A Note from Lumina door" },
+  },
   // Paused until the coloring page asset is ready — restore in place to get
   // back to a 4-top/3-bottom grid (see GRID_COL_START in after-hours.tsx).
   // { id: "drawing-room", label: "The Drawing Room", icon: PencilIcon },
