@@ -10,28 +10,6 @@ function tinyStar(cx: number, cy: number, r: number) {
   return `M${cx} ${cy - r} L${cx + r * 0.28} ${cy - r * 0.28} L${cx + r} ${cy} L${cx + r * 0.28} ${cy + r * 0.28} L${cx} ${cy + r} L${cx - r * 0.28} ${cy + r * 0.28} L${cx - r} ${cy} L${cx - r * 0.28} ${cy - r * 0.28} Z`;
 }
 
-export function FrameIcon({ className }: IconProps) {
-  const curl = "M0 0 C1.3 -1.6 3.2 -1.5 3.1 0.4 C3 2.2 1.3 2.6 0.4 1.5";
-  const corners: [number, number, number][] = [
-    [11, 7.5, 0],
-    [37, 7.5, 90],
-    [37, 40.5, 180],
-    [11, 40.5, 270],
-  ];
-  return (
-    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1" className={className}>
-      <path d="M24 3.5 v3" strokeLinecap="round" />
-      <circle cx="24" cy="2.6" r="1.1" />
-      <rect x="11" y="7.5" width="26" height="33" rx="1" />
-      <rect x="15" y="11.7" width="18" height="24.6" rx="0.6" />
-      {corners.map(([x, y, rot]) => (
-        <path key={rot} d={curl} strokeWidth="0.85" opacity="0.8" transform={`translate(${x} ${y}) rotate(${rot})`} />
-      ))}
-      <path d="M24 16.5 L25.4 21.6 L30.5 23 L25.4 24.4 L24 29.5 L22.6 24.4 L17.5 23 L22.6 21.6 Z" />
-    </svg>
-  );
-}
-
 export function PencilIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1" className={className}>
@@ -47,23 +25,6 @@ export function PencilIcon({ className }: IconProps) {
       <path d="M16 32 L31.5 11.5 L36.5 15.5 L21 36 L14.5 38 Z" />
       <path d="M31.5 11.5 L36.5 15.5" />
       <path d="M18.3 29 L22.3 32" />
-    </svg>
-  );
-}
-
-export function ChestIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1" className={className}>
-      {/* leaning book, propped against the chest */}
-      <rect x="6.5" y="21" width="8" height="17" rx="0.7" transform="rotate(-15 6.5 21)" />
-      <path d="M8.2 22.4 L15 24.6" transform="rotate(-15 6.5 21)" strokeWidth="0.7" opacity="0.7" />
-      <path d="M7.6 25 L14.4 27.2" transform="rotate(-15 6.5 21)" strokeWidth="0.5" opacity="0.5" />
-      {/* chest, flat-top */}
-      <rect x="17" y="23" width="24" height="15" rx="1" />
-      {/* ribbon down the center + bow at the top edge */}
-      <path d="M29 17 v21" />
-      <path d="M29 17.3 c-3.1 -1.4 -3.1 -4 0 -4.6 c1.6 -0.3 1.6 2 0 2.3 M29 17.3 c3.1 -1.4 3.1 -4 0 -4.6 c-1.6 -0.3 -1.6 2 0 2.3" />
-      <circle cx="29" cy="17.2" r="0.7" fill="currentColor" stroke="none" />
     </svg>
   );
 }

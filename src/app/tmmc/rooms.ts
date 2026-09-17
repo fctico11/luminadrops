@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { FrameIcon, PencilIcon, ChestIcon } from "./door-icons";
+import { PencilIcon } from "./door-icons";
 
 export type RoomId = "listening-room" | "gallery" | "drawing-room" | "back-room" | "library" | "kitchen" | "note";
 
@@ -22,13 +22,21 @@ export const ROOMS: Room[] = [
     label: "The Listening Room",
     iconImage: { src: "/drops/midnight-margarita/tmmc-listening-room-door.png", alt: "The Listening Room door" },
   },
-  { id: "gallery", label: "The Gallery", icon: FrameIcon },
+  {
+    id: "gallery",
+    label: "The Gallery",
+    iconImage: { src: "/drops/midnight-margarita/tmmc-gallery-door.png", alt: "The Gallery door" },
+  },
   {
     id: "kitchen",
     label: "The Kitchen",
     iconImage: { src: "/drops/midnight-margarita/tmmc-kitchen-door.png", alt: "The Kitchen door" },
   },
-  { id: "library", label: "The Library", icon: ChestIcon },
+  {
+    id: "library",
+    label: "The Library",
+    iconImage: { src: "/drops/midnight-margarita/tmmc-library-door.png", alt: "The Library door" },
+  },
   {
     id: "back-room",
     label: "The Back Room",
