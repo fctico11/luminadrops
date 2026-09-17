@@ -12,9 +12,15 @@ type FrameSize = "lg" | "md" | "sm";
 function DoorArt({ room, size }: { room: Room; size: FrameSize }) {
   if (room.iconImage) {
     const dims = { lg: "h-32 w-28 sm:h-36 sm:w-32", md: "h-24 w-20", sm: "h-20 w-[4.5rem]" }[size];
+    // Without `sizes`, a `fill` image has no way to know its actual rendered
+    // width and Next defaults to requesting its largest configured bucket
+    // (3840px) — a huge, unnecessary upscale from these ~300-400px sources
+    // that made the denser artwork (many thin parallel lines) come out
+    // visibly darker/muddier than the others once re-compressed at that size.
+    const sizes = { lg: "144px", md: "96px", sm: "72px" }[size];
     return (
       <div className={`relative ${dims} transition-opacity duration-300 group-hover:opacity-80`}>
-        <Image src={room.iconImage.src} alt={room.iconImage.alt} fill className="object-contain" />
+        <Image src={room.iconImage.src} alt={room.iconImage.alt} fill sizes={sizes} quality={90} className="object-contain" />
       </div>
     );
   }
