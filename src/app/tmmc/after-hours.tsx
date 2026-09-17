@@ -119,9 +119,11 @@ export default function AfterHours({ content }: { content: TmmcContent }) {
           </div>
         ))}
       </div>
-      <div className="mt-16 flex flex-wrap justify-center gap-x-10 gap-y-14 sm:gap-x-12 lg:hidden">
+      <div className="mt-16 grid grid-cols-2 gap-x-10 gap-y-14 sm:gap-x-12 lg:hidden">
         {ROOMS.map((room) => (
-          <DoorButton key={room.id} room={room} onOpen={open} />
+          <div key={room.id} className="flex justify-center">
+            <DoorButton room={room} onOpen={open} />
+          </div>
         ))}
       </div>
 

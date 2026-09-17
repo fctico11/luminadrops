@@ -117,7 +117,7 @@ export default function Gallery({ content }: { content: TmmcContent }) {
       <button
         type="button"
         onClick={handleSave}
-        className="mt-6 flex items-center justify-center gap-3 border border-[#6f695c] px-6 py-3.5 text-[11px] tracking-[0.25em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04]"
+        className="mx-auto mt-6 flex items-center justify-center gap-3 border border-[#6f695c] px-6 py-3.5 text-[11px] tracking-[0.25em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04]"
       >
         SAVE WALLPAPER ↓
       </button>
