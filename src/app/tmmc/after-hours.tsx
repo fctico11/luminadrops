@@ -41,7 +41,7 @@ function getModalMeta(id: RoomId, content: TmmcContent): { tagline?: string; clo
     case "drawing-room":
       return { tagline: content.drawingRoomTagline, closingLine: content.drawingRoomClosingLine };
     case "kitchen":
-      return { tagline: content.kitchenTagline, closingLine: content.kitchenClosingLine };
+      return { tagline: content.kitchenTagline };
     case "library":
       return { tagline: content.libraryTagline };
     default:

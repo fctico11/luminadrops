@@ -71,7 +71,7 @@ export default function Library({ content }: { content: TmmcContent }) {
           />
 
           <a
-            href={`https://www.goodreads.com/search?q=${encodeURIComponent(book.title)}`}
+            href={book.goodreadsUrl}
             target="_blank"
             rel="noreferrer"
             className="mt-5 inline-flex items-center gap-2 border border-[#6f695c] px-5 py-2.5 text-[10px] tracking-[0.2em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04]"

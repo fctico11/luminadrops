@@ -171,7 +171,7 @@ export type Drop01Content = {
   footNote2: string;
 };
 
-export type TmmcWallpaper = { image: string; alt: string; caption: string };
+export type TmmcWallpaper = { image: string; alt: string };
 export type TmmcColoringPage = { image: string; alt: string };
 export type TmmcBook = {
   coverImage: string;
@@ -182,6 +182,7 @@ export type TmmcBook = {
   description: string;
   quote: string;
   quoteAuthor: string;
+  goodreadsUrl: string;
 };
 
 export type TmmcContent = {
@@ -215,9 +216,6 @@ export type TmmcContent = {
   recipeBody: string;
   ingredients: string[];
   directions: string[];
-  kitchenClosingLine: string;
-  allergensTitle: string;
-  allergensBody: string;
 
   libraryTagline: string;
   libraryBody: string;

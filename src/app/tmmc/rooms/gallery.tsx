@@ -3,7 +3,6 @@
 import { useState } from "react";
 import EditableText from "@/components/edit/EditableText";
 import EditableImage from "@/components/edit/EditableImage";
-import { cormorant } from "../../ui";
 import type { TmmcContent } from "@/lib/content";
 
 export default function Gallery({ content }: { content: TmmcContent }) {
@@ -39,6 +38,8 @@ export default function Gallery({ content }: { content: TmmcContent }) {
             field={`wallpapers.${index}.image`}
             src={current.image}
             alt={current.alt}
+            exportWidth={1080}
+            exportHeight={2220}
             className="object-cover"
           />
           <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/55 to-transparent px-2 pb-8 pt-3 text-center">
@@ -55,15 +56,6 @@ export default function Gallery({ content }: { content: TmmcContent }) {
               value={content.wallpaperDateLabel}
               as="p"
               className="mt-0.5 text-[9px] tracking-[0.1em] text-[#f5f2ea]/80"
-            />
-          </div>
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-3 pb-4 pt-8">
-            <EditableText
-              file="tmmc"
-              field={`wallpapers.${index}.caption`}
-              value={current.caption}
-              as="p"
-              className={`${cormorant.className} text-center text-[13px] italic text-[#f5f2ea]`}
             />
           </div>
         </div>

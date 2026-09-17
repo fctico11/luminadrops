@@ -4,9 +4,9 @@
   "listeningRoomTagline": "Music for your Everlong Midnight.",
   "playlistCoverImage": "/drops/midnight-margarita/moonstone.jpg",
   "playlistCoverAlt": "The Everlong Midnight playlist cover",
-  "playlistTitle": "The Everlong Midnight",
+  "playlistTitle": "✦ TMMC ✦",
   "playlistSubtitle": "A Lumina Drops playlist",
-  "spotifyUrl": "https://open.spotify.com",
+  "spotifyUrl": "https://open.spotify.com/playlist/2aBvFDKbxVCFVXcqyYORoc?si=98a7f92e795d444f",
   "appleMusicUrl": "https://music.apple.com",
   "listeningRoomClosingLine": "Some songs find you at exactly the right hour.",
   "galleryTagline": "Take a piece of the Club with you.",
@@ -16,18 +16,15 @@
   "wallpapers": [
     {
       "image": "/drops/midnight-margarita/tmmc-wallpapers-0-image.jpg",
-      "alt": "Wallpaper: candlelight and blossoms",
-      "caption": "Good company finds you here."
+      "alt": "Wallpaper: candlelight and blossoms"
     },
     {
       "image": "/drops/midnight-margarita/tmmc-wallpapers-1-image.jpg",
-      "alt": "Wallpaper: a single star",
-      "caption": "An Everlong Midnight."
+      "alt": "Wallpaper: a single star"
     },
     {
       "image": "/drops/midnight-margarita/tmmc-wallpapers-2-image.jpg",
-      "alt": "Wallpaper: coupe glasses and blossoms",
-      "caption": "A little magic goes a long way."
+      "alt": "Wallpaper: coupe glasses and blossoms"
     }
   ],
   "drawingRoomTagline": "A quiet place to color, create, and let your mind wander.",
@@ -70,21 +67,19 @@
     "Microwave for 60-90 seconds (start with 60 and add time as needed).",
     "Let cool for a minute, then enjoy."
   ],
-  "kitchenClosingLine": "A softer tomorrow counts too.",
-  "allergensTitle": "",
-  "allergensBody": "",
   "libraryTagline": "Stories for the in-between.",
   "libraryBody": "One for your nightstand",
   "books": [
     {
       "coverImage": "/drops/midnight-margarita/tmmc-books-0-coverImage.jpg",
-      "coverAlt": "The Night Circus book cover",
+      "coverAlt": "Garden Spells book cover",
       "monthLabel": "the find",
       "title": "Garden Spells",
       "author": "Sarah Addison Allen",
       "description": "Family, magic, small towns, complicated women, and a garden with a mind of its own. If you're looking for somewhere to go after Midnight, start here.",
       "quote": "An additional fun read: In The Company of Witches",
-      "quoteAuthor": "by Auralee Wallace"
+      "quoteAuthor": "by Auralee Wallace",
+      "goodreadsUrl": "https://www.goodreads.com/en/book/show/1158967.Garden_Spells"
     }
   ],
   "noteTitle": "A Note from Lumina",
@@ -93,6 +88,6 @@
     "This all started with an unreasonably specific idea that I couldn’t leave imaginary, and the fact that you let it become a real part of one of your nights means more to me than I know how to express. I hope you keep making ordinary nights feel like something worth remembering - thank you for spending this one with me."
   ],
   "noteSignature": "With gratitude, awe, and love - Lumina",
-  "backRoomTagline": "A quieter corner for the ones who get it.",
-  "backRoomBody": "Share your thoughts, favorite parts of the evening, what you're watching, reading, drinking, or dreaming about. A little corner of the Club, for you."
+  "backRoomTagline": "Pull up a chair, The Club's in here.",
+  "backRoomBody": "For the conversations that keep going after Midnight."
 }

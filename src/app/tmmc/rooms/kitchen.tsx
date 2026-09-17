@@ -55,23 +55,6 @@ export default function Kitchen({ content }: { content: TmmcContent }) {
           </ol>
         </div>
       </div>
-
-      <div className="mx-auto mt-10 max-w-xs border-t border-[#3a352e] pt-6 text-left">
-        <EditableText
-          file="tmmc"
-          field="allergensTitle"
-          value={content.allergensTitle}
-          as="p"
-          className="text-[10px] uppercase tracking-[0.3em] text-[#9c9384]"
-        />
-        <EditableText
-          file="tmmc"
-          field="allergensBody"
-          value={content.allergensBody}
-          as="p"
-          className="mt-2 text-[13px] leading-relaxed text-[#9c9384]"
-        />
-      </div>
     </div>
   );
 }
