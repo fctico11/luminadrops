@@ -111,10 +111,16 @@ export function DoorThumb({
 
 /** A purely decorative, non-interactive arch — the Listening Room modal
  * repeats its own door icon inline as a visual anchor. */
-export function DoorAccent({ icon: Icon }: { icon: ComponentType<{ className?: string }> }) {
+export function DoorAccent({
+  icon: Icon,
+  size = "md",
+}: {
+  icon: ComponentType<{ className?: string }>;
+  size?: FrameSize;
+}) {
   return (
     <div className="mx-auto flex w-fit justify-center">
-      <DoorFrame size="md">
+      <DoorFrame size={size}>
         <Icon className="h-full w-full" />
       </DoorFrame>
     </div>

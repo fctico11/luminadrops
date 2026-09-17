@@ -8,9 +8,9 @@ import type { TmmcContent } from "@/lib/content";
 export default function ListeningRoom({ content }: { content: TmmcContent }) {
   return (
     <div>
-      <DoorAccent icon={VinylIcon} />
+      <DoorAccent icon={VinylIcon} size="sm" />
 
-      <div className="mt-8 flex items-center gap-4 border border-[#4c4740] bg-white/[0.03] p-3 text-left">
+      <div className="mt-6 flex items-center gap-4 border border-[#4c4740] bg-white/[0.03] p-3 text-left">
         <div className="relative h-14 w-14 shrink-0 overflow-hidden">
           <EditableImage
             file="tmmc"
@@ -42,7 +42,7 @@ export default function ListeningRoom({ content }: { content: TmmcContent }) {
         href={content.spotifyUrl}
         target="_blank"
         rel="noreferrer"
-        className="mt-4 flex items-center justify-center gap-2 border border-[#6f695c] px-5 py-3 text-[11px] tracking-[0.2em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04]"
+        className="mt-3 flex items-center justify-center gap-2 border border-[#6f695c] px-5 py-3 text-[11px] tracking-[0.2em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04]"
       >
         <SpotifyIcon className="h-4 w-4 shrink-0" />
         OPEN IN SPOTIFY ↗
