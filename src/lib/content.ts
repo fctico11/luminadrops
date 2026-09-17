@@ -195,7 +195,6 @@ export type TmmcContent = {
   playlistTitle: string;
   playlistSubtitle: string;
   spotifyUrl: string;
-  appleMusicUrl: string;
   listeningRoomClosingLine: string;
 
   galleryTagline: string;

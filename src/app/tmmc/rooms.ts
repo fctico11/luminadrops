@@ -15,11 +15,13 @@ export type Room = {
 export const ROOMS: Room[] = [
   { id: "listening-room", label: "The Listening Room", icon: VinylIcon },
   { id: "gallery", label: "The Gallery", icon: FrameIcon },
-  { id: "drawing-room", label: "The Drawing Room", icon: PencilIcon },
-  { id: "back-room", label: "The Back Room", icon: CurtainIcon, href: "/tmmc/back-room" },
-  { id: "library", label: "The Library", icon: ChestIcon },
   { id: "kitchen", label: "The Kitchen", icon: MugIcon },
+  { id: "library", label: "The Library", icon: ChestIcon },
+  { id: "back-room", label: "The Back Room", icon: CurtainIcon, href: "/tmmc/back-room" },
   { id: "note", label: "A Note from Lumina", icon: SealIcon },
+  // Paused until the coloring page asset is ready — restore in place to get
+  // back to a 4-top/3-bottom grid (see GRID_COL_START in after-hours.tsx).
+  // { id: "drawing-room", label: "The Drawing Room", icon: PencilIcon },
 ];
 
 export function findRoom(id: string | null | undefined) {
