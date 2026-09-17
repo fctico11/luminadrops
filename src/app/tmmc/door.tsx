@@ -11,13 +11,13 @@ type FrameSize = "lg" | "md" | "sm";
  * iconImage — that image standing in for the whole door, arch included. */
 function DoorArt({ room, size }: { room: Room; size: FrameSize }) {
   if (room.iconImage) {
-    const dims = { lg: "h-32 w-28 sm:h-36 sm:w-32", md: "h-24 w-20", sm: "h-20 w-[4.5rem]" }[size];
+    const dims = { lg: "h-36 w-32 sm:h-40 sm:w-36", md: "h-24 w-20", sm: "h-20 w-[4.5rem]" }[size];
     // Without `sizes`, a `fill` image has no way to know its actual rendered
     // width and Next defaults to requesting its largest configured bucket
     // (3840px) — a huge, unnecessary upscale from these ~300-400px sources
     // that made the denser artwork (many thin parallel lines) come out
     // visibly darker/muddier than the others once re-compressed at that size.
-    const sizes = { lg: "144px", md: "96px", sm: "72px" }[size];
+    const sizes = { lg: "160px", md: "96px", sm: "72px" }[size];
     return (
       <div className={`relative ${dims} transition-opacity duration-300 group-hover:opacity-80`}>
         <Image src={room.iconImage.src} alt={room.iconImage.alt} fill sizes={sizes} quality={90} className="object-contain" />
@@ -38,7 +38,7 @@ function DoorArt({ room, size }: { room: Room; size: FrameSize }) {
  * the full-size grid doors, the small side-rail thumbnails, and the
  * decorative mid-size accent some room modals repeat inside their content. */
 export function DoorFrame({ size, children }: { size: FrameSize; children: React.ReactNode }) {
-  const dims = { lg: "h-32 w-28 sm:h-36 sm:w-32", md: "h-24 w-20", sm: "h-20 w-[4.5rem]" }[size];
+  const dims = { lg: "h-36 w-32 sm:h-40 sm:w-36", md: "h-24 w-20", sm: "h-20 w-[4.5rem]" }[size];
   const iconSize = { lg: "h-10 w-10 sm:h-11 sm:w-11", md: "h-8 w-8", sm: "h-6 w-6" }[size];
   const starTop = { lg: "-top-7", md: "-top-6", sm: "-top-5" }[size];
   const stemHeight = { lg: "h-5", md: "h-4", sm: "h-3" }[size];
