@@ -1,9 +1,31 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import type { Room } from "./rooms";
 
 type FrameSize = "lg" | "md" | "sm";
+
+/** Renders a room's door graphic: the shared arch frame around a swappable
+ * line-icon glyph for most rooms, or — for a room with its own bespoke
+ * iconImage — that image standing in for the whole door, arch included. */
+function DoorArt({ room, size }: { room: Room; size: FrameSize }) {
+  if (room.iconImage) {
+    const dims = { lg: "h-32 w-28 sm:h-36 sm:w-32", md: "h-24 w-20", sm: "h-20 w-[4.5rem]" }[size];
+    return (
+      <div className={`relative ${dims} transition-opacity duration-300 group-hover:opacity-80`}>
+        <Image src={room.iconImage.src} alt={room.iconImage.alt} fill className="object-contain" />
+      </div>
+    );
+  }
+
+  const Icon = room.icon!;
+  return (
+    <DoorFrame size={size}>
+      <Icon className="h-full w-full" />
+    </DoorFrame>
+  );
+}
 
 /** The arched alcove every door icon sits inside — a small star on a dotted
  * stem above, a smaller star tucked in the bottom-right corner. Shared by
@@ -43,12 +65,9 @@ export function DoorFrame({ size, children }: { size: FrameSize; children: React
 
 /** A full-size door in the After Hours grid. */
 export function DoorButton({ room, onOpen }: { room: Room; onOpen: (room: Room) => void }) {
-  const Icon = room.icon;
   const body = (
     <>
-      <DoorFrame size="lg">
-        <Icon className="h-full w-full" />
-      </DoorFrame>
+      <DoorArt room={room} size="lg" />
       <p className="mt-4 text-center text-[11px] font-medium uppercase tracking-[0.25em] text-[#e9e1cd]">
         {room.label}
       </p>
@@ -81,12 +100,9 @@ export function DoorThumb({
   room: Room;
   onNavigate?: (room: Room) => void;
 }) {
-  const Icon = room.icon;
   const body = (
     <>
-      <DoorFrame size="sm">
-        <Icon className="h-full w-full" />
-      </DoorFrame>
+      <DoorArt room={room} size="sm" />
       <p className="mt-2 text-center text-[9px] font-medium uppercase leading-tight tracking-[0.2em] text-[#b9b09d]">
         {room.label}
       </p>

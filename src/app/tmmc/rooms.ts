@@ -1,23 +1,40 @@
 import type { ComponentType } from "react";
-import { VinylIcon, FrameIcon, PencilIcon, CurtainIcon, ChestIcon, MugIcon, SealIcon } from "./door-icons";
+import { FrameIcon, PencilIcon, ChestIcon, SealIcon } from "./door-icons";
 
 export type RoomId = "listening-room" | "gallery" | "drawing-room" | "back-room" | "library" | "kitchen" | "note";
 
 export type Room = {
   id: RoomId;
   label: string;
-  icon: ComponentType<{ className?: string }>;
+  /** Either a line-icon component (rendered inside the shared DoorFrame
+   * arch, like every other room) or a standalone image that replaces the
+   * whole door graphic — arch and all — for rooms with a bespoke asset. */
+  icon?: ComponentType<{ className?: string }>;
+  iconImage?: { src: string; alt: string };
   /** Only The Back Room breaks out to its own route — every other door opens
    * as a modal over the After Hours grid. */
   href?: string;
 };
 
 export const ROOMS: Room[] = [
-  { id: "listening-room", label: "The Listening Room", icon: VinylIcon },
+  {
+    id: "listening-room",
+    label: "The Listening Room",
+    iconImage: { src: "/drops/midnight-margarita/tmmc-listening-room-door.png", alt: "The Listening Room door" },
+  },
   { id: "gallery", label: "The Gallery", icon: FrameIcon },
-  { id: "kitchen", label: "The Kitchen", icon: MugIcon },
+  {
+    id: "kitchen",
+    label: "The Kitchen",
+    iconImage: { src: "/drops/midnight-margarita/tmmc-kitchen-door.png", alt: "The Kitchen door" },
+  },
   { id: "library", label: "The Library", icon: ChestIcon },
-  { id: "back-room", label: "The Back Room", icon: CurtainIcon, href: "/tmmc/back-room" },
+  {
+    id: "back-room",
+    label: "The Back Room",
+    iconImage: { src: "/drops/midnight-margarita/tmmc-back-room-door.png", alt: "The Back Room door" },
+    href: "/tmmc/back-room",
+  },
   { id: "note", label: "A Note from Lumina", icon: SealIcon },
   // Paused until the coloring page asset is ready — restore in place to get
   // back to a 4-top/3-bottom grid (see GRID_COL_START in after-hours.tsx).

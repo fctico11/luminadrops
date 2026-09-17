@@ -27,18 +27,6 @@ function scallopedRing(cx: number, cy: number, r: number, bumps: number, depth: 
   return d;
 }
 
-export function VinylIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1" className={className}>
-      <circle cx="24" cy="24" r="16" />
-      <circle cx="24" cy="24" r="12.4" strokeDasharray="7 2.2" opacity="0.85" />
-      <circle cx="24" cy="24" r="8.8" strokeDasharray="4.5 1.8" opacity="0.75" />
-      <circle cx="24" cy="24" r="5.2" />
-      <circle cx="24" cy="24" r="1.3" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
 export function FrameIcon({ className }: IconProps) {
   const curl = "M0 0 C1.3 -1.6 3.2 -1.5 3.1 0.4 C3 2.2 1.3 2.6 0.4 1.5";
   const corners: [number, number, number][] = [
@@ -80,29 +68,6 @@ export function PencilIcon({ className }: IconProps) {
   );
 }
 
-export function CurtainIcon({ className }: IconProps) {
-  const strands = [7, 12, 17, 22, 26, 31, 36, 41];
-  const beadYs = [23, 27.5, 32, 36.5, 41];
-  return (
-    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1" className={className}>
-      <path d="M18 10 a5.2 5.2 0 1 0 7.3 7.2 a7 7 0 1 1 -7.3 -7.2 Z" fill="currentColor" stroke="none" />
-      {strands.map((x, si) =>
-        beadYs.map((y, bi) => (
-          <circle
-            key={`${si}-${bi}`}
-            cx={x}
-            cy={y}
-            r="0.75"
-            fill="currentColor"
-            stroke="none"
-            opacity={si % 2 === 0 ? 0.9 : 0.5}
-          />
-        ))
-      )}
-    </svg>
-  );
-}
-
 export function ChestIcon({ className }: IconProps) {
   return (
     <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1" className={className}>
@@ -116,24 +81,6 @@ export function ChestIcon({ className }: IconProps) {
       <path d="M29 17 v21" />
       <path d="M29 17.3 c-3.1 -1.4 -3.1 -4 0 -4.6 c1.6 -0.3 1.6 2 0 2.3 M29 17.3 c3.1 -1.4 3.1 -4 0 -4.6 c-1.6 -0.3 -1.6 2 0 2.3" />
       <circle cx="29" cy="17.2" r="0.7" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-export function MugIcon({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1" className={className}>
-      <path d="M12.5 23 h20 v13 a4 4 0 0 1 -4 4 h-12 a4 4 0 0 1 -4 -4 Z" />
-      <path d="M32.5 26 q6.5 0 6.5 5.5 t-6.5 5.5" />
-      {/* generous whipped-cream cap */}
-      <path
-        d="M11.5 23 c0.8 -3.6 3 -3.8 3.9 -1.2 c0.7 -3.8 3.4 -4 4.2 -0.9 c0.8 -3.6 3.4 -3.6 4.1 -0.3 c0.7 -3.4 3.3 -3.4 4 -0.2 c0.7 -3.2 3.1 -3.2 3.8 0.1 c0.7 -3.4 3.1 -3.4 3.9 -0.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {/* drips */}
-      <path d="M16.5 24 c-1.6 2.2 -1.8 4 0 4.8 c1.9 0.9 2 -1.4 0.4 -1.8" strokeWidth="0.9" opacity="0.85" />
-      <path d="M26 23.6 c-1.2 1.6 -1.3 2.9 0 3.5" strokeWidth="0.9" opacity="0.7" />
     </svg>
   );
 }
