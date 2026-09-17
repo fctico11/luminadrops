@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import type { ComponentType } from "react";
 import type { Room } from "./rooms";
 
 type FrameSize = "lg" | "md" | "sm";
@@ -106,23 +105,5 @@ export function DoorThumb({
     <button type="button" onClick={() => onNavigate(room)} className="group flex flex-col items-center">
       {body}
     </button>
-  );
-}
-
-/** A purely decorative, non-interactive arch — the Listening Room modal
- * repeats its own door icon inline as a visual anchor. */
-export function DoorAccent({
-  icon: Icon,
-  size = "md",
-}: {
-  icon: ComponentType<{ className?: string }>;
-  size?: FrameSize;
-}) {
-  return (
-    <div className="mx-auto flex w-fit justify-center">
-      <DoorFrame size={size}>
-        <Icon className="h-full w-full" />
-      </DoorFrame>
-    </div>
   );
 }

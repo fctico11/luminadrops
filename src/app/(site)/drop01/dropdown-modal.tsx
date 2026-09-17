@@ -91,7 +91,7 @@ export default function DropdownModal({ file, labelField, labelValue, children, 
             role="dialog"
             aria-modal="true"
             aria-label={labelValue}
-            className={`grain relative max-h-[90vh] w-full max-w-md overflow-y-auto border border-[#4c4740] bg-[#141115] px-8 py-10 text-center text-[#e9e1cd] sm:max-w-xl sm:px-10 lg:max-w-2xl xl:max-w-3xl 2xl:max-w-4xl ${
+            className={`grain relative max-h-[90vh] w-full max-w-md border border-[#4c4740] bg-[#141115] text-center text-[#e9e1cd] sm:max-w-xl lg:max-w-2xl xl:max-w-3xl 2xl:max-w-4xl ${
               closing ? "modal-panel-out" : "modal-panel-in"
             }`}
             onClick={(e) => e.stopPropagation()}
@@ -100,17 +100,24 @@ export default function DropdownModal({ file, labelField, labelValue, children, 
               type="button"
               onClick={close}
               aria-label="Close"
-              className="absolute right-4 top-3 text-xl leading-none text-[#b9b09d] transition-colors duration-300 hover:text-[#fff6e0]"
+              className="absolute right-4 top-3 z-10 text-xl leading-none text-[#b9b09d] transition-colors duration-300 hover:text-[#fff6e0]"
             >
               ×
             </button>
 
-            <span className="teaser-twinkle inline-block text-sm text-[#cfc6b1]" aria-hidden>
-              ✦
-            </span>
-            <p className="mt-3 text-xs tracking-[0.3em] text-[#9c9384]">{labelValue}</p>
+            {/* Grain lives on the outer, non-scrolling box so its noise
+                overlay stays fixed to the visible frame — only this inner
+                box scrolls, so the grain can't fall out of sync with long
+                content (it used to be on the scrolling box itself, which
+                left a visible seam once you scrolled past its own height). */}
+            <div className="max-h-[90vh] overflow-y-auto px-8 py-10 sm:px-10">
+              <span className="teaser-twinkle inline-block text-sm text-[#cfc6b1]" aria-hidden>
+                ✦
+              </span>
+              <p className="mt-3 text-xs tracking-[0.3em] text-[#9c9384]">{labelValue}</p>
 
-            <div className="mt-4">{children}</div>
+              <div className="mt-4">{children}</div>
+            </div>
           </div>
         </div>
       )}

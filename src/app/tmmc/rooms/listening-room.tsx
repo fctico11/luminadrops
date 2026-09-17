@@ -1,16 +1,13 @@
 import EditableText from "@/components/edit/EditableText";
 import EditableImage from "@/components/edit/EditableImage";
 import { cormorant } from "../../ui";
-import { DoorAccent } from "../door";
-import { VinylIcon, SpotifyIcon } from "../door-icons";
+import { SpotifyIcon } from "../door-icons";
 import type { TmmcContent } from "@/lib/content";
 
 export default function ListeningRoom({ content }: { content: TmmcContent }) {
   return (
     <div>
-      <DoorAccent icon={VinylIcon} size="sm" />
-
-      <div className="mt-6 flex items-center gap-4 border border-[#4c4740] bg-white/[0.03] p-3 text-left">
+      <div className="flex items-center gap-4 border border-[#4c4740] bg-white/[0.03] p-3 text-left">
         <div className="relative h-14 w-14 shrink-0 overflow-hidden">
           <EditableImage
             file="tmmc"
