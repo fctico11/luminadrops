@@ -12,6 +12,33 @@ export default function Gallery({ content }: { content: TmmcContent }) {
 
   const go = (delta: number) => setIndex((i) => (i + delta + wallpapers.length) % wallpapers.length);
 
+  const handleSave = async () => {
+    const fileName = current.image.split("/").pop() || "wallpaper.jpg";
+
+    try {
+      const response = await fetch(current.image);
+      const blob = await response.blob();
+      const file = new File([blob], fileName, { type: blob.type || "image/jpeg" });
+
+      // On iPhone/Android this opens the native share sheet — Save to
+      // Photos, Save to Files, AirDrop, etc. — instead of silently picking
+      // one destination for the visitor.
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file] });
+        return;
+      }
+    } catch (err) {
+      // User dismissing the share sheet throws AbortError — leave it alone
+      // rather than falling back to a forced download.
+      if (err instanceof DOMException && err.name === "AbortError") return;
+    }
+
+    const link = document.createElement("a");
+    link.href = current.image;
+    link.download = fileName;
+    link.click();
+  };
+
   return (
     <div>
       <EditableText
@@ -87,13 +114,13 @@ export default function Gallery({ content }: { content: TmmcContent }) {
         <span className="h-px flex-1 bg-[#4c4740]" />
       </div>
 
-      <a
-        href={current.image}
-        download
+      <button
+        type="button"
+        onClick={handleSave}
         className="mt-6 flex items-center justify-center gap-3 border border-[#6f695c] px-6 py-3.5 text-[11px] tracking-[0.25em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04]"
       >
-        DOWNLOAD WALLPAPER ↓
-      </a>
+        SAVE WALLPAPER ↓
+      </button>
     </div>
   );
 }

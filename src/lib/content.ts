@@ -217,7 +217,6 @@ export type TmmcContent = {
   directions: string[];
 
   libraryTagline: string;
-  libraryBody: string;
   books: TmmcBook[];
 
   noteTitle: string;

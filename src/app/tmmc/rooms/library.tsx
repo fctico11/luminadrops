@@ -15,15 +15,7 @@ export default function Library({ content }: { content: TmmcContent }) {
 
   return (
     <div>
-      <EditableText
-        file="tmmc"
-        field="libraryBody"
-        value={content.libraryBody}
-        as="p"
-        className="mx-auto max-w-sm text-sm leading-relaxed text-[#c4bba8]"
-      />
-
-      <div className="mt-8 flex flex-col items-center gap-6 text-left sm:flex-row sm:items-start">
+      <div className="flex flex-col items-center gap-6 text-left sm:flex-row sm:items-start">
         <div className="relative aspect-[2/3] w-28 shrink-0 overflow-hidden border border-[#4c4740] sm:w-32">
           <EditableImage
             file="tmmc"
