@@ -91,7 +91,7 @@ export default function DropdownModal({ file, labelField, labelValue, children, 
             role="dialog"
             aria-modal="true"
             aria-label={labelValue}
-            className={`grain relative max-h-[80vh] w-full max-w-md overflow-y-auto border border-[#4c4740] bg-[#141115] px-8 py-10 text-center text-[#e9e1cd] sm:px-10 ${
+            className={`grain relative max-h-[90vh] w-full max-w-md overflow-y-auto border border-[#4c4740] bg-[#141115] px-8 py-10 text-center text-[#e9e1cd] sm:max-w-xl sm:px-10 lg:max-w-2xl xl:max-w-3xl 2xl:max-w-4xl ${
               closing ? "modal-panel-out" : "modal-panel-in"
             }`}
             onClick={(e) => e.stopPropagation()}

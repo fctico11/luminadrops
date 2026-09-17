@@ -19,14 +19,14 @@ type Props = {
   currency: string;
 };
 
-/** The mobile-specific flow for drop01, sitting alongside (not replacing)
- * the existing sm:-and-up layout: product photo + buy box first, then a
- * merged "What's Waiting Inside" beat (Club Manual photo/description,
- * expanding in place to the rest of the items grid), and two
- * accordion-styled rows that each open a modal ("The Details" holding the
- * long narrative text, and "The Fine Print") instead of the desktop's
- * swipeable card carousel + separate Includes grid. Hidden at sm: and up
- * via the wrapping `sm:hidden` on each section in page.tsx. */
+/** The unified flow for drop01, used at every width: product photo + buy
+ * box first, then a merged "What's Waiting Inside" beat (Club Manual
+ * photo/description, expanding in place to the rest of the items grid),
+ * and two accordion-styled rows that each open a modal ("The Details"
+ * holding the long narrative text, and "The Fine Print") instead of the
+ * old desktop-only swipeable card carousel + separate Includes grid.
+ * Started as a mobile-only companion to that older layout; now scaled up
+ * with sm:/lg: variants to replace it outright. */
 export default function MobileFlow({
   content,
   isAdmin,
@@ -38,41 +38,45 @@ export default function MobileFlow({
   currency,
 }: Props) {
   return (
-    <div className="sm:hidden">
+    <div>
       {/* Product + buy box */}
-      <Reveal as="section" className="relative mx-auto w-full max-w-md px-6 pt-10 pb-10 text-center">
+      <Reveal
+        as="section"
+        className="relative mx-auto w-full max-w-md px-6 pt-10 pb-10 text-center sm:max-w-2xl sm:pt-14 sm:pb-14 lg:max-w-4xl lg:pt-16 lg:pb-16"
+      >
         <EditableText
           file="drop01"
           field="snippetTitle"
           value={content.snippetTitle}
           as="h2"
-          className="text-sm font-medium tracking-[0.2em] text-[#e9e1cd]"
+          className="text-sm font-medium tracking-[0.2em] text-[#e9e1cd] sm:text-base lg:text-lg"
         />
         <EditableText
           file="drop01"
           field="snippetBody"
           value={content.snippetBody}
           as="p"
-          className="mx-auto mt-3 max-w-sm text-[15px] leading-relaxed text-[#c4bba8]"
+          className="mx-auto mt-3 max-w-sm text-[15px] leading-relaxed text-[#c4bba8] sm:mt-4 sm:max-w-xl sm:text-base lg:text-lg"
         />
         <a
           href="#drop01-details"
-          className="soft-button-glow mt-4 inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0]"
+          className="soft-button-glow mt-4 inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] sm:mt-6 sm:px-6 sm:py-3 sm:text-xs"
         >
           <EditableText file="drop01" field="readDetailsLabel" value={content.readDetailsLabel} as="span" />
         </a>
 
-        <div className="mx-auto mt-6 flex w-full max-w-[160px] items-center gap-3" aria-hidden>
+        <div className="mx-auto mt-6 flex w-full max-w-[160px] items-center gap-3 sm:mt-8 sm:max-w-[200px]" aria-hidden>
           <span className="h-px flex-1 bg-[#4c4740]" />
           <span className="teaser-twinkle text-[11px] text-[#cfc6b1]">✦</span>
           <span className="h-px flex-1 bg-[#4c4740]" />
         </div>
 
-        <div className="mt-6 -ml-[18px] flex w-[calc(100%+18px)] items-start gap-4">
-          {/* Bleeds most of the way to the screen edge (cancels most of the
-              section's px-6 on this side only, leaving a tiny 6px gap) so
-              the image can run bigger without taking width away from the
-              text column. */}
+        <div className="mt-6 -ml-[18px] flex w-[calc(100%+18px)] items-start gap-4 sm:mt-8 sm:ml-0 sm:w-full sm:gap-8 lg:gap-12">
+          {/* On mobile this bleeds most of the way to the screen edge
+              (cancels most of the section's px-6 on this side only,
+              leaving a tiny 6px gap) so the image can run bigger without
+              taking width away from the text column. From sm: up there's
+              enough room that the bleed isn't needed. */}
           <div className="relative aspect-[4/5] w-1/2 shrink-0 overflow-hidden border border-[#4c4740]">
             <EditableImage
               file="drop01"
@@ -90,10 +94,10 @@ export default function MobileFlow({
                 field="dropLabel"
                 value={content.dropLabel}
                 as="p"
-                className="text-[10px] tracking-[0.25em] text-[#9c9384]"
+                className="text-[10px] tracking-[0.25em] text-[#9c9384] sm:text-xs"
               />
             )}
-            <h2 className={`${cormorant.className} mt-1 text-lg font-medium tracking-[0.1em]`}>
+            <h2 className={`${cormorant.className} mt-1 text-lg font-medium tracking-[0.1em] sm:mt-2 sm:text-2xl lg:text-3xl`}>
               <EditableText file="drop01" field="titleLine1" value={content.titleLine1} as="span" />{" "}
               <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
             </h2>
@@ -102,10 +106,10 @@ export default function MobileFlow({
               field="dateLabel"
               value={content.dateLabel}
               as="p"
-              className="mt-1 text-xs tracking-[0.1em] text-[#9c9384]"
+              className="mt-1 text-xs tracking-[0.1em] text-[#9c9384] sm:mt-2 sm:text-sm"
             />
 
-            <div className="mx-auto mt-4 flex w-full max-w-[130px] items-center gap-2" aria-hidden>
+            <div className="mx-auto mt-4 flex w-full max-w-[130px] items-center gap-2 sm:mt-6 sm:max-w-[160px]" aria-hidden>
               <span className="h-px flex-1 bg-[#4c4740]" />
               <span className="teaser-twinkle text-xs text-[#cfc6b1]">✦</span>
               <span className="h-px flex-1 bg-[#4c4740]" />
@@ -116,9 +120,9 @@ export default function MobileFlow({
               field="quantityLabel"
               value={content.quantityLabel}
               as="p"
-              className="mt-4 text-[10px] tracking-[0.2em] text-[#9c9384]"
+              className="mt-4 text-[10px] tracking-[0.2em] text-[#9c9384] sm:mt-6 sm:text-xs"
             />
-            <div className="mt-2 w-full">
+            <div className="mt-2 w-full sm:mt-3">
               {/* The CTA button and the footnote below it break out past
                   this column (via ctaWrapperClassName here, and the
                   matching wrapper below) to center under the full
@@ -132,27 +136,27 @@ export default function MobileFlow({
                 ctaLabel={content.ctaLabel}
                 maxQuantity={maxQuantity}
                 soldOut={soldOut}
-                ctaWrapperClassName="flex w-[calc(200%+1rem)] -ml-[calc(100%+1rem)] justify-center"
+                ctaWrapperClassName="flex w-[calc(200%+1rem)] -ml-[calc(100%+1rem)] justify-center sm:w-full sm:ml-0"
                 ctaEmphasis
               />
             </div>
 
-            <div className="mt-2 flex w-[calc(200%+1rem)] -ml-[calc(100%+1rem)] justify-center">
+            <div className="mt-2 flex w-[calc(200%+1rem)] -ml-[calc(100%+1rem)] justify-center sm:mt-3 sm:w-full sm:ml-0">
               <EditableText
                 file="drop01"
                 field="footNote1"
                 value={content.footNote1}
                 as="p"
-                className="text-xs text-[#9c9384]"
+                className="text-xs text-[#9c9384] sm:text-sm"
               />
             </div>
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-3 divide-x divide-[#3a352e] border border-[#3a352e]">
+        <div className="mt-8 grid grid-cols-3 divide-x divide-[#3a352e] border border-[#3a352e] sm:mt-12 sm:max-w-2xl sm:mx-auto">
           {content.badges.map((badge, i) => (
-            <div key={i} className="flex flex-col items-center gap-2 px-2 py-5 text-center">
-              <div className="relative h-6 w-6">
+            <div key={i} className="flex flex-col items-center gap-2 px-2 py-5 text-center sm:gap-3 sm:px-6 sm:py-8">
+              <div className="relative h-6 w-6 sm:h-7 sm:w-7">
                 <EditableImage
                   file="drop01"
                   field={`badges.${i}.icon`}
@@ -169,14 +173,14 @@ export default function MobileFlow({
                   field={`badges.${i}.line1`}
                   value={badge.line1}
                   as="p"
-                  className="text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd]"
+                  className="text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] sm:text-xs sm:tracking-[0.2em]"
                 />
                 <EditableText
                   file="drop01"
                   field={`badges.${i}.line2`}
                   value={badge.line2}
                   as="p"
-                  className="mt-1 text-[10px] tracking-[0.1em] text-[#9c9384]"
+                  className="mt-1 text-[10px] tracking-[0.1em] text-[#9c9384] sm:text-[11px] sm:tracking-[0.2em]"
                 />
               </div>
             </div>
@@ -186,12 +190,15 @@ export default function MobileFlow({
 
       {/* What's Waiting Inside — Club Manual photo/description by default,
           expands in place to the rest of the items grid. */}
-      <Reveal as="section" className="relative mx-auto w-full max-w-md px-6 pb-10 text-center">
+      <Reveal
+        as="section"
+        className="relative mx-auto w-full max-w-md px-6 pb-10 text-center sm:max-w-2xl sm:pb-14 lg:max-w-3xl lg:pb-16"
+      >
         <MobileInsideExpandable content={content} isAdmin={isAdmin} />
       </Reveal>
 
       {/* Details + fine print, each opening a modal */}
-      <Reveal as="section" className="relative mx-auto w-full max-w-md px-6 pb-16">
+      <Reveal as="section" className="relative mx-auto w-full max-w-md px-6 pb-16 sm:max-w-2xl sm:pb-20">
         <DropdownModal id="drop01-details" file="drop01" labelField="detailsLabel" labelValue={content.detailsLabel}>
           <div className="text-center">
             {content.insideBodyCards.map((card, i) => (
