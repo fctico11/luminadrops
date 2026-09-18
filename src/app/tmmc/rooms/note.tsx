@@ -25,7 +25,7 @@ export default function Note({ content }: { content: TmmcContent }) {
   }, [isAdmin]);
 
   return (
-    <div className="relative mx-auto max-w-sm text-left">
+    <div className="relative mx-auto max-w-sm text-center">
       <div
         className={`absolute inset-0 flex flex-col items-center justify-center gap-4 text-center transition-opacity duration-700 ${
           revealed ? "pointer-events-none opacity-0" : "opacity-100"
