@@ -71,17 +71,8 @@ export default function CartView({ content, product, productImage, productImageA
             style={rise(0.5)}
           />
 
-          <EditableText
-            file="cart"
-            field="emptyBody"
-            value={content.emptyBody}
-            as="p"
-            className={`${cormorant.className} teaser-rise mx-auto mt-6 max-w-sm text-[15px] leading-relaxed text-[#c4bba8] lg:text-lg`}
-            style={rise(0.65)}
-          />
-
           <EditableLink
-            href="/"
+            href="/drop01"
             className="teaser-rise mt-12 inline-block border border-[#6f695c] px-9 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] lg:mt-16 lg:px-12 lg:py-4 lg:text-sm"
             style={rise(0.85)}
           >

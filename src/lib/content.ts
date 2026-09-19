@@ -67,7 +67,6 @@ export type DropsContent = {
 export type CartContent = {
   title: string;
   emptyLead: string;
-  emptyBody: string;
   ctaLabel: string;
   quantityLabel: string;
   subtotalLabel: string;
