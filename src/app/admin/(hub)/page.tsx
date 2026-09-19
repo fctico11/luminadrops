@@ -27,6 +27,11 @@ const CONTENT_PAGES = [
     description: "/tmmc/back-room — tagline and intro copy only; posts come from visitors, not the editor.",
   },
   {
+    href: "/admin/edit/reviews",
+    label: "Reviews",
+    description: "/reviews — not linked from the site yet. Form has no backend yet; submissions don't save anywhere.",
+  },
+  {
     href: "/admin/edit/checkout",
     label: "Checkout",
     description: "/checkout — labels and fine print in the order summary box only, not the Stripe fields.",

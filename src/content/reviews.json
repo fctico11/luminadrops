@@ -1,0 +1,20 @@
+{
+  "dropLabel": "DROP NO. 01",
+  "headingLine1": "HOW WAS YOUR",
+  "headingLine2": "MIDNIGHT?",
+  "subheading": "WE'D LOVE TO HEAR ABOUT YOUR EXPERIENCE.",
+  "body": "Share your thoughts, moments, and memories from The Midnight Margarita Club. Your review helps our community grow and keeps the magic going for future Drops.",
+  "ratingLabel": "YOUR RATING",
+  "ratingHelper": "TAP A STAR TO RATE",
+  "nameLabel": "DISPLAY NAME",
+  "namePlaceholder": "Your name (or a nickname)",
+  "reviewLabel": "YOUR REVIEW",
+  "reviewPlaceholder": "Tell us about your Midnight...",
+  "photoLabel": "ADD A PHOTO (OPTIONAL)",
+  "uploadCta": "CLICK TO UPLOAD OR DRAG A PHOTO HERE",
+  "uploadHint": "JPG, PNG or HEIC (max 10MB)",
+  "consentLabel": "I give Lumina Drops permission to share my review (and photo, if provided) on the website, socials and in future marketing.",
+  "submitLabel": "SUBMIT YOUR REVIEW",
+  "successTitle": "THANK YOU FOR SHARING",
+  "successBody": "Your Midnight means a lot to us — we can't wait to read it."
+}

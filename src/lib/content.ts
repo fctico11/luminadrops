@@ -95,6 +95,27 @@ export type WaitlistContent = {
   closeLabel: string;
 };
 
+export type ReviewsContent = {
+  dropLabel: string;
+  headingLine1: string;
+  headingLine2: string;
+  subheading: string;
+  body: string;
+  ratingLabel: string;
+  ratingHelper: string;
+  nameLabel: string;
+  namePlaceholder: string;
+  reviewLabel: string;
+  reviewPlaceholder: string;
+  photoLabel: string;
+  uploadCta: string;
+  uploadHint: string;
+  consentLabel: string;
+  submitLabel: string;
+  successTitle: string;
+  successBody: string;
+};
+
 export type FooterContent = {
   copyrightName: string;
   links: { label: string; href: string }[];
@@ -239,6 +260,7 @@ export type ContentMap = {
   waitlist: WaitlistContent;
   drop01: Drop01Content;
   tmmc: TmmcContent;
+  reviews: ReviewsContent;
   footer: FooterContent;
   privacy: PolicyContent;
   "shipping-returns": PolicyContent;
