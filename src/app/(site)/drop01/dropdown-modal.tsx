@@ -12,6 +12,10 @@ type Props = {
   /** Anchors the trigger row so other elements (e.g. a "read about the
    * details" scroll link) can jump straight to it. */
   id?: string;
+  /** Hides the trigger row visually while keeping it in the DOM at `id` —
+   * used where a separate visible button elsewhere on the page opens this
+   * modal by clicking that id directly (see OpenModalButton). */
+  hideTrigger?: boolean;
 };
 
 /* matches the modal-fade-out / modal-panel-out animation duration */
@@ -22,7 +26,7 @@ const CLOSE_MS = 420;
  * mobile "What's Waiting Inside" / "The Fine Print" triggers. Reuses the
  * same modal-fade-in/out + modal-panel-in/out CSS as the waitlist and
  * desktop fine-print modals for a consistent open/close feel. */
-export default function DropdownModal({ file, labelField, labelValue, children, id }: Props) {
+export default function DropdownModal({ file, labelField, labelValue, children, id, hideTrigger }: Props) {
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
   const closeTimer = useRef<number | undefined>(undefined);
@@ -58,7 +62,8 @@ export default function DropdownModal({ file, labelField, labelValue, children, 
       <div
         id={id}
         role="button"
-        tabIndex={0}
+        tabIndex={hideTrigger ? -1 : 0}
+        aria-hidden={hideTrigger || undefined}
         onClick={() => setOpen(true)}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -66,18 +71,26 @@ export default function DropdownModal({ file, labelField, labelValue, children, 
             setOpen(true);
           }
         }}
-        className="flex w-full cursor-pointer items-center justify-between border-b border-[#3a352e] py-4 text-left transition-colors duration-300"
+        className={
+          hideTrigger
+            ? "hidden"
+            : "flex w-full cursor-pointer items-center justify-between border-b border-[#3a352e] py-4 text-left transition-colors duration-300"
+        }
       >
-        <EditableText
-          file={file}
-          field={labelField}
-          value={labelValue}
-          as="span"
-          className="text-xs tracking-[0.3em] text-[#e9e1cd]"
-        />
-        <span aria-hidden className="text-[10px] text-[#9c9384]">
-          ⌄
-        </span>
+        {!hideTrigger && (
+          <>
+            <EditableText
+              file={file}
+              field={labelField}
+              value={labelValue}
+              as="span"
+              className="text-xs tracking-[0.3em] text-[#e9e1cd]"
+            />
+            <span aria-hidden className="text-[10px] text-[#9c9384]">
+              ⌄
+            </span>
+          </>
+        )}
       </div>
 
       {open && (

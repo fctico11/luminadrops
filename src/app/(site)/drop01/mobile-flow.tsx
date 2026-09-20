@@ -23,11 +23,12 @@ type Props = {
 /** The unified flow for drop01, used at every width: product photo + buy
  * box first, then a merged "What's Waiting Inside" beat (Club Manual
  * photo/description, expanding in place to the rest of the items grid),
- * and two accordion-styled rows that each open a modal ("The Details"
- * holding the long narrative text, and "The Fine Print") instead of the
- * old desktop-only swipeable card carousel + separate Includes grid.
- * Started as a mobile-only companion to that older layout; now scaled up
- * with sm:/lg: variants to replace it outright. */
+ * and a Details modal holding the long narrative text — opened from the
+ * "Read About the Details" button in the buy box (via OpenModalButton),
+ * with no visible trigger row of its own. The Fine Print modal now lives
+ * on the checkout page instead. Started as a mobile-only companion to an
+ * older desktop-only swipeable-card layout; now scaled up with sm:/lg:
+ * variants to replace it outright. */
 export default function MobileFlow({
   content,
   isAdmin,
@@ -173,51 +174,56 @@ export default function MobileFlow({
         <MobileInsideExpandable content={content} isAdmin={isAdmin} />
       </Reveal>
 
-      {/* Details + fine print, each opening a modal */}
-      <Reveal as="section" className="relative mx-auto w-full max-w-md px-6 pb-16 sm:max-w-2xl sm:pb-20">
-        <DropdownModal id="drop01-details" file="drop01" labelField="detailsLabel" labelValue={content.detailsLabel}>
-          <div className="text-center">
-            {content.insideBodyCards.map((card, i) => (
-              <div key={i}>
-                {isAdmin ? (
-                  <EditableRichText
-                    file="drop01"
-                    field={`insideBodyCards.${i}`}
-                    value={card}
-                    className="text-sm leading-relaxed text-[#c4bba8]"
+      {/* Details modal — opened from the "Read About the Details" button
+          up top; no visible trigger row here anymore. */}
+      <DropdownModal
+        id="drop01-details"
+        file="drop01"
+        labelField="detailsLabel"
+        labelValue={content.detailsLabel}
+        hideTrigger
+      >
+        <div className="text-center">
+          {content.insideBodyCards.map((card, i) => (
+            <div key={i}>
+              {isAdmin ? (
+                <EditableRichText
+                  file="drop01"
+                  field={`insideBodyCards.${i}`}
+                  value={card}
+                  className="text-sm leading-relaxed text-[#c4bba8]"
+                />
+              ) : (
+                <div
+                  className="rich-text text-sm leading-relaxed text-[#c4bba8]"
+                  dangerouslySetInnerHTML={{ __html: card }}
+                />
+              )}
+              {i < content.insideBodyCards.length - 1 && (
+                <div className="my-6 flex justify-center" aria-hidden>
+                  <img
+                    src="/drops/midnight-margarita/mmc-logo-icon.png"
+                    alt=""
+                    className="h-5 w-auto opacity-85"
                   />
-                ) : (
-                  <div
-                    className="rich-text text-sm leading-relaxed text-[#c4bba8]"
-                    dangerouslySetInnerHTML={{ __html: card }}
-                  />
-                )}
-                {i < content.insideBodyCards.length - 1 && (
-                  <div className="my-6 flex justify-center" aria-hidden>
-                    <img
-                      src="/drops/midnight-margarita/mmc-logo-icon.png"
-                      alt=""
-                      className="h-5 w-auto opacity-85"
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="mx-auto mt-8 flex max-w-xs items-center gap-4" aria-hidden>
-            <span className="h-px flex-1 bg-[#4c4740]" />
-            <span className="teaser-twinkle text-[11px] text-[#cfc6b1]">✦</span>
-            <span className="h-px flex-1 bg-[#4c4740]" />
-          </div>
-          <EditableText
-            file="drop01"
-            field="insideClosingLine"
-            value={content.insideClosingLine}
-            as="p"
-            className={`${cormorant.className} mt-6 text-sm italic text-[#d6cdb8]`}
-          />
-        </DropdownModal>
-      </Reveal>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="mx-auto mt-8 flex max-w-xs items-center gap-4" aria-hidden>
+          <span className="h-px flex-1 bg-[#4c4740]" />
+          <span className="teaser-twinkle text-[11px] text-[#cfc6b1]">✦</span>
+          <span className="h-px flex-1 bg-[#4c4740]" />
+        </div>
+        <EditableText
+          file="drop01"
+          field="insideClosingLine"
+          value={content.insideClosingLine}
+          as="p"
+          className={`${cormorant.className} mt-6 text-sm italic text-[#d6cdb8]`}
+        />
+      </DropdownModal>
 
       {/* Trust badges — moved to the very bottom of the page */}
       <Reveal as="section" className="relative mx-auto w-full max-w-md px-6 pb-16 sm:max-w-2xl sm:pb-20">
