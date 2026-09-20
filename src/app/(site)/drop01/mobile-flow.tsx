@@ -6,6 +6,7 @@ import { cormorant } from "../../ui";
 import Reveal from "./reveal";
 import PurchaseControls from "./purchase-controls";
 import DropdownModal from "./dropdown-modal";
+import OpenModalButton from "./open-modal-button";
 import MobileInsideExpandable from "./mobile-inside-expandable";
 
 type Props = {
@@ -59,12 +60,12 @@ export default function MobileFlow({
           className="mx-auto mt-3 max-w-sm text-[15px] leading-relaxed text-[#c4bba8] sm:mt-4 sm:max-w-xl sm:text-base lg:text-lg"
         />
         <div className="mt-4 flex flex-wrap items-center justify-center gap-3 sm:mt-6 sm:gap-4">
-          <a
-            href="#drop01-details"
+          <OpenModalButton
+            targetId="drop01-details"
             className="soft-button-glow inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] sm:px-6 sm:py-3 sm:text-xs"
           >
             <EditableText file="drop01" field="readDetailsLabel" value={content.readDetailsLabel} as="span" />
-          </a>
+          </OpenModalButton>
           <a
             href="#drop01-inside"
             className="soft-button-glow inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] sm:px-6 sm:py-3 sm:text-xs"
