@@ -128,6 +128,8 @@ export type CheckoutContent = {
   taxLabel: string;
   totalLabel: string;
   shippingTerms: string;
+  finePrintLabel: string;
+  footNote2: string;
   subscribeLabel: string;
 };
 
@@ -187,8 +189,6 @@ export type Drop01Content = {
   quantityLabel: string;
   ctaLabel: string;
   footNote1: string;
-  finePrintLabel: string;
-  footNote2: string;
 };
 
 export type TmmcWallpaper = { image: string; alt: string };

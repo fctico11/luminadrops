@@ -13,6 +13,7 @@ import {
 import Image from "next/image";
 import EditableText from "@/components/edit/EditableText";
 import EditableLink from "@/components/edit/EditableLink";
+import DropdownModal from "../drop01/dropdown-modal";
 import Motes from "../../motes";
 import { cormorant } from "../../ui";
 import { useCart } from "@/components/cart/CartContext";
@@ -374,6 +375,18 @@ function CheckoutContent({
           as="p"
           className="mt-5 text-sm leading-relaxed text-[#9c9384]"
         />
+
+        <div className="mt-5 border-t border-[#4c4740] pt-1">
+          <DropdownModal file="checkout" labelField="finePrintLabel" labelValue={content.finePrintLabel}>
+            <EditableText
+              file="checkout"
+              field="footNote2"
+              value={content.footNote2}
+              as="p"
+              className="text-sm leading-relaxed text-[#c4bba8]"
+            />
+          </DropdownModal>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6 text-left">

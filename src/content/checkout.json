@@ -5,5 +5,7 @@
   "taxLabel": "Tax",
   "totalLabel": "Total",
   "shippingTerms": "Boxes ship in the order purchases are received. Each box is hand-finished before it leaves the Club so shipping times will vary depending on when your order is placed. Most orders are expected to ship within 1 week, though later orders may take a little longer. You’ll receive tracking by email as soon as yours is on its way.",
+  "finePrintLabel": "THE FINE PRINT",
+  "footNote2": "Each TMMC box is thoughtfully assembled in small batches, exclusively for this drop. Minor variations are part of its handcrafted nature and make each box a little different. Because each box is made in limited quantities, all sales are final and we’re unable to accept returns or exchanges. If your order arrives damaged or something isn’t right, please contact us within 7 days of delivery and we'll make it right. ",
   "subscribeLabel": "Keep me updated on future drops and specials"
 }

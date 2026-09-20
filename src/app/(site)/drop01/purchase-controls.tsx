@@ -53,7 +53,10 @@ export default function PurchaseControls({
       value: (priceCents * quantity) / 100,
       currency: currency.toUpperCase(),
     });
-    router.push("/cart");
+    // Straight to checkout instead of the bag — TikTok pixel data showed
+    // people adding to cart but dropping off before ever clicking
+    // "Proceed to Payment" on the bag page.
+    router.push("/checkout");
   };
 
   const flashLimitMessage = () => {

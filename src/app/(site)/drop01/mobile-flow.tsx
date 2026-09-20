@@ -58,12 +58,20 @@ export default function MobileFlow({
           as="p"
           className="mx-auto mt-3 max-w-sm text-[15px] leading-relaxed text-[#c4bba8] sm:mt-4 sm:max-w-xl sm:text-base lg:text-lg"
         />
-        <a
-          href="#drop01-details"
-          className="soft-button-glow mt-4 inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] sm:mt-6 sm:px-6 sm:py-3 sm:text-xs"
-        >
-          <EditableText file="drop01" field="readDetailsLabel" value={content.readDetailsLabel} as="span" />
-        </a>
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-3 sm:mt-6 sm:gap-4">
+          <a
+            href="#drop01-details"
+            className="soft-button-glow inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] sm:px-6 sm:py-3 sm:text-xs"
+          >
+            <EditableText file="drop01" field="readDetailsLabel" value={content.readDetailsLabel} as="span" />
+          </a>
+          <a
+            href="#drop01-inside"
+            className="soft-button-glow inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] sm:px-6 sm:py-3 sm:text-xs"
+          >
+            <EditableText file="drop01" field="expandInsideLabel" value={content.expandInsideLabel} as="span" />
+          </a>
+        </div>
 
         <div className="mx-auto mt-6 flex w-full max-w-[160px] items-center gap-3 sm:mt-8 sm:max-w-[200px]" aria-hidden>
           <span className="h-px flex-1 bg-[#4c4740]" />
@@ -152,46 +160,13 @@ export default function MobileFlow({
             </div>
           </div>
         </div>
-
-        <div className="mt-8 grid grid-cols-3 divide-x divide-[#3a352e] border border-[#3a352e] sm:mt-12 sm:max-w-2xl sm:mx-auto">
-          {content.badges.map((badge, i) => (
-            <div key={i} className="flex flex-col items-center gap-2 px-2 py-5 text-center sm:gap-3 sm:px-6 sm:py-8">
-              <div className="relative h-6 w-6 sm:h-7 sm:w-7">
-                <EditableImage
-                  file="drop01"
-                  field={`badges.${i}.icon`}
-                  src={badge.icon}
-                  alt={badge.iconAlt}
-                  exportWidth={200}
-                  exportHeight={200}
-                  className="object-contain"
-                />
-              </div>
-              <div>
-                <EditableText
-                  file="drop01"
-                  field={`badges.${i}.line1`}
-                  value={badge.line1}
-                  as="p"
-                  className="text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] sm:text-xs sm:tracking-[0.2em]"
-                />
-                <EditableText
-                  file="drop01"
-                  field={`badges.${i}.line2`}
-                  value={badge.line2}
-                  as="p"
-                  className="mt-1 text-[10px] tracking-[0.1em] text-[#9c9384] sm:text-[11px] sm:tracking-[0.2em]"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
       </Reveal>
 
       {/* What's Waiting Inside — Club Manual photo/description by default,
           expands in place to the rest of the items grid. */}
       <Reveal
         as="section"
+        id="drop01-inside"
         className="relative mx-auto w-full max-w-md px-6 pb-10 text-center sm:max-w-2xl sm:pb-14 lg:max-w-3xl lg:pb-16"
       >
         <MobileInsideExpandable content={content} isAdmin={isAdmin} />
@@ -241,16 +216,43 @@ export default function MobileFlow({
             className={`${cormorant.className} mt-6 text-sm italic text-[#d6cdb8]`}
           />
         </DropdownModal>
+      </Reveal>
 
-        <DropdownModal file="drop01" labelField="finePrintLabel" labelValue={content.finePrintLabel}>
-          <EditableText
-            file="drop01"
-            field="footNote2"
-            value={content.footNote2}
-            as="p"
-            className="text-sm leading-relaxed text-[#c4bba8]"
-          />
-        </DropdownModal>
+      {/* Trust badges — moved to the very bottom of the page */}
+      <Reveal as="section" className="relative mx-auto w-full max-w-md px-6 pb-16 sm:max-w-2xl sm:pb-20">
+        <div className="grid grid-cols-3 divide-x divide-[#3a352e] border border-[#3a352e]">
+          {content.badges.map((badge, i) => (
+            <div key={i} className="flex flex-col items-center gap-2 px-2 py-5 text-center sm:gap-3 sm:px-6 sm:py-8">
+              <div className="relative h-6 w-6 sm:h-7 sm:w-7">
+                <EditableImage
+                  file="drop01"
+                  field={`badges.${i}.icon`}
+                  src={badge.icon}
+                  alt={badge.iconAlt}
+                  exportWidth={200}
+                  exportHeight={200}
+                  className="object-contain"
+                />
+              </div>
+              <div>
+                <EditableText
+                  file="drop01"
+                  field={`badges.${i}.line1`}
+                  value={badge.line1}
+                  as="p"
+                  className="text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] sm:text-xs sm:tracking-[0.2em]"
+                />
+                <EditableText
+                  file="drop01"
+                  field={`badges.${i}.line2`}
+                  value={badge.line2}
+                  as="p"
+                  className="mt-1 text-[10px] tracking-[0.1em] text-[#9c9384] sm:text-[11px] sm:tracking-[0.2em]"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </Reveal>
     </div>
   );
