@@ -48,6 +48,7 @@
   "kitchenImageAlt": "Chocolate cake in a mug, fresh from the microwave",
   "recipeTitle": "Chocolate Cake for breakfast",
   "recipeBody": "in a mug",
+  "ingredientsLabel": "Ingredients",
   "ingredients": [
     "4 tbsp all-purpose flour",
     "4 tbsp granulated sugar",
@@ -59,6 +60,7 @@
     "1/4 tsp vanilla extract",
     "2 tbsp chocolate chips (optional, but recommended)"
   ],
+  "directionsLabel": "Directions",
   "directions": [
     "In a large mug, whisk together flour, sugar, cocoa powder, baking powder, and salt.",
     "Add milk, oil, and vanilla. Stir until smooth.",

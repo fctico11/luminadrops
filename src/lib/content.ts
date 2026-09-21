@@ -233,7 +233,9 @@ export type TmmcContent = {
   kitchenImageAlt: string;
   recipeTitle: string;
   recipeBody: string;
+  ingredientsLabel: string;
   ingredients: string[];
+  directionsLabel: string;
   directions: string[];
 
   libraryTagline: string;

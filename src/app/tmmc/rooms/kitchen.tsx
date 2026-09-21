@@ -39,18 +39,30 @@ export default function Kitchen({ content }: { content: TmmcContent }) {
 
       <div className="mt-8 grid gap-8 text-left sm:grid-cols-2">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#9c9384]">Ingredients</p>
+          <EditableText
+            file="tmmc"
+            field="ingredientsLabel"
+            value={content.ingredientsLabel}
+            as="p"
+            className="text-[10px] uppercase tracking-[0.3em] text-[#9c9384]"
+          />
           <ul className="mt-3 space-y-1.5 text-[13px] leading-relaxed text-[#c4bba8]">
             {content.ingredients.map((line, i) => (
-              <li key={i}>{line}</li>
+              <EditableText key={i} file="tmmc" field={`ingredients.${i}`} value={line} as="li" />
             ))}
           </ul>
         </div>
         <div>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#9c9384]">Directions</p>
+          <EditableText
+            file="tmmc"
+            field="directionsLabel"
+            value={content.directionsLabel}
+            as="p"
+            className="text-[10px] uppercase tracking-[0.3em] text-[#9c9384]"
+          />
           <ol className="mt-3 list-decimal space-y-2 pl-4 text-[13px] leading-relaxed text-[#c4bba8]">
             {content.directions.map((line, i) => (
-              <li key={i}>{line}</li>
+              <EditableText key={i} file="tmmc" field={`directions.${i}`} value={line} as="li" />
             ))}
           </ol>
         </div>
