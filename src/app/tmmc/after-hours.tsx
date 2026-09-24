@@ -6,7 +6,7 @@ import EditableText from "@/components/edit/EditableText";
 import { cormorant } from "../ui";
 import { ROOMS, findRoom, type Room, type RoomId } from "./rooms";
 import { DoorButton } from "./door";
-import RoomModal from "./room-modal";
+import RoomModal, { type RoomLine } from "./room-modal";
 import ListeningRoom from "./rooms/listening-room";
 import Gallery from "./rooms/gallery";
 import DrawingRoom from "./rooms/drawing-room";
@@ -21,18 +21,24 @@ const CLOSE_MS = 420;
 // Desktop lays the 6 doors out as a plain 3x2 grid, in ROOMS order — no
 // per-room column math needed now that both rows have the same count.
 
-function getModalMeta(id: RoomId, content: TmmcContent): { tagline?: string; closingLine?: string } {
+function getModalMeta(id: RoomId, content: TmmcContent): { tagline?: RoomLine; closingLine?: RoomLine } {
   switch (id) {
     case "listening-room":
-      return { tagline: content.listeningRoomTagline, closingLine: content.listeningRoomClosingLine };
+      return {
+        tagline: { field: "listeningRoomTagline", value: content.listeningRoomTagline },
+        closingLine: { field: "listeningRoomClosingLine", value: content.listeningRoomClosingLine },
+      };
     case "gallery":
-      return { tagline: content.galleryTagline };
+      return { tagline: { field: "galleryTagline", value: content.galleryTagline } };
     case "drawing-room":
-      return { tagline: content.drawingRoomTagline, closingLine: content.drawingRoomClosingLine };
+      return {
+        tagline: { field: "drawingRoomTagline", value: content.drawingRoomTagline },
+        closingLine: { field: "drawingRoomClosingLine", value: content.drawingRoomClosingLine },
+      };
     case "kitchen":
-      return { tagline: content.kitchenTagline };
+      return { tagline: { field: "kitchenTagline", value: content.kitchenTagline } };
     case "library":
-      return { tagline: content.libraryTagline };
+      return { tagline: { field: "libraryTagline", value: content.libraryTagline } };
     default:
       return {};
   }

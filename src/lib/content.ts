@@ -247,6 +247,8 @@ export type TmmcContent = {
 
   backRoomTagline: string;
   backRoomBody: string;
+  backRoomLockedTagline: string;
+  backRoomLockedBody: string;
 };
 
 export type ContentMap = {

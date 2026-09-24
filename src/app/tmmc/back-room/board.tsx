@@ -92,7 +92,12 @@ export default function BackRoomBoard({ content, initialPosts }: { content: Tmmc
   };
 
   return (
-    <RoomModal room={room} onClose={() => router.push("/tmmc")} onNavigate={undefined} tagline={content.backRoomTagline}>
+    <RoomModal
+      room={room}
+      onClose={() => router.push("/tmmc")}
+      onNavigate={undefined}
+      tagline={{ field: "backRoomTagline", value: content.backRoomTagline }}
+    >
       <EditableText
         file="tmmc"
         field="backRoomBody"

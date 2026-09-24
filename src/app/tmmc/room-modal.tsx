@@ -1,14 +1,19 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
+import EditableText from "@/components/edit/EditableText";
+import { useEditMode } from "@/components/edit/EditModeContext";
 import { cormorant } from "../ui";
 import { SIDE_RAIL_LEFT, SIDE_RAIL_RIGHT, findRoom, type Room } from "./rooms";
 import { DoorThumb } from "./door";
 
+/** A line of tmmc.json copy plus the field it lives in, so it can be edited in place. */
+export type RoomLine = { field: string; value: string };
+
 type Props = {
   room: Room;
-  tagline?: string;
-  closingLine?: string;
+  tagline?: RoomLine;
+  closingLine?: RoomLine;
   closing?: boolean;
   onClose: () => void;
   onNavigate?: (room: Room) => void;
@@ -20,6 +25,8 @@ type Props = {
  * layout. Also reused (without the fixed backdrop) as page chrome for the
  * standalone Back Room. */
 export default function RoomModal({ room, tagline, closingLine, closing, onClose, onNavigate, children }: Props) {
+  const { isAdmin } = useEditMode();
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -73,20 +80,32 @@ export default function RoomModal({ room, tagline, closingLine, closing, onClose
         <h2 className={`${cormorant.className} mt-3 text-2xl font-medium uppercase tracking-[0.2em] sm:text-3xl`}>
           {room.label}
         </h2>
-        {tagline && (
-          <p className={`${cormorant.className} mx-auto mt-3 max-w-sm text-base italic text-[#d6cdb8]`}>{tagline}</p>
+        {tagline && (isAdmin || tagline.value) && (
+          <EditableText
+            file="tmmc"
+            field={tagline.field}
+            value={tagline.value}
+            as="p"
+            className={`${cormorant.className} mx-auto mt-3 max-w-sm text-base italic text-[#d6cdb8]`}
+          />
         )}
 
         <div className="mt-8">{children}</div>
 
-        {closingLine && (
+        {closingLine && (isAdmin || closingLine.value) && (
           <>
             <div className="mx-auto mt-10 flex max-w-xs items-center gap-4" aria-hidden>
               <span className="h-px flex-1 bg-[#4c4740]" />
               <span className="teaser-twinkle text-[11px] text-[#cfc6b1]">✦</span>
               <span className="h-px flex-1 bg-[#4c4740]" />
             </div>
-            <p className={`${cormorant.className} mt-6 text-sm italic text-[#9c9384]`}>{closingLine}</p>
+            <EditableText
+              file="tmmc"
+              field={closingLine.field}
+              value={closingLine.value}
+              as="p"
+              className={`${cormorant.className} mt-6 text-sm italic text-[#9c9384]`}
+            />
           </>
         )}
       </div>
