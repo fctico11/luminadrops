@@ -81,13 +81,19 @@ export default function MobileFlow({
           <span className="h-px flex-1 bg-[#4c4740]" />
         </div>
 
-        <div className="mt-6 -ml-[18px] flex w-[calc(100%+18px)] items-start gap-4 sm:mt-8 sm:ml-0 sm:w-full sm:gap-8 lg:gap-12">
+        {/* Photo | details + quantity, with the buy button in its own grid row
+            so it always starts below the photo however tall that is (a
+            button sharing the right column's flow used to land on top of
+            the photo at widths where the column ran shorter than it). The
+            button spans both columns on phones and tucks under the
+            quantity in the right column from sm: up. */}
+        <div className="mt-6 -ml-[18px] grid w-[calc(100%+18px)] grid-cols-[50%_minmax(0,1fr)] grid-rows-[auto_1fr_auto] items-start gap-x-4 sm:mt-8 sm:ml-0 sm:w-full sm:grid-rows-[auto_auto_1fr] sm:gap-x-8 lg:gap-x-12">
           {/* On mobile this bleeds most of the way to the screen edge
               (cancels most of the section's px-6 on this side only,
               leaving a tiny 6px gap) so the image can run bigger without
               taking width away from the text column. From sm: up there's
               enough room that the bleed isn't needed. */}
-          <div className="relative aspect-[4/5] w-1/2 shrink-0 overflow-hidden border border-[#4c4740]">
+          <div className="relative col-start-1 row-span-2 row-start-1 aspect-[4/5] w-full overflow-hidden border border-[#4c4740] sm:row-span-3">
             <EditableImage
               file="drop01"
               field="purchaseImage"
@@ -97,7 +103,7 @@ export default function MobileFlow({
             />
           </div>
 
-          <div className="flex w-1/2 flex-col items-center text-center">
+          <div className="col-start-2 row-start-1 flex flex-col items-center text-center">
             {(isAdmin || content.dropLabel) && (
               <EditableText
                 file="drop01"
@@ -132,36 +138,34 @@ export default function MobileFlow({
               as="p"
               className="mt-4 text-[10px] tracking-[0.2em] text-[#9c9384] sm:mt-6 sm:text-xs"
             />
-            <div className="mt-2 w-full sm:mt-3">
-              {/* The CTA button and the footnote below it break out past
-                  this column (via ctaWrapperClassName here, and the
-                  matching wrapper below) to center under the full
-                  two-column row instead of just this half — the quantity
-                  stepper above stays put, centered under its own label. */}
-              <PurchaseControls
-                productId={productId}
-                productName={productName}
-                priceCents={priceCents}
-                currency={currency}
-                ctaLabel={content.ctaLabel}
-                maxQuantity={maxQuantity}
-                soldOut={soldOut}
-                ctaWrapperClassName="flex w-[calc(200%+1rem)] -ml-[calc(100%+1rem)] justify-center sm:w-full sm:ml-0"
-                ctaEmphasis
-                stickyImage={{ src: content.purchaseImage, alt: content.purchaseImageAlt }}
-              />
-            </div>
+          </div>
 
-            <div className="mt-2 flex w-[calc(200%+1rem)] -ml-[calc(100%+1rem)] justify-center sm:mt-3 sm:w-full sm:ml-0">
+          {/* PurchaseControls renders display: contents — its quantity
+              stepper and buy button are cells of the grid above. The
+              button's pl-[18px] on phones offsets the row's left bleed so
+              it centers on the page, not on the bled row. */}
+          <PurchaseControls
+            productId={productId}
+            productName={productName}
+            priceCents={priceCents}
+            currency={currency}
+            ctaLabel={content.ctaLabel}
+            maxQuantity={maxQuantity}
+            soldOut={soldOut}
+            stepperClassName="col-start-2 row-start-2 mt-2 sm:mt-3"
+            ctaClassName="col-span-2 col-start-1 row-start-3 mt-2 pl-[18px] sm:col-span-1 sm:col-start-2 sm:mt-0 sm:pl-0"
+            ctaFooter={
               <EditableText
                 file="drop01"
                 field="footNote1"
                 value={content.footNote1}
                 as="p"
-                className="text-xs text-[#9c9384] sm:text-sm"
+                className="mt-2 text-xs text-[#9c9384] sm:mt-3 sm:text-sm"
               />
-            </div>
-          </div>
+            }
+            ctaEmphasis
+            stickyImage={{ src: content.purchaseImage, alt: content.purchaseImageAlt }}
+          />
         </div>
       </Reveal>
 

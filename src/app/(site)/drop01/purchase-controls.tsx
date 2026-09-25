@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -20,10 +20,14 @@ type Props = {
   ctaLabel: string;
   maxQuantity: number;
   soldOut: boolean;
-  /** When set, wraps just the CTA button in a div with this className —
-   * used by the mobile buy box to break the button out of the quantity
-   * stepper's column and center it under the full two-column row. */
-  ctaWrapperClassName?: string;
+  /** This component renders `display: contents`, so its two blocks — the
+   * quantity stepper and the CTA — are direct cells of the parent's grid.
+   * These classNames place them (the CTA needs its own row so it always
+   * starts below the product photo, however tall that is). */
+  stepperClassName?: string;
+  ctaClassName?: string;
+  /** Shown centered under the CTA button (e.g. "Secure checkout"). */
+  ctaFooter?: ReactNode;
   /** Mobile-only: bolds the CTA label and plays a letter-wave once the
    * button scrolls into view, so it reads as more inviting to tap.
    * Desktop keeps the plain label when this is left off. */
@@ -41,7 +45,9 @@ export default function PurchaseControls({
   ctaLabel,
   maxQuantity,
   soldOut,
-  ctaWrapperClassName,
+  stepperClassName = "",
+  ctaClassName = "",
+  ctaFooter,
   ctaEmphasis,
   stickyImage,
 }: Props) {
@@ -106,81 +112,81 @@ export default function PurchaseControls({
     maxQuantity < 2 ? `Only ${maxQuantity} left in stock.` : "Drops limited to 2 per order.";
 
   return (
-    <div className="flex w-full flex-col items-center">
-      <div className="flex w-32 items-stretch justify-between border border-[#4c4740] text-[#e9e1cd]">
-        <button
-          type="button"
-          onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-          disabled={soldOut}
-          aria-label="Decrease quantity"
-          className="flex-1 py-2 text-base transition-colors duration-300 hover:bg-white/[0.04] hover:text-[#fff6e0] disabled:pointer-events-none disabled:opacity-40"
-        >
-          −
-        </button>
-        <span className="flex flex-1 items-center justify-center border-x border-[#4c4740] text-base">
-          {soldOut ? 0 : quantity}
-        </span>
-        <button
-          type="button"
-          disabled={soldOut}
-          onClick={() =>
-            setQuantity((q) => {
-              if (q >= Math.max(1, maxQuantity)) {
-                flashLimitMessage();
-                return q;
-              }
-              return q + 1;
-            })
-          }
-          aria-label="Increase quantity"
-          className="flex-1 py-2 text-base transition-colors duration-300 hover:bg-white/[0.04] hover:text-[#fff6e0] disabled:pointer-events-none disabled:opacity-40"
-        >
-          +
-        </button>
-      </div>
-      <p
-        className={`mt-3 text-sm italic text-[#9c9384] transition-opacity duration-300 ${
-          showLimitMessage ? "opacity-100" : "opacity-0"
-        }`}
-        role="status"
-        aria-hidden={!showLimitMessage}
-      >
-        {limitMessage}
-      </p>
-
-      {(() => {
-        const cta = (
+    <div className="contents">
+      <div className={`flex w-full flex-col items-center ${stepperClassName}`}>
+        <div className="flex w-32 items-stretch justify-between border border-[#4c4740] text-[#e9e1cd]">
           <button
-            ref={ctaRef}
             type="button"
-            onClick={handleJoin}
+            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
             disabled={soldOut}
-            className={`mt-2 w-full max-w-[320px] border border-[#6f695c] bg-[#e9e1cd] px-3 py-3 text-[11px] ${ctaEmphasis ? "font-bold" : "font-medium"} tracking-[0.08em] text-[#141115] transition-all duration-500 hover:bg-[#fff6e0] disabled:cursor-not-allowed disabled:border-[#4c4740] disabled:bg-[#4c4740] disabled:text-[#9c9384] disabled:hover:bg-[#4c4740] sm:px-8 sm:py-3.5 sm:text-sm sm:tracking-[0.28em]`}
+            aria-label="Decrease quantity"
+            className="flex-1 py-2 text-base transition-colors duration-300 hover:bg-white/[0.04] hover:text-[#fff6e0] disabled:pointer-events-none disabled:opacity-40"
           >
-            {soldOut ? (
-              "SOLD OUT"
-            ) : (
-              <>
-                {ctaEmphasis ? (
-                  <AnimatedStatText
-                    file="drop01"
-                    field="ctaLabel"
-                    value={ctaLabel}
-                    className="whitespace-nowrap"
-                    charClassName="cta-wave-ch"
-                    triggerOnView
-                  />
-                ) : (
-                  <EditableText file="drop01" field="ctaLabel" value={ctaLabel} as="span" className="whitespace-nowrap" />
-                )}
-                <span className="mx-1 sm:mx-2">•</span>
-                {formatPrice(priceCents * quantity, currency)}
-              </>
-            )}
+            −
           </button>
-        );
-        return ctaWrapperClassName ? <div className={ctaWrapperClassName}>{cta}</div> : cta;
-      })()}
+          <span className="flex flex-1 items-center justify-center border-x border-[#4c4740] text-base">
+            {soldOut ? 0 : quantity}
+          </span>
+          <button
+            type="button"
+            disabled={soldOut}
+            onClick={() =>
+              setQuantity((q) => {
+                if (q >= Math.max(1, maxQuantity)) {
+                  flashLimitMessage();
+                  return q;
+                }
+                return q + 1;
+              })
+            }
+            aria-label="Increase quantity"
+            className="flex-1 py-2 text-base transition-colors duration-300 hover:bg-white/[0.04] hover:text-[#fff6e0] disabled:pointer-events-none disabled:opacity-40"
+          >
+            +
+          </button>
+        </div>
+        <p
+          className={`mt-3 text-sm italic text-[#9c9384] transition-opacity duration-300 ${
+            showLimitMessage ? "opacity-100" : "opacity-0"
+          }`}
+          role="status"
+          aria-hidden={!showLimitMessage}
+        >
+          {limitMessage}
+        </p>
+      </div>
+
+      <div className={`flex w-full flex-col items-center ${ctaClassName}`}>
+        <button
+          ref={ctaRef}
+          type="button"
+          onClick={handleJoin}
+          disabled={soldOut}
+          className={`mt-2 w-full max-w-[320px] border border-[#6f695c] bg-[#e9e1cd] px-3 py-3 text-[11px] ${ctaEmphasis ? "font-bold" : "font-medium"} tracking-[0.08em] text-[#141115] transition-all duration-500 hover:bg-[#fff6e0] disabled:cursor-not-allowed disabled:border-[#4c4740] disabled:bg-[#4c4740] disabled:text-[#9c9384] disabled:hover:bg-[#4c4740] sm:px-8 sm:py-3.5 sm:text-sm sm:tracking-[0.28em]`}
+        >
+          {soldOut ? (
+            "SOLD OUT"
+          ) : (
+            <>
+              {ctaEmphasis ? (
+                <AnimatedStatText
+                  file="drop01"
+                  field="ctaLabel"
+                  value={ctaLabel}
+                  className="whitespace-nowrap"
+                  charClassName="cta-wave-ch"
+                  triggerOnView
+                />
+              ) : (
+                <EditableText file="drop01" field="ctaLabel" value={ctaLabel} as="span" className="whitespace-nowrap" />
+              )}
+              <span className="mx-1 sm:mx-2">•</span>
+              {formatPrice(priceCents * quantity, currency)}
+            </>
+          )}
+        </button>
+        {ctaFooter}
+      </div>
 
       {/* Portaled to <body> so an ancestor's transform/opacity (the scroll
           reveal animations) can't turn "fixed" into "fixed to that ancestor". */}
