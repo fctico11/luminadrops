@@ -148,6 +148,7 @@ export default function MobileFlow({
                 soldOut={soldOut}
                 ctaWrapperClassName="flex w-[calc(200%+1rem)] -ml-[calc(100%+1rem)] justify-center sm:w-full sm:ml-0"
                 ctaEmphasis
+                stickyImage={{ src: content.purchaseImage, alt: content.purchaseImageAlt }}
               />
             </div>
 

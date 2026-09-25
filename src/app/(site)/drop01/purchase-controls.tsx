@@ -1,6 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { formatPrice } from "@/lib/products";
 import EditableText from "@/components/edit/EditableText";
@@ -8,6 +10,7 @@ import AnimatedStatText from "@/components/edit/AnimatedStatText";
 import { useEditMode } from "@/components/edit/EditModeContext";
 import { useCart } from "@/components/cart/CartContext";
 import { trackTikTokEvent } from "@/lib/tiktok-pixel";
+import { cormorant } from "../../ui";
 
 type Props = {
   productId: string;
@@ -25,6 +28,9 @@ type Props = {
    * button scrolls into view, so it reads as more inviting to tap.
    * Desktop keeps the plain label when this is left off. */
   ctaEmphasis?: boolean;
+  /** Product thumbnail for the sticky bar that slides up once the main CTA
+   * has scrolled out of view. */
+  stickyImage?: { src: string; alt: string };
 };
 
 export default function PurchaseControls({
@@ -37,6 +43,7 @@ export default function PurchaseControls({
   soldOut,
   ctaWrapperClassName,
   ctaEmphasis,
+  stickyImage,
 }: Props) {
   const router = useRouter();
   const { isAdmin } = useEditMode();
@@ -44,6 +51,36 @@ export default function PurchaseControls({
   const [quantity, setQuantity] = useState(1);
   const [showLimitMessage, setShowLimitMessage] = useState(false);
   const hideTimer = useRef<number | undefined>(undefined);
+  const ctaRef = useRef<HTMLButtonElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const [pastCta, setPastCta] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  // "Past" means scrolled beyond it, not merely not yet reached — the bar
+  // stays hidden on load, while the buy box is still below the fold.
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setPastCta(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const showBar = pastCta && !isAdmin && !soldOut;
+
+  // The bar is fixed to the viewport, so without this it would sit on top of
+  // the footer links once the page is scrolled all the way down.
+  useEffect(() => {
+    if (!showBar || !barRef.current) return;
+    document.body.style.paddingBottom = `${barRef.current.offsetHeight}px`;
+    return () => {
+      document.body.style.paddingBottom = "";
+    };
+  }, [showBar]);
 
   const handleJoin = () => {
     if (isAdmin || soldOut) return;
@@ -114,6 +151,7 @@ export default function PurchaseControls({
       {(() => {
         const cta = (
           <button
+            ref={ctaRef}
             type="button"
             onClick={handleJoin}
             disabled={soldOut}
@@ -143,6 +181,41 @@ export default function PurchaseControls({
         );
         return ctaWrapperClassName ? <div className={ctaWrapperClassName}>{cta}</div> : cta;
       })()}
+
+      {/* Portaled to <body> so an ancestor's transform/opacity (the scroll
+          reveal animations) can't turn "fixed" into "fixed to that ancestor". */}
+      {mounted &&
+        createPortal(
+          <div
+            ref={barRef}
+            inert={!showBar}
+            className={`fixed inset-x-0 bottom-0 z-40 border-t border-[#2a2620] bg-[#0a0a0a] pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 transition-transform duration-300 ease-out motion-reduce:transition-none ${
+              showBar ? "translate-y-0" : "translate-y-full"
+            }`}
+          >
+            <div className="mx-auto flex max-w-2xl items-center gap-3 px-4 sm:gap-4">
+              {stickyImage && (
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden border border-[#4c4740]">
+                  <Image src={stickyImage.src} alt={stickyImage.alt} fill sizes="56px" className="object-cover" />
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <p className={`${cormorant.className} text-[15px] font-medium leading-tight text-[#e9e1cd] sm:text-lg`}>
+                  {productName}
+                </p>
+                <p className="mt-1 text-sm font-medium text-[#e9e1cd]">{formatPrice(priceCents * quantity, currency)}</p>
+              </div>
+              <button
+                type="button"
+                onClick={handleJoin}
+                className="shrink-0 whitespace-nowrap border border-[#6f695c] bg-[#e9e1cd] px-5 py-3.5 text-[11px] font-bold tracking-[0.08em] text-[#141115] transition-colors duration-300 hover:bg-[#fff6e0] sm:px-8 sm:text-sm sm:tracking-[0.2em]"
+              >
+                {ctaLabel}
+              </button>
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
