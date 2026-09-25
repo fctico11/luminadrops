@@ -84,16 +84,18 @@ export default function MobileFlow({
         {/* Photo | details + quantity, with the buy button in its own grid row
             so it always starts below the photo however tall that is (a
             button sharing the right column's flow used to land on top of
-            the photo at widths where the column ran shorter than it). The
-            button spans both columns on phones and tucks under the
-            quantity in the right column from sm: up. */}
-        <div className="mt-6 -ml-[18px] grid w-[calc(100%+18px)] grid-cols-[50%_minmax(0,1fr)] grid-rows-[auto_1fr_auto] items-start gap-x-4 sm:mt-8 sm:ml-0 sm:w-full sm:grid-rows-[auto_auto_1fr] sm:gap-x-8 lg:gap-x-12">
+            the photo at widths where the column ran shorter than it). On
+            phones the button spans both columns and the text block is
+            vertically centered against the photo (or the photo against the
+            text, whichever is taller); from sm: up the button tucks under
+            the quantity in the right column and everything hugs the top. */}
+        <div className="mt-6 -ml-[18px] grid w-[calc(100%+18px)] grid-cols-[50%_minmax(0,1fr)] grid-rows-[auto_auto] items-start gap-x-4 sm:mt-8 sm:ml-0 sm:w-full sm:grid-rows-[auto_1fr] sm:gap-x-8 lg:gap-x-12">
           {/* On mobile this bleeds most of the way to the screen edge
               (cancels most of the section's px-6 on this side only,
               leaving a tiny 6px gap) so the image can run bigger without
               taking width away from the text column. From sm: up there's
               enough room that the bleed isn't needed. */}
-          <div className="relative col-start-1 row-span-2 row-start-1 aspect-[4/5] w-full overflow-hidden border border-[#4c4740] sm:row-span-3">
+          <div className="relative col-start-1 row-start-1 aspect-[4/5] w-full self-center overflow-hidden border border-[#4c4740] sm:row-span-2 sm:self-start">
             <EditableImage
               file="drop01"
               field="purchaseImage"
@@ -103,47 +105,13 @@ export default function MobileFlow({
             />
           </div>
 
-          <div className="col-start-2 row-start-1 flex flex-col items-center text-center">
-            {(isAdmin || content.dropLabel) && (
-              <EditableText
-                file="drop01"
-                field="dropLabel"
-                value={content.dropLabel}
-                as="p"
-                className="text-[10px] tracking-[0.25em] text-[#9c9384] sm:text-xs"
-              />
-            )}
-            <h2 className={`${cormorant.className} mt-1 text-lg font-medium tracking-[0.1em] sm:mt-2 sm:text-2xl lg:text-3xl`}>
-              <EditableText file="drop01" field="titleLine1" value={content.titleLine1} as="span" />{" "}
-              <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
-            </h2>
-            <EditableText
-              file="drop01"
-              field="dateLabel"
-              value={content.dateLabel}
-              as="p"
-              className="mt-1 text-xs tracking-[0.1em] text-[#9c9384] sm:mt-2 sm:text-sm"
-            />
-
-            <div className="mx-auto mt-4 flex w-full max-w-[130px] items-center gap-2 sm:mt-6 sm:max-w-[160px]" aria-hidden>
-              <span className="h-px flex-1 bg-[#4c4740]" />
-              <span className="teaser-twinkle text-xs text-[#cfc6b1]">✦</span>
-              <span className="h-px flex-1 bg-[#4c4740]" />
-            </div>
-
-            <EditableText
-              file="drop01"
-              field="quantityLabel"
-              value={content.quantityLabel}
-              as="p"
-              className="mt-4 text-[10px] tracking-[0.2em] text-[#9c9384] sm:mt-6 sm:text-xs"
-            />
-          </div>
-
-          {/* PurchaseControls renders display: contents — its quantity
-              stepper and buy button are cells of the grid above. The
-              button's pl-[18px] on phones offsets the row's left bleed so
-              it centers on the page, not on the bled row. */}
+          {/* PurchaseControls renders display: contents — its stepper cell
+              (title block + quantity) and buy button are cells of the grid
+              above. On phones the stepper cell's pt-8 mirrors the invisible
+              space the limit message reserves under the stepper (mt-3 + one
+              text-sm line = 2rem) so the *visible* text sits centered. The
+              button's pl-[18px] offsets the row's left bleed so it centers
+              on the page, not on the bled row. */}
           <PurchaseControls
             productId={productId}
             productName={productName}
@@ -152,8 +120,46 @@ export default function MobileFlow({
             ctaLabel={content.ctaLabel}
             maxQuantity={maxQuantity}
             soldOut={soldOut}
-            stepperClassName="col-start-2 row-start-2 mt-2 sm:mt-3"
-            ctaClassName="col-span-2 col-start-1 row-start-3 mt-2 pl-[18px] sm:col-span-1 sm:col-start-2 sm:mt-0 sm:pl-0"
+            stepperClassName="col-start-2 row-start-1 self-center pt-8 sm:self-start sm:pt-0"
+            stepperHeader={
+              <div className="flex w-full flex-col items-center text-center">
+                {(isAdmin || content.dropLabel) && (
+                  <EditableText
+                    file="drop01"
+                    field="dropLabel"
+                    value={content.dropLabel}
+                    as="p"
+                    className="text-[10px] tracking-[0.25em] text-[#9c9384] sm:text-xs"
+                  />
+                )}
+                <h2 className={`${cormorant.className} mt-1 text-lg font-medium tracking-[0.1em] sm:mt-2 sm:text-2xl lg:text-3xl`}>
+                  <EditableText file="drop01" field="titleLine1" value={content.titleLine1} as="span" />{" "}
+                  <EditableText file="drop01" field="titleLine2" value={content.titleLine2} as="span" />
+                </h2>
+                <EditableText
+                  file="drop01"
+                  field="dateLabel"
+                  value={content.dateLabel}
+                  as="p"
+                  className="mt-1 text-xs tracking-[0.1em] text-[#9c9384] sm:mt-2 sm:text-sm"
+                />
+
+                <div className="mx-auto mt-4 flex w-full max-w-[130px] items-center gap-2 sm:mt-6 sm:max-w-[160px]" aria-hidden>
+                  <span className="h-px flex-1 bg-[#4c4740]" />
+                  <span className="teaser-twinkle text-xs text-[#cfc6b1]">✦</span>
+                  <span className="h-px flex-1 bg-[#4c4740]" />
+                </div>
+
+                <EditableText
+                  file="drop01"
+                  field="quantityLabel"
+                  value={content.quantityLabel}
+                  as="p"
+                  className="mb-2 mt-4 text-[10px] tracking-[0.2em] text-[#9c9384] sm:mb-3 sm:mt-6 sm:text-xs"
+                />
+              </div>
+            }
+            ctaClassName="col-span-2 col-start-1 row-start-2 mt-2 pl-[18px] sm:col-span-1 sm:col-start-2 sm:mt-0 sm:pl-0"
             ctaFooter={
               <EditableText
                 file="drop01"

@@ -25,6 +25,9 @@ type Props = {
    * These classNames place them (the CTA needs its own row so it always
    * starts below the product photo, however tall that is). */
   stepperClassName?: string;
+  /** Rendered above the stepper inside the same grid cell, so the two are
+   * placed (e.g. vertically centered against the photo) as one block. */
+  stepperHeader?: ReactNode;
   ctaClassName?: string;
   /** Shown centered under the CTA button (e.g. "Secure checkout"). */
   ctaFooter?: ReactNode;
@@ -46,6 +49,7 @@ export default function PurchaseControls({
   maxQuantity,
   soldOut,
   stepperClassName = "",
+  stepperHeader,
   ctaClassName = "",
   ctaFooter,
   ctaEmphasis,
@@ -114,6 +118,7 @@ export default function PurchaseControls({
   return (
     <div className="contents">
       <div className={`flex w-full flex-col items-center ${stepperClassName}`}>
+        {stepperHeader}
         <div className="flex w-32 items-stretch justify-between border border-[#4c4740] text-[#e9e1cd]">
           <button
             type="button"
