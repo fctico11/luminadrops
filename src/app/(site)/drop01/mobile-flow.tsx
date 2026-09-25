@@ -85,17 +85,19 @@ export default function MobileFlow({
             so it always starts below the photo however tall that is (a
             button sharing the right column's flow used to land on top of
             the photo at widths where the column ran shorter than it). On
-            phones the button spans both columns and the text block is
-            vertically centered against the photo (or the photo against the
-            text, whichever is taller); from sm: up the button tucks under
-            the quantity in the right column and everything hugs the top. */}
-        <div className="mt-6 -ml-[18px] grid w-[calc(100%+18px)] grid-cols-[50%_minmax(0,1fr)] grid-rows-[auto_auto] items-start gap-x-4 sm:mt-8 sm:ml-0 sm:w-full sm:grid-rows-[auto_1fr] sm:gap-x-8 lg:gap-x-12">
+            phones the button spans both columns and the title/quantity
+            block is vertically centered against the photo (or the photo
+            against the text, whichever is taller). From sm: up the button
+            tucks under the quantity in the right column, and the whole
+            column is centered against the photo via the two 1fr spacer
+            rows above and below it. */}
+        <div className="mt-6 -ml-[18px] grid w-[calc(100%+18px)] grid-cols-[50%_minmax(0,1fr)] grid-rows-[auto_auto] items-start gap-x-4 sm:mt-8 sm:ml-0 sm:w-full sm:grid-rows-[1fr_auto_auto_1fr] sm:gap-x-8 lg:gap-x-12">
           {/* On mobile this bleeds most of the way to the screen edge
               (cancels most of the section's px-6 on this side only,
               leaving a tiny 6px gap) so the image can run bigger without
               taking width away from the text column. From sm: up there's
               enough room that the bleed isn't needed. */}
-          <div className="relative col-start-1 row-start-1 aspect-[4/5] w-full self-center overflow-hidden border border-[#4c4740] sm:row-span-2 sm:self-start">
+          <div className="relative col-start-1 row-start-1 aspect-[4/5] w-full self-center overflow-hidden border border-[#4c4740] sm:row-span-4">
             <EditableImage
               file="drop01"
               field="purchaseImage"
@@ -109,7 +111,8 @@ export default function MobileFlow({
               (title block + quantity) and buy button are cells of the grid
               above. On phones the stepper cell's pt-8 mirrors the invisible
               space the limit message reserves under the stepper (mt-3 + one
-              text-sm line = 2rem) so the *visible* text sits centered. The
+              text-sm line = 2rem) so the *visible* text sits centered (from
+              sm: up that space is mid-column, so no padding). The
               button's pl-[18px] offsets the row's left bleed so it centers
               on the page, not on the bled row. */}
           <PurchaseControls
@@ -120,7 +123,7 @@ export default function MobileFlow({
             ctaLabel={content.ctaLabel}
             maxQuantity={maxQuantity}
             soldOut={soldOut}
-            stepperClassName="col-start-2 row-start-1 self-center pt-8 sm:self-start sm:pt-0"
+            stepperClassName="col-start-2 row-start-1 self-center pt-8 sm:row-start-2 sm:self-start sm:pt-0"
             stepperHeader={
               <div className="flex w-full flex-col items-center text-center">
                 {(isAdmin || content.dropLabel) && (
@@ -159,7 +162,7 @@ export default function MobileFlow({
                 />
               </div>
             }
-            ctaClassName="col-span-2 col-start-1 row-start-2 mt-2 pl-[18px] sm:col-span-1 sm:col-start-2 sm:mt-0 sm:pl-0"
+            ctaClassName="col-span-2 col-start-1 row-start-2 mt-2 pl-[18px] sm:col-span-1 sm:col-start-2 sm:row-start-3 sm:mt-0 sm:pl-0"
             ctaFooter={
               <EditableText
                 file="drop01"
