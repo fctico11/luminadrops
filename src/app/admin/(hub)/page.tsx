@@ -4,7 +4,7 @@ const CONTENT_PAGES = [
   {
     href: "/admin/edit",
     label: "Teaser",
-    description: "The main landing page (/) shown before a drop goes live.",
+    description: "Shelved — not live anywhere on the site (/ now goes straight to the product page). Still editable here.",
   },
   { href: "/admin/edit/home", label: "Home", description: "The wordmark landing page at /home." },
   { href: "/admin/edit/about", label: "About", description: "/about" },
