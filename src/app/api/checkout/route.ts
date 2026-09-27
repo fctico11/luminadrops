@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
+import { LIVE_SHIPPING_ENABLED } from "@/lib/shipping-toggle";
 
 const bodySchema = z.object({
   productId: z.string().min(1),
@@ -77,15 +78,18 @@ export async function POST(request: NextRequest) {
     shipping_address_collection: {
       allowed_countries: ["US", "CA"],
     },
-    // Placeholder using the product's flat rate — the actual customer hasn't
-    // entered a shipping address yet at session-creation time. The client
-    // replaces this with a live Shippo quote via /api/checkout/update-shipping
-    // as soon as the ShippingAddressElement has a complete address.
+    // Shipping is currently included in the product price (see
+    // shipping-toggle.ts), so this is always a flat $0 option. When
+    // LIVE_SHIPPING_ENABLED, this is a placeholder using the product's flat
+    // rate — the customer hasn't entered a shipping address yet at
+    // session-creation time — and the client replaces it with a live Shippo
+    // quote via /api/checkout/update-shipping as soon as the
+    // ShippingAddressElement has a complete address.
     shipping_options: [
       {
         shipping_rate_data: {
           type: "fixed_amount",
-          fixed_amount: { amount: product.shippingCents, currency: product.currency },
+          fixed_amount: { amount: LIVE_SHIPPING_ENABLED ? product.shippingCents : 0, currency: product.currency },
           display_name: "Standard Shipping",
         },
       },

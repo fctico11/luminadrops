@@ -19,6 +19,7 @@ import { cormorant } from "../../ui";
 import { useCart } from "@/components/cart/CartContext";
 import { formatPrice } from "@/lib/products";
 import { checkoutAppearance, checkoutFonts } from "@/lib/stripe-appearance";
+import { LIVE_SHIPPING_ENABLED } from "@/lib/shipping-toggle";
 import type { CheckoutContent as CheckoutCopy } from "@/lib/content";
 import type { AddOn } from "@/generated/prisma";
 import { trackTikTokEvent, type TikTokContent } from "@/lib/tiktok-pixel";
@@ -210,8 +211,11 @@ function CheckoutContent({
   // re-quote a live carrier rate from Shippo and push it into the session —
   // debounced so we're not hitting Shippo on every keystroke.
   const handleAddressChange = (event: StripeAddressElementChangeEvent) => {
-    if (debounceRef.current) clearTimeout(debounceRef.current);
     setAddressComplete(event.complete);
+    // Shipping is a flat $0 set at session creation (see shipping-toggle.ts)
+    // — nothing to re-quote, so skip the debounce/fetch entirely.
+    if (!LIVE_SHIPPING_ENABLED) return;
+    if (debounceRef.current) clearTimeout(debounceRef.current);
     if (!event.complete) return;
 
     const { name, address } = event.value;
@@ -332,7 +336,12 @@ function CheckoutContent({
               </span>
             </div>
           )}
-          {!addressComplete ? (
+          {!LIVE_SHIPPING_ENABLED ? (
+            <div className="flex items-center justify-between text-[#c4bba8]">
+              <EditableText file="checkout" field="shippingLabel" value={content.shippingLabel} as="span" />
+              <span>{formatPrice(0, product.currency)}</span>
+            </div>
+          ) : !addressComplete ? (
             <div className="flex items-center justify-between text-[#9c9384]">
               <EditableText file="checkout" field="shippingLabel" value={content.shippingLabel} as="span" />
               <span className="text-right italic">Enter address to calculate shipping</span>
@@ -406,14 +415,16 @@ function CheckoutContent({
         <div>
           <p className="mb-2 text-[10px] tracking-[0.2em] text-[#9c9384]">SHIPPING ADDRESS</p>
           <ShippingAddressElement onChange={handleAddressChange} />
-          <p className="mt-2 flex items-center gap-2 text-sm italic text-[#9c9384]">
-            {calculatingShipping && <span className="spinner" aria-hidden />}
-            {!addressComplete
-              ? "Enter address to calculate shipping"
-              : calculatingShipping
-              ? "Calculating shipping..."
-              : `${shippingName} — ${formatPrice(checkout.total.shippingRate.minorUnitsAmount, product.currency)}`}
-          </p>
+          {LIVE_SHIPPING_ENABLED && (
+            <p className="mt-2 flex items-center gap-2 text-sm italic text-[#9c9384]">
+              {calculatingShipping && <span className="spinner" aria-hidden />}
+              {!addressComplete
+                ? "Enter address to calculate shipping"
+                : calculatingShipping
+                ? "Calculating shipping..."
+                : `${shippingName} — ${formatPrice(checkout.total.shippingRate.minorUnitsAmount, product.currency)}`}
+            </p>
+          )}
         </div>
         <div>
           <p className="mb-2 text-[10px] tracking-[0.2em] text-[#9c9384]">PAYMENT</p>
