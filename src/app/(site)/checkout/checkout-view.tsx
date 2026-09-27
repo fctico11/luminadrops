@@ -196,6 +196,35 @@ function CheckoutContent({
   const [subscribeToUpdates, setSubscribeToUpdates] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Captures the email as soon as it's filled in via ContactDetailsElement,
+  // well before the customer submits payment — lets us follow up if they
+  // abandon checkout after this point. Debounced so a still-typing email
+  // isn't posted on every keystroke; capturedEmailRef then skips re-posting
+  // the same address once it settles. Declared above the loading/error
+  // guards below (with checkout* falling back to undefined) so the hook
+  // order stays identical across renders.
+  const capturedEmailRef = useRef<string | null>(null);
+  const captureDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const checkoutEmail = checkoutState.type === "success" ? checkoutState.checkout.email : null;
+  const checkoutSessionId = checkoutState.type === "success" ? checkoutState.checkout.id : null;
+
+  useEffect(() => {
+    if (!checkoutEmail || !checkoutSessionId || checkoutEmail === capturedEmailRef.current) return;
+
+    captureDebounceRef.current = setTimeout(() => {
+      capturedEmailRef.current = checkoutEmail;
+      fetch("/api/checkout/capture-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: checkoutSessionId, email: checkoutEmail }),
+      }).catch(() => {});
+    }, 800);
+
+    return () => {
+      if (captureDebounceRef.current) clearTimeout(captureDebounceRef.current);
+    };
+  }, [checkoutEmail, checkoutSessionId]);
+
   if (checkoutState.type === "loading") {
     return <p className="mt-10 text-sm italic text-[#9c9384]">Loading checkout...</p>;
   }

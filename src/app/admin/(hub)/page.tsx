@@ -60,6 +60,11 @@ const INSIGHTS_PAGES = [
     label: "Analytics",
     description: "Traffic, top pages, and referrers — pulled live from Vercel Web Analytics.",
   },
+  {
+    href: "/admin/abandoned-checkouts",
+    label: "Abandoned Checkouts",
+    description: "Emails captured mid-checkout before payment — who didn't finish, and who came back.",
+  },
 ];
 
 export default function AdminHubPage() {

@@ -72,6 +72,13 @@ export async function POST(request: NextRequest) {
             await tx.addOn.update({ where: { id: addOnId }, data: { status: "SOLD_OUT", inventory: 0 } });
           }
         }
+
+        // Best-effort — most sessions never captured an email (customer
+        // never got that far), so there's usually no row to update.
+        await tx.abandonedCheckout.updateMany({
+          where: { stripeSessionId: session.id, completedAt: null },
+          data: { completedAt: new Date() },
+        });
       });
     }
   }

@@ -132,6 +132,33 @@ model Order {
   updatedAt             DateTime    @updatedAt
 }
 
+// An email captured mid-checkout (via Stripe's ContactDetailsElement)
+// before the customer finishes paying — lets admin follow up if the order
+// is never completed. Product/price fields are a snapshot taken at capture
+// time, not a live relation, so a row stays accurate even if the product
+// is later edited or removed (same reasoning as Order.addOnName/
+// addOnPriceCents above).
+model AbandonedCheckout {
+  id               String    @id @default(cuid())
+  stripeSessionId  String    @unique
+  email            String
+  productId        String
+  productName      String
+  quantity         Int
+  addOnName        String?
+  addOnPriceCents  Int?
+  amountTotalCents Int
+  currency         String    @default("usd")
+  // Set once the Stripe webhook sees this session complete — distinguishes
+  // "recovered on their own" from "still needs a follow-up" without a
+  // second lookup against Order.
+  completedAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([email])
+}
+
 enum TmmcPostCategory {
   NOTE
   RECOMMENDATION
