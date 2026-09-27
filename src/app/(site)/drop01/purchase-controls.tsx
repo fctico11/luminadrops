@@ -18,6 +18,9 @@ type Props = {
   priceCents: number;
   currency: string;
   ctaLabel: string;
+  /** Small subtitle shown inside the CTA button, under the label/price
+   * (e.g. "SHIPPING INCLUDED"). Omit to leave the button single-line. */
+  shippingIncludedLabel?: string;
   maxQuantity: number;
   soldOut: boolean;
   /** This component renders `display: contents`, so its two blocks — the
@@ -46,6 +49,7 @@ export default function PurchaseControls({
   priceCents,
   currency,
   ctaLabel,
+  shippingIncludedLabel,
   maxQuantity,
   soldOut,
   stepperClassName = "",
@@ -173,20 +177,31 @@ export default function PurchaseControls({
             "SOLD OUT"
           ) : (
             <>
-              {ctaEmphasis ? (
-                <AnimatedStatText
+              <span className="flex items-center justify-center">
+                {ctaEmphasis ? (
+                  <AnimatedStatText
+                    file="drop01"
+                    field="ctaLabel"
+                    value={ctaLabel}
+                    className="whitespace-nowrap"
+                    charClassName="cta-wave-ch"
+                    triggerOnView
+                  />
+                ) : (
+                  <EditableText file="drop01" field="ctaLabel" value={ctaLabel} as="span" className="whitespace-nowrap" />
+                )}
+                <span className="mx-1 sm:mx-2">•</span>
+                <span className="text-sm sm:text-base">{formatPrice(priceCents * quantity, currency)}</span>
+              </span>
+              {shippingIncludedLabel && (
+                <EditableText
                   file="drop01"
-                  field="ctaLabel"
-                  value={ctaLabel}
-                  className="whitespace-nowrap"
-                  charClassName="cta-wave-ch"
-                  triggerOnView
+                  field="shippingIncludedLabel"
+                  value={shippingIncludedLabel}
+                  as="span"
+                  className="mt-1 block text-[9px] font-normal tracking-[0.15em] text-[#141115]/70 sm:text-[10px]"
                 />
-              ) : (
-                <EditableText file="drop01" field="ctaLabel" value={ctaLabel} as="span" className="whitespace-nowrap" />
               )}
-              <span className="mx-1 sm:mx-2">•</span>
-              {formatPrice(priceCents * quantity, currency)}
             </>
           )}
         </button>

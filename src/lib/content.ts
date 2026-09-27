@@ -197,6 +197,8 @@ export type Drop01Content = {
   purchaseImageAlt: string;
   quantityLabel: string;
   ctaLabel: string;
+  /** Small subtitle shown inside the CTA button, under the label/price. */
+  shippingIncludedLabel: string;
   footNote1: string;
 };
 

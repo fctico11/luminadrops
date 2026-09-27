@@ -121,6 +121,7 @@ export default function MobileFlow({
             priceCents={priceCents}
             currency={currency}
             ctaLabel={content.ctaLabel}
+            shippingIncludedLabel={content.shippingIncludedLabel}
             maxQuantity={maxQuantity}
             soldOut={soldOut}
             stepperClassName="col-start-2 row-start-1 self-center pt-8 sm:row-start-2 sm:self-start sm:pt-0"
