@@ -171,6 +171,8 @@ export type Drop01Content = {
   /** Short intro blurb shown above the product photo/buy box on mobile. */
   snippetTitle: string;
   snippetBody: string;
+  reviewQuote: string;
+  reviewAuthor: string;
   /** Mobile-only scroll link under the snippet body, jumping down to the
    * "detailsLabel" accordion row at the bottom of the mobile flow. */
   readDetailsLabel: string;

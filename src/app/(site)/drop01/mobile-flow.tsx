@@ -176,6 +176,37 @@ export default function MobileFlow({
             stickyImage={{ src: content.purchaseImage, alt: content.purchaseImageAlt }}
           />
         </div>
+
+        {/* Customer review — sits directly under the buy box, above the
+            divider into "What's Waiting Inside". Same section as the buy
+            box (not its own Reveal) so it scrolls in with it rather than
+            waiting for its own trigger. */}
+        <div className="mx-auto mt-10 max-w-sm border-t border-[#2a2620] bg-white/[0.03] px-6 pt-8 sm:mt-12 sm:max-w-lg sm:px-10">
+          <span aria-hidden className={`${cormorant.className} text-4xl leading-none text-[#cfc0a0]`}>
+            “
+          </span>
+          <EditableText
+            file="drop01"
+            field="reviewQuote"
+            value={content.reviewQuote}
+            as="p"
+            className={`${cormorant.className} -mt-2 text-lg italic leading-relaxed text-[#e9e1cd] sm:text-xl`}
+          />
+          <EditableText
+            file="drop01"
+            field="reviewAuthor"
+            value={content.reviewAuthor}
+            as="p"
+            className="mt-4 text-[11px] tracking-[0.2em] text-[#9c9384]"
+            displayValue={`— ${content.reviewAuthor.toUpperCase()}`}
+          />
+        </div>
+
+        <div className="mx-auto mt-8 flex w-full max-w-xs items-center gap-4 sm:mt-10" aria-hidden>
+          <span className="h-px flex-1 bg-[#4c4740]" />
+          <span className="teaser-twinkle text-[11px] text-[#cfc6b1]">✦</span>
+          <span className="h-px flex-1 bg-[#4c4740]" />
+        </div>
       </Reveal>
 
       {/* What's Waiting Inside — Club Manual photo/description by default,
