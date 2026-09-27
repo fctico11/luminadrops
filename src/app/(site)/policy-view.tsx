@@ -1,5 +1,8 @@
+"use client";
+
 import type { PolicyContent } from "@/lib/content";
 import EditableText from "@/components/edit/EditableText";
+import { useEditMode } from "@/components/edit/EditModeContext";
 import Motes from "../motes";
 import { cormorant, rise } from "../ui";
 
@@ -11,6 +14,8 @@ type Props = {
 /** Shared layout for the legal/policy pages — same left-aligned reading column for
  * both /privacy and /shipping-returns, since the content shape is identical. */
 export default function PolicyView({ contentName, content }: Props) {
+  const { isAdmin } = useEditMode();
+
   return (
     <main className="grain relative flex flex-1 flex-col items-center px-6 py-16 lg:py-24">
       <Motes />
@@ -63,6 +68,21 @@ export default function PolicyView({ contentName, content }: Props) {
                     className="text-[15px] leading-relaxed text-[#c4bba8] lg:text-base"
                   />
                 ))}
+                {isAdmin &&
+                  section.adminNotes?.map((paragraph, j) => (
+                    <div key={j} className="border-l-2 border-[#6f695c] pl-3">
+                      <p className="text-[11px] tracking-[0.15em] text-[#6f695c]">
+                        ADMIN ONLY — HIDDEN FROM VISITORS
+                      </p>
+                      <EditableText
+                        file={contentName}
+                        field={`sections.${i}.adminNotes.${j}`}
+                        value={paragraph}
+                        as="p"
+                        className="mt-1 text-[15px] italic leading-relaxed text-[#9c9384]"
+                      />
+                    </div>
+                  ))}
               </div>
             </div>
           ))}

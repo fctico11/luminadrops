@@ -133,7 +133,14 @@ export type CheckoutContent = {
   subscribeLabel: string;
 };
 
-export type PolicySection = { heading: string; body: string[] };
+export type PolicySection = {
+  heading: string;
+  body: string[];
+  /** Extra paragraphs shown only in the admin editor, appended after `body`
+   * — e.g. retired copy kept on hand in case a change gets reverted, without
+   * cluttering the page visitors see. */
+  adminNotes?: string[];
+};
 
 export type PolicyContent = {
   title: string;
