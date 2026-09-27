@@ -180,26 +180,33 @@ export default function MobileFlow({
         {/* Customer review — sits directly under the buy box, above the
             divider into "What's Waiting Inside". Same section as the buy
             box (not its own Reveal) so it scrolls in with it rather than
-            waiting for its own trigger. */}
-        <div className="mx-auto mt-10 max-w-sm border-t border-[#2a2620] bg-white/[0.03] px-6 pt-8 sm:mt-12 sm:max-w-lg sm:px-10">
-          <span aria-hidden className={`${cormorant.className} text-4xl leading-none text-[#cfc0a0]`}>
-            “
-          </span>
-          <EditableText
-            file="drop01"
-            field="reviewQuote"
-            value={content.reviewQuote}
-            as="p"
-            className={`${cormorant.className} -mt-2 text-lg italic leading-relaxed text-[#e9e1cd] sm:text-xl`}
-          />
-          <EditableText
-            file="drop01"
-            field="reviewAuthor"
-            value={content.reviewAuthor}
-            as="p"
-            className="mt-4 text-[11px] tracking-[0.2em] text-[#9c9384]"
-            displayValue={`— ${content.reviewAuthor.toUpperCase()}`}
-          />
+            waiting for its own trigger. Full width of the row above (not
+            its own narrower, independently-centered box) so its edges
+            line up with the photo/text row exactly, since that row isn't
+            itself symmetric (the photo is narrower than the text column
+            is tall) — a box centered on its own math would drift off from
+            what reads as "centered" under that row. */}
+        <div className="mt-10 w-full border-t border-[#2a2620] bg-white/[0.03] px-6 py-8 sm:mt-12 sm:px-10 sm:py-10">
+          <div className="mx-auto max-w-sm sm:max-w-md">
+            <span aria-hidden className={`${cormorant.className} text-4xl leading-none text-[#cfc0a0]`}>
+              “
+            </span>
+            <EditableText
+              file="drop01"
+              field="reviewQuote"
+              value={content.reviewQuote}
+              as="p"
+              className={`${cormorant.className} -mt-2 text-lg italic leading-relaxed text-[#e9e1cd] sm:text-xl`}
+            />
+            <EditableText
+              file="drop01"
+              field="reviewAuthor"
+              value={content.reviewAuthor}
+              as="p"
+              className="mt-4 text-[11px] tracking-[0.2em] text-[#9c9384]"
+              displayValue={`— ${content.reviewAuthor.toUpperCase()}`}
+            />
+          </div>
         </div>
 
         <div className="mx-auto mt-8 flex w-full max-w-xs items-center gap-4 sm:mt-10" aria-hidden>
