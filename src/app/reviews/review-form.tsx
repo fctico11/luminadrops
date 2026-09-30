@@ -64,9 +64,15 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  // The photo is optional, so canSubmit below doesn't wait on it having a
+  // value — without this flag, clicking Submit in the moment right after
+  // picking a photo (before the resize below finishes) would go through
+  // with no photo at all, silently, since there's nothing else to stop it.
+  const [resizingPhoto, setResizingPhoto] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const canSubmit = rating > 0 && name.trim().length > 0 && reviewText.trim().length > 0 && consent;
+  const canSubmit =
+    rating > 0 && name.trim().length > 0 && reviewText.trim().length > 0 && consent && !resizingPhoto;
 
   const handleFile = async (file: File | null) => {
     if (!file) return;
@@ -79,9 +85,14 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
       return;
     }
     setPhotoError(null);
-    const resized = await resizePhoto(file);
-    setPhoto(resized);
-    setPhotoPreview(URL.createObjectURL(resized));
+    setResizingPhoto(true);
+    try {
+      const resized = await resizePhoto(file);
+      setPhoto(resized);
+      setPhotoPreview(URL.createObjectURL(resized));
+    } finally {
+      setResizingPhoto(false);
+    }
   };
 
   const removePhoto = () => {
@@ -334,6 +345,12 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
                 className="text-[10px] text-[#6f695c]"
               />
             </div>
+          )}
+          {resizingPhoto && (
+            <p className="mt-2 flex items-center gap-2 text-[12px] italic text-[#9c9384]">
+              <span className="spinner" aria-hidden />
+              Processing photo...
+            </p>
           )}
           {photoError && <p className="mt-2 text-[12px] text-[#e07a5f]">{photoError}</p>}
         </div>
