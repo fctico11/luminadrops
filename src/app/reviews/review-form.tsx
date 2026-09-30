@@ -2,6 +2,7 @@
 
 import { useRef, useState, type DragEvent, type FormEvent } from "react";
 import EditableText from "@/components/edit/EditableText";
+import EditableLink from "@/components/edit/EditableLink";
 import { cormorant } from "../ui";
 import type { ReviewsContent } from "@/lib/content";
 
@@ -152,6 +153,12 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
           as="p"
           className="mx-auto mt-4 max-w-sm text-[15px] leading-relaxed text-[#c4bba8]"
         />
+        <EditableLink
+          href="/home"
+          className="mt-8 inline-block border border-[#6f695c] px-9 py-3.5 text-[11px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0]"
+        >
+          Back to Home
+        </EditableLink>
       </div>
     );
   }
