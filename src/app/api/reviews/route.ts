@@ -42,6 +42,16 @@ export async function POST(request: NextRequest) {
   const photo = formData.get("photo");
   let photoUrl: string | null = null;
 
+  // Logged unconditionally (not just on failure) so a submission that saves
+  // with no photo — the exact symptom this is chasing — leaves a trace of
+  // what actually arrived, instead of leaving no evidence either way.
+  console.log("review photo field:", {
+    isFile: photo instanceof File,
+    type: photo instanceof File ? photo.type : typeof photo,
+    size: photo instanceof File ? photo.size : null,
+    name: photo instanceof File ? photo.name : null,
+  });
+
   if (photo instanceof File && photo.size > 0) {
     if (!ACCEPTED_PHOTO_TYPES.test(photo.type)) {
       return NextResponse.json({ error: "Please upload a JPG, PNG, or HEIC file." }, { status: 400 });
