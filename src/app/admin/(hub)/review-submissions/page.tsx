@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { setReviewStatus } from "./actions";
+import ReviewPhoto from "./review-photo";
 import type { ReviewStatus } from "@/generated/prisma";
 
 export const dynamic = "force-dynamic";
@@ -72,11 +72,7 @@ export default async function AdminReviewSubmissionsPage() {
                 </p>
               </div>
 
-              {review.photoUrl && (
-                <div className="relative h-20 w-20 shrink-0 overflow-hidden border border-white/10">
-                  <Image src={review.photoUrl} alt="" fill sizes="80px" className="object-cover" />
-                </div>
-              )}
+              {review.photoUrl && <ReviewPhoto url={review.photoUrl} name={review.name} />}
             </div>
 
             <div className="mt-3 flex gap-3">
