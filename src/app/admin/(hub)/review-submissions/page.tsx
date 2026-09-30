@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { setReviewStatus } from "./actions";
+import { setReviewStatus, deleteReview } from "./actions";
 import ReviewPhoto from "./review-photo";
+import DeleteReviewButton from "./delete-review-button";
 import type { ReviewStatus } from "@/generated/prisma";
 
 export const dynamic = "force-dynamic";
@@ -104,6 +105,7 @@ export default async function AdminReviewSubmissionsPage() {
                   </button>
                 </form>
               )}
+              <DeleteReviewButton action={deleteReview.bind(null, review.id, review.photoUrl)} />
             </div>
           </div>
         ))}
