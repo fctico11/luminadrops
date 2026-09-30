@@ -10,9 +10,6 @@ const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
 const ACCEPTED_TYPES = /^image\/(jpeg|png|heic|heif)$/;
 const ACCEPTED_EXTENSIONS = /\.(jpe?g|png|heic|heif)$/i;
 
-/** Submission has nowhere to go yet — there's no backend for this page. It
- * only confirms the attempt locally so the flow can be reviewed end to end;
- * wiring it to actually save reviews is a separate, later step. */
 export default function ReviewForm({ content }: { content: ReviewsContent }) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -24,6 +21,8 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
   const [photoError, setPhotoError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const canSubmit = rating > 0 && name.trim().length > 0 && reviewText.trim().length > 0 && consent;
@@ -56,10 +55,30 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
     handleFile(e.dataTransfer.files?.[0] ?? null);
   };
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!canSubmit) return;
-    setSubmitted(true);
+    if (!canSubmit || submitting) return;
+
+    setSubmitting(true);
+    setSubmitError(null);
+
+    const formData = new FormData();
+    formData.set("rating", String(rating));
+    formData.set("name", name.trim());
+    formData.set("body", reviewText.trim());
+    formData.set("consent", String(consent));
+    if (photo) formData.set("photo", photo);
+
+    try {
+      const res = await fetch("/api/reviews", { method: "POST", body: formData });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error ?? "Something went wrong. Please try again.");
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -291,11 +310,19 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
         <div className="sm:col-start-2">
           <button
             type="submit"
-            disabled={!canSubmit}
+            disabled={!canSubmit || submitting}
             className="w-full border border-[#6f695c] px-8 py-3.5 text-[12px] tracking-[0.28em] text-[#e9e1cd] transition-all duration-500 hover:border-[#cfc0a0] hover:bg-white/[0.04] disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto sm:px-12"
           >
-            <EditableText file="reviews" field="submitLabel" value={content.submitLabel} as="span" />
+            {submitting ? (
+              <span className="inline-flex items-center gap-2">
+                <span className="spinner" aria-hidden />
+                Submitting...
+              </span>
+            ) : (
+              <EditableText file="reviews" field="submitLabel" value={content.submitLabel} as="span" />
+            )}
           </button>
+          {submitError && <p className="mt-2 text-[12px] text-[#e07a5f]">{submitError}</p>}
         </div>
       </form>
 

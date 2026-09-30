@@ -29,7 +29,7 @@ const CONTENT_PAGES = [
   {
     href: "/admin/edit/reviews",
     label: "Reviews",
-    description: "/reviews — not linked from the site yet. Form has no backend yet; submissions don't save anywhere.",
+    description: "/reviews — page copy only, not linked from the site yet. Submissions themselves are under Insights below.",
   },
   {
     href: "/admin/edit/checkout",
@@ -64,6 +64,11 @@ const INSIGHTS_PAGES = [
     href: "/admin/abandoned-checkouts",
     label: "Abandoned Checkouts",
     description: "Emails captured mid-checkout before payment — who didn't finish, and who came back.",
+  },
+  {
+    href: "/admin/review-submissions",
+    label: "Review Submissions",
+    description: "Reviews submitted from /reviews — rating, text, photo. Approve or reject for your own records.",
   },
 ];
 

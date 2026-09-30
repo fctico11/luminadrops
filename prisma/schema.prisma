@@ -159,6 +159,29 @@ model AbandonedCheckout {
   @@index([email])
 }
 
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// A customer review submitted from /reviews. Unmoderated on the way in —
+// everything lands PENDING and stays admin-only until reviewed at
+// /admin/review-submissions; nothing here is shown publicly on its own.
+model Review {
+  id        String       @id @default(cuid())
+  rating    Int
+  name      String
+  body      String
+  // URL on Vercel Blob storage (public access) — null when no photo was
+  // attached, since the form's photo field is optional.
+  photoUrl  String?
+  consent   Boolean      @default(false)
+  status    ReviewStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
 enum TmmcPostCategory {
   NOTE
   RECOMMENDATION
