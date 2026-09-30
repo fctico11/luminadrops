@@ -60,21 +60,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "That photo is over 10MB — try a smaller one." }, { status: 400 });
     }
 
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      // Missing config shouldn't block the review itself — the photo was
-      // optional to begin with, so drop it and save the text.
-      console.error("BLOB_READ_WRITE_TOKEN is not set — dropping review photo upload.");
-    } else {
-      try {
-        const blob = await put(`reviews/${crypto.randomUUID()}-${photo.name}`, photo, {
-          access: "public",
-          addRandomSuffix: false,
-        });
-        photoUrl = blob.url;
-      } catch (err) {
-        console.error("Review photo upload failed:", err);
-        return NextResponse.json({ error: "Couldn't upload that photo. Please try again." }, { status: 502 });
-      }
+    // Not gated on BLOB_READ_WRITE_TOKEN specifically — this project's Blob
+    // store is connected via OIDC (BLOB_STORE_ID + the auto-injected
+    // VERCEL_OIDC_TOKEN), which `put()` falls back to on its own when no
+    // explicit token is passed. Checking for that one legacy env var here
+    // would skip the upload even when OIDC auth is perfectly available.
+    try {
+      const blob = await put(`reviews/${crypto.randomUUID()}-${photo.name}`, photo, {
+        access: "public",
+        addRandomSuffix: false,
+      });
+      photoUrl = blob.url;
+    } catch (err) {
+      // The photo was always optional — a failed upload (no credentials in
+      // local dev, a network blip, whatever else) shouldn't block the
+      // review itself from saving.
+      console.error("Review photo upload failed — saving the review without it:", err);
     }
   }
 
