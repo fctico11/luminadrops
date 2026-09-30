@@ -9,6 +9,47 @@ const MAX_REVIEW_LENGTH = 500;
 const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
 const ACCEPTED_TYPES = /^image\/(jpeg|png|heic|heif)$/;
 const ACCEPTED_EXTENSIONS = /\.(jpe?g|png|heic|heif)$/i;
+// A phone photo straight off the camera can be 5-8MB; nothing this site
+// shows a photo at needs more than this on the long edge. Keeps Vercel Blob
+// storage from filling up with full-resolution originals nobody will ever
+// view at that size.
+const MAX_PHOTO_DIMENSION = 1600;
+
+/** Downscales in the browser before upload — same idea as the canvas resize
+ * already used for admin image uploads (see ImageCropper), just without the
+ * crop UI since a review photo doesn't need a fixed aspect ratio. Falls
+ * back to the original file if the browser can't decode it (e.g. HEIC on
+ * Chrome, which createImageBitmap can't touch there) — an unresized upload
+ * beats blocking the review entirely. */
+async function resizePhoto(file: File): Promise<File> {
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, MAX_PHOTO_DIMENSION / Math.max(bitmap.width, bitmap.height));
+    if (scale === 1) {
+      bitmap.close();
+      return file;
+    }
+
+    const width = Math.round(bitmap.width * scale);
+    const height = Math.round(bitmap.height * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      bitmap.close();
+      return file;
+    }
+    ctx.drawImage(bitmap, 0, 0, width, height);
+    bitmap.close();
+
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.85));
+    if (!blob) return file;
+    return new File([blob], file.name.replace(/\.\w+$/, ".jpg"), { type: "image/jpeg" });
+  } catch {
+    return file;
+  }
+}
 
 export default function ReviewForm({ content }: { content: ReviewsContent }) {
   const [rating, setRating] = useState(0);
@@ -27,7 +68,7 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
 
   const canSubmit = rating > 0 && name.trim().length > 0 && reviewText.trim().length > 0 && consent;
 
-  const handleFile = (file: File | null) => {
+  const handleFile = async (file: File | null) => {
     if (!file) return;
     if (!ACCEPTED_TYPES.test(file.type) && !ACCEPTED_EXTENSIONS.test(file.name)) {
       setPhotoError("Please upload a JPG, PNG, or HEIC file.");
@@ -38,8 +79,9 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
       return;
     }
     setPhotoError(null);
-    setPhoto(file);
-    setPhotoPreview(URL.createObjectURL(file));
+    const resized = await resizePhoto(file);
+    setPhoto(resized);
+    setPhotoPreview(URL.createObjectURL(resized));
   };
 
   const removePhoto = () => {
