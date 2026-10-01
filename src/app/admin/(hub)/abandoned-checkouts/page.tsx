@@ -25,8 +25,10 @@ export default async function AdminAbandonedCheckoutsPage() {
       <p className="text-sm text-white/50">
         Emails captured mid-checkout (as soon as someone types a valid address) before they finish
         paying. &quot;Completed&quot; means the Stripe webhook later saw that same session finish —
-        the rest never came back to pay. No follow-up email is sent yet; this is capture and
-        visibility only.
+        the rest never came back to pay. hello@luminadrops.com gets a notification email for each
+        one that's still abandoned 20 minutes after it was captured; paying within that window
+        cancels it, so a completed order never triggers an alert. No follow-up email is sent to the
+        customer themselves yet.
       </p>
 
       <div className="mt-6 flex gap-4">

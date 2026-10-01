@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
+import { getResend } from "@/lib/resend";
 
 export async function POST(request: NextRequest) {
   const signature = request.headers.get("stripe-signature");
@@ -34,6 +35,8 @@ export async function POST(request: NextRequest) {
     const addOnPriceCents = session.metadata?.addOnPriceCents;
 
     if (productId && session.payment_status !== "unpaid") {
+      let pendingNotifyEmailId: string | null = null;
+
       await prisma.$transaction(async (tx) => {
         const existingOrder = await tx.order.findUnique({ where: { stripeSessionId: session.id } });
         if (existingOrder) return;
@@ -75,11 +78,28 @@ export async function POST(request: NextRequest) {
 
         // Best-effort — most sessions never captured an email (customer
         // never got that far), so there's usually no row to update.
-        await tx.abandonedCheckout.updateMany({
+        const abandoned = await tx.abandonedCheckout.findFirst({
           where: { stripeSessionId: session.id, completedAt: null },
-          data: { completedAt: new Date() },
+          select: { id: true, notifyEmailId: true },
         });
+        if (abandoned) {
+          pendingNotifyEmailId = abandoned.notifyEmailId;
+          await tx.abandonedCheckout.update({ where: { id: abandoned.id }, data: { completedAt: new Date() } });
+        }
       });
+
+      // Outside the transaction — an external API call has no business
+      // holding a DB transaction open, and a Resend hiccup here shouldn't
+      // roll back the order that was just paid for. If the notification
+      // already fired (past its 20-minute delay), this just fails
+      // harmlessly — Resend can't cancel an email that's already sent.
+      if (pendingNotifyEmailId) {
+        try {
+          await getResend().emails.cancel(pendingNotifyEmailId);
+        } catch (err) {
+          console.error("Failed to cancel abandoned-cart notification:", err);
+        }
+      }
     }
   }
 

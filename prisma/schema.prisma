@@ -153,6 +153,10 @@ model AbandonedCheckout {
   // "recovered on their own" from "still needs a follow-up" without a
   // second lookup against Order.
   completedAt      DateTime?
+  // Resend's id for the scheduled "new abandoned cart" admin notification —
+  // lets the webhook cancel it if the order completes before it fires, so a
+  // customer who pays within the notify window never triggers an alert.
+  notifyEmailId    String?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 
