@@ -222,7 +222,7 @@ export default function MobileFlow({
       <Reveal
         as="section"
         id="drop01-inside"
-        className="relative mx-auto w-full max-w-md px-6 pb-10 text-center sm:max-w-2xl sm:pb-14 lg:max-w-3xl lg:pb-16"
+        className="relative mx-auto w-full max-w-md px-6 pb-10 text-center sm:max-w-3xl sm:pb-14 lg:max-w-5xl lg:pb-16"
       >
         <MobileInsideExpandable content={content} isAdmin={isAdmin} />
       </Reveal>

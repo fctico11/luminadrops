@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <radialGradient id="room" cx="50%" cy="40%" r="85%">
+      <stop offset="0%" stop-color="#1d2026"/>
+      <stop offset="60%" stop-color="#101216"/>
+      <stop offset="100%" stop-color="#08090b"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#c9a227" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#c9a227" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="folio" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2a2f3a"/>
+      <stop offset="100%" stop-color="#14171d"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#room)"/>
+  <circle cx="400" cy="450" r="320" fill="url(#glow)"/>
+  <rect x="230" y="300" width="340" height="420" fill="url(#folio)" stroke="#3a352e" stroke-width="3"/>
+  <circle cx="400" cy="510" r="48" fill="#6b2a2a"/>
+  <circle cx="400" cy="510" r="34" fill="none" stroke="#a04848" stroke-width="3"/>
+  <path d="M410 492 a22 22 0 1 0 0 36 a17 17 0 1 1 0 -36 z" fill="#c9a227" opacity="0.85"/>
+  <text x="400" y="880" text-anchor="middle" font-family="Georgia, serif" font-size="34" letter-spacing="8" fill="#6f665a">PHOTO COMING SOON</text>
+</svg>
