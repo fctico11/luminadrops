@@ -17,6 +17,36 @@ type Props = {
   displayValue?: string;
 };
 
+/** Reads an edited element back to plain text. `textContent` would silently
+ * drop the <br>/<div> the browser inserts for Shift+Enter, so this walks the
+ * nodes instead (and, unlike `innerText`, ignores CSS like text-transform —
+ * saved copy must stay exactly as typed). */
+function readText(root: HTMLElement): string {
+  let out = "";
+  const walk = (node: Node) => {
+    node.childNodes.forEach((child) => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        out += child.nodeValue ?? "";
+      } else if (child.nodeName === "BR") {
+        out += "\n";
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        const block = child.nodeName === "DIV" || child.nodeName === "P";
+        if (block && out && !out.endsWith("\n")) out += "\n";
+        walk(child);
+      }
+    });
+  };
+  walk(root);
+  // Chrome parks a placeholder <br> at the end of a line being edited.
+  return out.replace(/\n+$/, "");
+}
+
+/** Only elements that already render "\n" as a line break (white-space: pre-*,
+ * e.g. whitespace-pre-line) can hold one, so only they take Shift+Enter. */
+function keepsLineBreaks(el: HTMLElement) {
+  return getComputedStyle(el).whiteSpace.startsWith("pre");
+}
+
 export default function EditableText({ file, field, value, as: Tag = "span", className, style, displayValue }: Props) {
   const { isAdmin, textEdits, setText } = useEditMode();
 
@@ -48,7 +78,11 @@ export default function EditableText({ file, field, value, as: Tag = "span", cla
       // own behavior normally.
       onClick={(e: MouseEvent<HTMLElement>) => e.stopPropagation()}
       onBlur={(e: FocusEvent<HTMLElement>) => {
-        const next = e.currentTarget.textContent ?? "";
+        const el = e.currentTarget;
+        const next = keepsLineBreaks(el) ? readText(el) : (el.textContent ?? "");
+        // Shift+Enter leaves <br>/<div> nodes behind; collapse back to a single
+        // text node so React's re-render of `{current}` can't duplicate them.
+        if (el.childElementCount > 0) el.textContent = next;
         if (next !== current) setText(file, field, next);
       }}
       onKeyDown={(e: KeyboardEvent<HTMLElement>) => {
@@ -57,7 +91,9 @@ export default function EditableText({ file, field, value, as: Tag = "span", cla
         // activation on an ancestor <button> (e.g. Space "clicking" it),
         // even though focus never left this text.
         e.stopPropagation();
-        if (e.key === "Enter" && !e.shiftKey) {
+        // Shift+Enter falls through to the browser's own line break (see
+        // readText) on elements that can show one.
+        if (e.key === "Enter" && !(e.shiftKey && keepsLineBreaks(e.currentTarget))) {
           e.preventDefault();
           e.currentTarget.blur();
         }
