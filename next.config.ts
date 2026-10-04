@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         hostname: "*.public.blob.vercel-storage.com",
       },
     ],
+    // 75 is Next's default; 90 is used for the small bespoke TMMC door art,
+    // where extra quality headroom avoids compression artifacts on dense
+    // line work (see src/app/tmmc/door.tsx).
+    qualities: [75, 90],
     // demo drop artwork in /public is SVG
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
