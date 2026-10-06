@@ -46,12 +46,21 @@ export default function MobileFlow({
         as="section"
         className="relative mx-auto w-full max-w-md px-6 pt-10 pb-10 text-center sm:max-w-2xl sm:pt-14 sm:pb-14 lg:max-w-4xl lg:pt-16 lg:pb-16"
       >
+        {(isAdmin || content.snippetEyebrow) && (
+          <EditableText
+            file="drop01"
+            field="snippetEyebrow"
+            value={content.snippetEyebrow}
+            as="p"
+            className={`${cormorant.className} mx-auto mb-4 max-w-sm text-balance text-lg italic leading-snug text-[#cfc6b1] sm:mb-5 sm:max-w-md sm:text-xl lg:max-w-xl lg:text-2xl`}
+          />
+        )}
         <EditableText
           file="drop01"
           field="snippetTitle"
           value={content.snippetTitle}
           as="h2"
-          className="text-sm font-medium tracking-[0.2em] text-[#e9e1cd] sm:text-base lg:text-lg"
+          className="text-balance text-sm font-medium tracking-[0.2em] text-[#e9e1cd] sm:text-base lg:text-lg"
         />
         <EditableText
           file="drop01"

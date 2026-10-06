@@ -176,6 +176,8 @@ export type Drop01Content = {
   includesClosingLine: string;
   badges: Drop01Badge[];
   /** Short intro blurb shown above the product photo/buy box on mobile. */
+  /** Short line above snippetTitle (optional — hidden from visitors when empty). */
+  snippetEyebrow: string;
   snippetTitle: string;
   snippetBody: string;
   reviewQuote: string;
