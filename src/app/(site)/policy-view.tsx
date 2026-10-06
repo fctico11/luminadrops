@@ -2,6 +2,7 @@
 
 import type { PolicyContent } from "@/lib/content";
 import EditableText from "@/components/edit/EditableText";
+import EditableList from "@/components/edit/EditableList";
 import { useEditMode } from "@/components/edit/EditModeContext";
 import Motes from "../motes";
 import { cormorant, rise } from "../ui";
@@ -58,16 +59,14 @@ export default function PolicyView({ contentName, content }: Props) {
                 className={`${cormorant.className} text-base font-medium tracking-[0.2em] text-[#e9e1cd] lg:text-lg`}
               />
               <div className="mt-3 space-y-3">
-                {section.body.map((paragraph, j) => (
-                  <EditableText
-                    key={j}
-                    file={contentName}
-                    field={`sections.${i}.body.${j}`}
-                    value={paragraph}
-                    as="p"
-                    className="text-[15px] leading-relaxed text-[#c4bba8] lg:text-base"
-                  />
-                ))}
+                <EditableList
+                  file={contentName}
+                  field={`sections.${i}.body`}
+                  items={section.body}
+                  listClassName="space-y-3"
+                  className="text-[15px] leading-relaxed text-[#c4bba8] lg:text-base"
+                  addLabel="Add a row"
+                />
                 {isAdmin &&
                   section.adminNotes?.map((paragraph, j) => (
                     <div key={j} className="border-l-2 border-[#6f695c] pl-3">

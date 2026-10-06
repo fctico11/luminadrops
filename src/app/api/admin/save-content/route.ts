@@ -6,6 +6,7 @@ import { getContent, contentPath, setByPath, type ContentName } from "@/lib/cont
 import { commitFiles, type CommitFile } from "@/lib/github";
 
 type TextEdit = { file: ContentName; field: string; value: string };
+type ListEdit = { file: ContentName; field: string; value: string[] };
 type ImageEdit = { path: string; dataUrl: string };
 
 export async function POST(req: NextRequest) {
@@ -16,25 +17,39 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const textEdits: TextEdit[] = body?.textEdits ?? [];
   const imageEdits: ImageEdit[] = body?.imageEdits ?? [];
+  const listEdits: ListEdit[] = (body?.listEdits ?? []).filter(
+    (e: ListEdit) => Array.isArray(e?.value) && e.value.every((v) => typeof v === "string")
+  );
 
-  if (textEdits.length === 0 && imageEdits.length === 0) {
+  if (textEdits.length === 0 && imageEdits.length === 0 && listEdits.length === 0) {
     return NextResponse.json({ error: "Nothing to save." }, { status: 400 });
   }
 
   try {
-    const byFile = new Map<ContentName, TextEdit[]>();
-    for (const edit of textEdits) {
-      const list = byFile.get(edit.file) ?? [];
-      list.push(edit);
-      byFile.set(edit.file, list);
-    }
+    const byFile = new Map<ContentName, { texts: TextEdit[]; lists: ListEdit[] }>();
+    const bucket = (file: ContentName) => {
+      const entry = byFile.get(file) ?? { texts: [], lists: [] };
+      byFile.set(file, entry);
+      return entry;
+    };
+    for (const edit of textEdits) bucket(edit.file).texts.push(edit);
+    for (const edit of listEdits) bucket(edit.file).lists.push(edit);
 
     const filesToCommit: CommitFile[] = [];
 
-    for (const [name, edits] of byFile) {
+    for (const [name, { texts, lists }] of byFile) {
       const current = getContent(name) as unknown as Record<string, unknown>;
-      for (const edit of edits) {
+      for (const edit of texts) {
         setByPath(current, edit.field, edit.value);
+      }
+      for (const edit of lists) {
+        // Rows added in the editor and left blank are dropped rather than
+        // saved as empty paragraphs.
+        setByPath(
+          current,
+          edit.field,
+          edit.value.map((v) => v.trim()).filter((v) => v.length > 0)
+        );
       }
       const json = JSON.stringify(current, null, 2) + "\n";
       filesToCommit.push({ path: `src/content/${name}.json`, content: json, encoding: "utf-8" });

@@ -7,7 +7,8 @@
       "heading": "Information We Collect",
       "body": [
         "Contact information you give us, such as your email address when you join the waitlist for a drop.",
-        "Order information collected at checkout, including your name, shipping address, and email. Checkout is handled by our payment processor, Stripe - we never see or store your full card details. Website activity, such as pages viewed, interactions with the site, and information about how you arrived at our site, which may be collected through cookies and similar technologies."
+        "Order information collected at checkout, including your name, shipping address, and email. Checkout is handled by our payment processor, Stripe - we never see or store your full card details.",
+        "Website activity, such as pages viewed, interactions with the site, and information about how you arrived at our site, which may be collected through cookies and similar technologies."
       ]
     },
     {
@@ -16,6 +17,7 @@
         "To process and ship your order.",
         "To send order confirmations and updates about a purchase you've made.",
         "To send occasional emails about upcoming drops, only if you've opted in.",
+        "To understand how visitors use our site and to measure and improve our advertising.",
         "To respond to questions and improve the site."
       ]
     },

@@ -15,6 +15,13 @@ type Props = {
    * with a placeholder substituted). Admin edit mode always shows/edits the raw
    * `value` so a save can't bake a one-off substitution into the template. */
   displayValue?: string;
+  /** For text that lives inside a list the editor can reorder (see
+   * EditableList): the parent owns the value and receives edits here instead
+   * of them being staged per-field in the edit context. */
+  onCommit?: (next: string) => void;
+  dirty?: boolean;
+  /** Shown (admin only) while the text is empty. */
+  placeholder?: string;
 };
 
 /** Reads an edited element back to plain text. `textContent` would silently
@@ -47,7 +54,7 @@ function keepsLineBreaks(el: HTMLElement) {
   return getComputedStyle(el).whiteSpace.startsWith("pre");
 }
 
-export default function EditableText({ file, field, value, as: Tag = "span", className, style, displayValue }: Props) {
+export default function EditableText({ file, field, value, as: Tag = "span", className, style, displayValue, onCommit, dirty: dirtyProp, placeholder }: Props) {
   const { isAdmin, textEdits, setText } = useEditMode();
 
   if (!isAdmin) {
@@ -60,13 +67,14 @@ export default function EditableText({ file, field, value, as: Tag = "span", cla
   }
 
   const key = `${file}:${field}`;
-  const current = textEdits[key] ?? value;
-  const dirty = key in textEdits;
+  const current = onCommit ? value : (textEdits[key] ?? value);
+  const dirty = onCommit ? Boolean(dirtyProp) : key in textEdits;
   const Editable = Tag;
 
   return (
     <Editable
-      className={`${className ?? ""} lumina-editable${dirty ? " lumina-editable-dirty" : ""}`}
+      className={`${className ?? ""} lumina-editable${dirty ? " lumina-editable-dirty" : ""}${placeholder ? " empty:before:italic empty:before:text-white/35 empty:before:content-[attr(data-placeholder)]" : ""}`}
+      data-placeholder={placeholder}
       style={style}
       contentEditable
       suppressContentEditableWarning
@@ -83,7 +91,7 @@ export default function EditableText({ file, field, value, as: Tag = "span", cla
         // Shift+Enter leaves <br>/<div> nodes behind; collapse back to a single
         // text node so React's re-render of `{current}` can't duplicate them.
         if (el.childElementCount > 0) el.textContent = next;
-        if (next !== current) setText(file, field, next);
+        if (next !== current) (onCommit ?? ((v: string) => setText(file, field, v)))(next);
       }}
       onKeyDown={(e: KeyboardEvent<HTMLElement>) => {
         // Stopped for the same reason as the click above — without it, typing
