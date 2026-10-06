@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifySessionToken, COOKIE_NAME } from "@/lib/jwt";
+import { verifySessionToken, COOKIE_NAME, SESSION_DURATION_SECONDS } from "@/lib/jwt";
+import { ADMIN_FLAG_COOKIE } from "@/lib/admin-flag";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -16,7 +17,17 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+  // Sessions that predate the flag get it the next time they open any admin page.
+  if (!request.cookies.get(ADMIN_FLAG_COOKIE)) {
+    response.cookies.set(ADMIN_FLAG_COOKIE, "1", {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: SESSION_DURATION_SECONDS,
+      path: "/",
+    });
+  }
+  return response;
 }
 
 export const config = {

@@ -1,5 +1,6 @@
 import "server-only";
 import { cookies } from "next/headers";
+import { ADMIN_FLAG_COOKIE } from "@/lib/admin-flag";
 import {
   COOKIE_NAME,
   SESSION_DURATION_SECONDS,
@@ -20,11 +21,19 @@ export async function createSession(payload: SessionPayload) {
     expires: expiresAt,
     path: "/",
   });
+  // Readable marker so client-side tracking can skip admin visits (see admin-flag.ts).
+  cookieStore.set(ADMIN_FLAG_COOKIE, "1", {
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    expires: expiresAt,
+    path: "/",
+  });
 }
 
 export async function clearSession() {
   const cookieStore = await cookies();
   cookieStore.delete(COOKIE_NAME);
+  cookieStore.delete(ADMIN_FLAG_COOKIE);
 }
 
 export async function getSession(): Promise<SessionPayload | null> {
