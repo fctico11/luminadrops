@@ -114,7 +114,7 @@ export default function MobileFlow({
             tucks under the quantity in the right column, and the whole
             column is centered against the photo via the two 1fr spacer
             rows above and below it. */}
-        <div id="drop01-buybox" className="mt-6 -ml-[18px] grid w-[calc(100%+18px)] grid-cols-[50%_minmax(0,1fr)] grid-rows-[auto_auto] items-start gap-x-4 sm:mt-8 sm:ml-0 sm:w-full sm:grid-rows-[1fr_auto_auto_1fr] sm:gap-x-8 lg:gap-x-12">
+        <div className="mt-6 -ml-[18px] grid w-[calc(100%+18px)] grid-cols-[50%_minmax(0,1fr)] grid-rows-[auto_auto] items-start gap-x-4 sm:mt-8 sm:ml-0 sm:w-full sm:grid-rows-[1fr_auto_auto_1fr] sm:gap-x-8 lg:gap-x-12">
           {/* On mobile this bleeds most of the way to the screen edge
               (cancels most of the section's px-6 on this side only,
               leaving a tiny 6px gap) so the image can run bigger without
