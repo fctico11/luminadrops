@@ -5,6 +5,7 @@ import EditableText from "@/components/edit/EditableText";
 import EditableLink from "@/components/edit/EditableLink";
 import { cormorant } from "../ui";
 import type { ReviewsContent } from "@/lib/content";
+import { trackEvent, trackOnce } from "@/lib/tracking";
 
 const MAX_REVIEW_LENGTH = 500;
 const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
@@ -128,6 +129,7 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error ?? "Something went wrong. Please try again.");
       setSubmitted(true);
+      trackEvent("ReviewSubmitted", { rating, hasPhoto: Boolean(photo) });
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
@@ -210,7 +212,11 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
         <span className="h-px flex-1 bg-[#4c4740]" />
       </div>
 
-      <form onSubmit={onSubmit} className="mt-10 grid gap-y-8 text-left sm:grid-cols-[150px_1fr] sm:gap-x-8">
+      <form
+        onSubmit={onSubmit}
+        onFocus={() => trackOnce("review-started", "ReviewFormStarted")}
+        className="mt-10 grid gap-y-8 text-left sm:grid-cols-[150px_1fr] sm:gap-x-8"
+      >
         {/* Rating */}
         <EditableText
           file="reviews"
@@ -226,6 +232,8 @@ export default function ReviewForm({ content }: { content: ReviewsContent }) {
                 key={n}
                 type="button"
                 onClick={() => setRating(n)}
+                data-track="ReviewStarSelected"
+                data-track-stars={n}
                 onMouseEnter={() => setHoverRating(n)}
                 aria-label={`Rate ${n} star${n > 1 ? "s" : ""}`}
                 aria-pressed={rating === n}

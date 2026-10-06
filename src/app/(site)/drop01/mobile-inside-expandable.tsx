@@ -5,6 +5,7 @@ import type { Drop01Content } from "@/lib/content";
 import EditableText from "@/components/edit/EditableText";
 import EditableImage from "@/components/edit/EditableImage";
 import { cormorant } from "../../ui";
+import { trackOnce } from "@/lib/tracking";
 
 type Props = {
   content: Drop01Content;
@@ -37,6 +38,8 @@ function ArrowButton({ direction, onClick, disabled }: { direction: "prev" | "ne
       onClick={onClick}
       disabled={disabled}
       aria-label={direction === "prev" ? "Previous" : "Next"}
+      data-track="PeekInsideArrowClicked"
+      data-track-direction={direction === "prev" ? "back" : "forward"}
       className={`absolute top-[calc(min(78vw,300px)*0.625-18px)] z-10 flex h-9 w-9 items-center justify-center rounded-full border border-[#8a7a52] bg-[#0a0a0a]/85 text-[#cfc6b1] transition-opacity hover:border-[#c9a227] hover:text-[#e9e1cd] disabled:pointer-events-none disabled:opacity-0 sm:top-[167px] sm:h-10 sm:w-10 ${
         direction === "prev" ? "-left-5" : "-right-5"
       }`}
@@ -89,6 +92,17 @@ export default function MobileInsideExpandable({ content, isAdmin }: Props) {
     })),
   ];
   const cardCount = cards.length;
+
+  // Which card has been reached / opened (first time only, per page view).
+  const activeTitle = cards[active]?.title;
+  useEffect(() => {
+    if (active > 0) trackOnce(`peek-viewed-${active}`, "PeekInsideCardViewed", { card: activeTitle, position: active + 1 });
+  }, [active, activeTitle]);
+  const openIndex = cards.findIndex((_, i) => hovered === i || (i === active && tapped === i));
+  const openTitle = cards[openIndex]?.title;
+  useEffect(() => {
+    if (openIndex >= 0) trackOnce(`peek-opened-${openIndex}`, "PeekInsideCardOpened", { card: openTitle, position: openIndex + 1 });
+  }, [openIndex, openTitle]);
 
   const sync = useCallback(() => {
     const el = scrollerRef.current;
@@ -222,6 +236,8 @@ export default function MobileInsideExpandable({ content, isAdmin }: Props) {
               role="tab"
               aria-selected={i === active}
               aria-label={`Go to card ${i + 1}`}
+              data-track="PeekInsideDotClicked"
+              data-track-position={i + 1}
               onClick={() => scrollToCard(i)}
               className={`h-1.5 rounded-full transition-all ${i === active ? "w-4 bg-[#c9a227]" : "w-1.5 bg-[#4c4740] hover:bg-[#8a7a52]"}`}
             />

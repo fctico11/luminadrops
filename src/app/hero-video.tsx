@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { trackEvent } from "@/lib/tracking";
 
 type FullscreenVideo = HTMLVideoElement & {
   webkitEnterFullscreen?: () => void;
@@ -95,7 +96,10 @@ export default function HeroVideo({ src, endedContent }: Props) {
         autoPlay
         muted
         playsInline
-        onEnded={() => setEnded(true)}
+        onEnded={() => {
+          setEnded(true);
+          trackEvent("VideoCompleted");
+        }}
         className="h-full w-full object-contain"
       />
 
@@ -119,6 +123,7 @@ export default function HeroVideo({ src, endedContent }: Props) {
           <button
             type="button"
             onClick={replay}
+            data-track="VideoReplayed"
             aria-label="Replay video"
             className="flex h-9 w-9 items-center justify-center border border-[#6f695c]/70 bg-black/40 text-[#e9e1cd] backdrop-blur-sm transition-colors duration-300 hover:border-[#cfc0a0] hover:bg-black/60"
           >
@@ -135,6 +140,7 @@ export default function HeroVideo({ src, endedContent }: Props) {
         <button
           type="button"
           onClick={toggleMute}
+          data-track={muted ? "VideoUnmuted" : "VideoMuted"}
           aria-label={muted ? "Unmute video" : "Mute video"}
           className="flex h-9 w-9 items-center justify-center border border-[#6f695c]/70 bg-black/40 text-[#e9e1cd] backdrop-blur-sm transition-colors duration-300 hover:border-[#cfc0a0] hover:bg-black/60"
         >
@@ -154,6 +160,7 @@ export default function HeroVideo({ src, endedContent }: Props) {
         <button
           type="button"
           onClick={enterFullscreen}
+          data-track="VideoEnlarged"
           aria-label="Enlarge video"
           className="flex h-9 w-9 items-center justify-center border border-[#6f695c]/70 bg-black/40 text-[#e9e1cd] backdrop-blur-sm transition-colors duration-300 hover:border-[#cfc0a0] hover:bg-black/60"
         >
@@ -170,6 +177,7 @@ export default function HeroVideo({ src, endedContent }: Props) {
       <button
         type="button"
         onClick={scrollPastVideo}
+        data-track="VideoScrollCueClicked"
         aria-label="Scroll down"
         tabIndex={nearEnd || ended ? 0 : -1}
         className={`absolute inset-x-0 bottom-6 z-10 hidden justify-center text-[#e9e1cd]/70 transition-opacity duration-1000 hover:text-[#e9e1cd] lg:flex ${

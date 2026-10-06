@@ -45,6 +45,7 @@ export default function MobileFlow({
       {/* Product + buy box */}
       <Reveal
         as="section"
+        id="drop01-intro"
         className="relative mx-auto w-full max-w-md px-6 pt-10 pb-10 text-center sm:max-w-2xl sm:pt-14 sm:pb-14 lg:max-w-4xl lg:pt-16 lg:pb-16"
       >
         {(isAdmin || content.snippetEyebrow) && (
@@ -73,12 +74,14 @@ export default function MobileFlow({
         <div className="mt-4 flex flex-wrap items-center justify-center gap-3 sm:mt-6 sm:gap-4">
           <OpenModalButton
             targetId="drop01-details"
+            track="ReadDetailsClicked"
             className="soft-button-glow inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] sm:px-6 sm:py-3 sm:text-xs"
           >
             <EditableText file="drop01" field="readDetailsLabel" value={content.readDetailsLabel} as="span" />
           </OpenModalButton>
           <a
             href="#drop01-inside"
+            data-track="SeeWhatsInsideClicked"
             className="soft-button-glow inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] sm:px-6 sm:py-3 sm:text-xs"
           >
             <EditableText file="drop01" field="expandInsideLabel" value={content.expandInsideLabel} as="span" />
@@ -98,6 +101,7 @@ export default function MobileFlow({
 
       <Reveal
         as="section"
+        id="drop01-buybox"
         className="relative mx-auto w-full max-w-md px-6 pb-10 pt-10 text-center sm:max-w-2xl sm:pb-14 sm:pt-14 lg:max-w-4xl lg:pb-16 lg:pt-16"
       >
         {/* Photo | details + quantity, with the buy button in its own grid row

@@ -5,6 +5,7 @@ import { CartProvider } from "@/components/cart/CartContext";
 import MetaPixel from "@/components/MetaPixel";
 import TikTokPixel from "@/components/TikTokPixel";
 import SiteAnalytics from "@/components/SiteAnalytics";
+import TrackingEvents from "@/components/TrackingEvents";
 import "./globals.css";
 
 const plexMono = IBM_Plex_Mono({
@@ -43,6 +44,7 @@ export default function RootLayout({
       <body className={`${cormorant.className} min-h-full flex flex-col`}>
         <TikTokPixel />
         <MetaPixel />
+        <TrackingEvents />
         <CartProvider>{children}</CartProvider>
         <SiteAnalytics />
       </body>

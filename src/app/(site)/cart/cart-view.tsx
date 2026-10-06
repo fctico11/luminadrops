@@ -136,6 +136,7 @@ export default function CartView({ content, product, productImage, productImageA
                     type="button"
                     onClick={() => setItem(product.id, quantity - 1)}
                     aria-label="Decrease quantity"
+                    data-track="CartQuantityDecreased"
                     className="flex-1 py-2 text-sm transition-colors duration-300 hover:bg-white/[0.04] hover:text-[#fff6e0]"
                   >
                     −
@@ -153,6 +154,7 @@ export default function CartView({ content, product, productImage, productImageA
                       setItem(product.id, quantity + 1);
                     }}
                     aria-label="Increase quantity"
+                    data-track="CartQuantityIncreased"
                     className="flex-1 py-2 text-sm transition-colors duration-300 hover:bg-white/[0.04] hover:text-[#fff6e0]"
                   >
                     +
@@ -186,6 +188,7 @@ export default function CartView({ content, product, productImage, productImageA
             <button
               type="button"
               onClick={() => clear()}
+              data-track="CartCleared"
               className="mt-6 self-start text-xs tracking-[0.2em] text-[#9c9384] underline decoration-[#4c4740] underline-offset-4 transition-colors duration-300 hover:text-[#e9e1cd]"
             >
               <EditableText file="cart" field="removeLabel" value={content.removeLabel} as="span" />
@@ -219,6 +222,8 @@ export default function CartView({ content, product, productImage, productImageA
                 <button
                   type="button"
                   onClick={() => setAddOn(addOn.id, addOnInCart ? 0 : 1)}
+                  data-track={addOnInCart ? "AddOnRemoved" : "AddOnAdded"}
+                  data-track-item={addOn.name}
                   className="border border-[#6f695c] px-5 py-2 text-xs tracking-[0.2em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04]"
                 >
                   {addOnInCart ? "ADDED — REMOVE" : "ADD TO BAG"}
@@ -236,6 +241,7 @@ export default function CartView({ content, product, productImage, productImageA
         <button
           type="button"
           onClick={handleCheckout}
+          data-track="CartCheckoutClicked"
           disabled={soldOut}
           className="mt-8 w-full border border-[#6f695c] bg-[#e9e1cd] px-8 py-3.5 text-sm font-medium tracking-[0.28em] text-[#141115] transition-all duration-500 hover:bg-[#fff6e0] disabled:cursor-not-allowed disabled:opacity-50"
         >

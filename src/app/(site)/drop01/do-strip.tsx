@@ -6,6 +6,7 @@ import EditableText from "@/components/edit/EditableText";
 import EditableImage from "@/components/edit/EditableImage";
 import { cormorant } from "../../ui";
 import Reveal from "./reveal";
+import { trackOnce } from "@/lib/tracking";
 
 type Props = { content: Drop01Content };
 
@@ -30,6 +31,8 @@ function Arrow({ direction, onClick, disabled }: { direction: "prev" | "next"; o
       onClick={onClick}
       disabled={disabled}
       aria-label={direction === "prev" ? "Previous steps" : "Next steps"}
+      data-track="StepsStripArrowClicked"
+      data-track-direction={direction === "prev" ? "back" : "forward"}
       className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#8a7a52] text-[#cfc6b1] transition-opacity hover:border-[#c9a227] hover:text-[#e9e1cd] disabled:opacity-30"
     >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
@@ -59,6 +62,26 @@ export default function DoStrip({ content }: Props) {
     setAtEnd(el.scrollLeft >= max - 4);
   }, []);
 
+  // Only real scrolling counts (not the steps already in view on load, which
+  // SectionViewed covers): report each step the first time it's mostly shown.
+  const onScroll = useCallback(() => {
+    sync();
+    const el = scrollerRef.current;
+    if (!el) return;
+    const left = el.scrollLeft;
+    const right = left + el.clientWidth;
+    Array.from(el.children).forEach((child, i) => {
+      const c = child as HTMLElement;
+      const visible = Math.min(right, c.offsetLeft + c.offsetWidth) - Math.max(left, c.offsetLeft);
+      if (i > 0 && visible / c.offsetWidth >= 0.6) {
+        trackOnce(`steps-viewed-${i}`, "StepsStripCardViewed", {
+          step: i + 1,
+          title: c.querySelector("h3")?.textContent,
+        });
+      }
+    });
+  }, [sync]);
+
   useEffect(() => {
     sync();
     window.addEventListener("resize", sync);
@@ -75,6 +98,7 @@ export default function DoStrip({ content }: Props) {
   return (
     <Reveal
       as="section"
+      id="drop01-steps"
       className="relative w-full border-y border-[#2a2620] bg-gradient-to-b from-[#16131a]/60 via-transparent to-[#16131a]/60 py-10 text-center sm:py-14"
     >
       <EditableText
@@ -94,7 +118,7 @@ export default function DoStrip({ content }: Props) {
 
       <div
         ref={scrollerRef}
-        onScroll={sync}
+        onScroll={onScroll}
         tabIndex={0}
         aria-label="Steps of the evening"
         className="mx-auto mt-8 flex max-w-[1100px] [--w:46vw] sm:[--w:min(68vw,340px)] overflow-x-auto px-6 text-center [scrollbar-width:none] sm:mt-10 [&::-webkit-scrollbar]:hidden"

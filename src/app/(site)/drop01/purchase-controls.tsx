@@ -9,7 +9,7 @@ import EditableText from "@/components/edit/EditableText";
 import AnimatedStatText from "@/components/edit/AnimatedStatText";
 import { useEditMode } from "@/components/edit/EditModeContext";
 import { useCart } from "@/components/cart/CartContext";
-import { trackTikTokEvent } from "@/lib/tiktok-pixel";
+import { trackFunnelEvent } from "@/lib/tracking";
 import { cormorant } from "../../ui";
 
 type Props = {
@@ -99,7 +99,7 @@ export default function PurchaseControls({
   const handleJoin = () => {
     if (isAdmin || soldOut) return;
     setItem(productId, quantity);
-    trackTikTokEvent("AddToCart", {
+    trackFunnelEvent("AddToCart", {
       contents: [{ content_id: productId, content_type: "product", content_name: productName }],
       value: (priceCents * quantity) / 100,
       currency: currency.toUpperCase(),
@@ -129,6 +129,7 @@ export default function PurchaseControls({
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
             disabled={soldOut}
             aria-label="Decrease quantity"
+            data-track="QuantityDecreased"
             className="flex-1 py-2 text-base transition-colors duration-300 hover:bg-white/[0.04] hover:text-[#fff6e0] disabled:pointer-events-none disabled:opacity-40"
           >
             −
@@ -149,6 +150,7 @@ export default function PurchaseControls({
               })
             }
             aria-label="Increase quantity"
+            data-track="QuantityIncreased"
             className="flex-1 py-2 text-base transition-colors duration-300 hover:bg-white/[0.04] hover:text-[#fff6e0] disabled:pointer-events-none disabled:opacity-40"
           >
             +
@@ -170,6 +172,8 @@ export default function PurchaseControls({
           ref={ctaRef}
           type="button"
           onClick={handleJoin}
+          data-track="BuyButtonClicked"
+          data-track-source="main"
           disabled={soldOut}
           className={`mt-2 w-full max-w-[320px] border border-[#6f695c] bg-[#e9e1cd] px-3 py-3 text-[11px] ${ctaEmphasis ? "font-bold" : "font-medium"} tracking-[0.08em] text-[#141115] transition-all duration-500 hover:bg-[#fff6e0] disabled:cursor-not-allowed disabled:border-[#4c4740] disabled:bg-[#4c4740] disabled:text-[#9c9384] disabled:hover:bg-[#4c4740] sm:px-8 sm:py-3.5 sm:text-sm sm:tracking-[0.28em]`}
         >
@@ -234,6 +238,8 @@ export default function PurchaseControls({
               <button
                 type="button"
                 onClick={handleJoin}
+                data-track="BuyButtonClicked"
+                data-track-source="sticky bar"
                 className="shrink-0 whitespace-nowrap border border-[#6f695c] bg-[#e9e1cd] px-5 py-3.5 text-[11px] font-bold tracking-[0.08em] text-[#141115] transition-colors duration-300 hover:bg-[#fff6e0] sm:px-8 sm:text-sm sm:tracking-[0.2em]"
               >
                 {ctaLabel}
