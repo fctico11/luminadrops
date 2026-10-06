@@ -22,7 +22,8 @@ import { checkoutAppearance, checkoutFonts } from "@/lib/stripe-appearance";
 import { LIVE_SHIPPING_ENABLED } from "@/lib/shipping-toggle";
 import type { CheckoutContent as CheckoutCopy } from "@/lib/content";
 import type { AddOn } from "@/generated/prisma";
-import { trackTikTokEvent, type TikTokContent } from "@/lib/tiktok-pixel";
+import type { TikTokContent } from "@/lib/tiktok-pixel";
+import { trackEvent, trackFunnelEvent } from "@/lib/tracking";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -108,7 +109,7 @@ export default function CheckoutView({ content, product, productImage, productIm
       value += addOn.priceCents / 100;
     }
 
-    trackTikTokEvent("InitiateCheckout", { contents, value, currency: product.currency.toUpperCase() });
+    trackFunnelEvent("InitiateCheckout", { contents, value, currency: product.currency.toUpperCase() });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inCart, product?.id, quantity]);
 
@@ -217,7 +218,11 @@ function CheckoutContent({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: checkoutSessionId, email: checkoutEmail }),
-      }).catch(() => {});
+      })
+        .then((res) => {
+          if (res.ok) trackEvent("CheckoutEmailEntered");
+        })
+        .catch(() => {});
     }, 800);
 
     return () => {
@@ -357,6 +362,7 @@ function CheckoutContent({
                 <button
                   type="button"
                   onClick={handleRemoveAddOn}
+                  data-track="AddOnRemovedAtCheckout"
                   disabled={removingAddOn}
                   className="text-sm italic text-[#9c9384] underline decoration-[#4c4740] underline-offset-4 transition-colors duration-300 hover:text-[#e9e1cd] disabled:opacity-50"
                 >

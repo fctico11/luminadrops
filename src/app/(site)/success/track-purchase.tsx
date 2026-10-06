@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { trackTikTokEvent, type TikTokContent } from "@/lib/tiktok-pixel";
+import type { TikTokContent } from "@/lib/tiktok-pixel";
+import { trackFunnelEvent } from "@/lib/tracking";
 
 type Props = {
   sessionId: string;
@@ -16,7 +17,7 @@ export default function TrackPurchase({ sessionId, event }: Props) {
     const dedupeKey = `ttq_purchase_${sessionId}`;
     if (sessionStorage.getItem(dedupeKey)) return;
     sessionStorage.setItem(dedupeKey, "1");
-    trackTikTokEvent("Purchase", event);
+    trackFunnelEvent("Purchase", event);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 

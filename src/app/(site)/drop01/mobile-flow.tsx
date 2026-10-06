@@ -44,6 +44,7 @@ export default function MobileFlow({
       {/* Product + buy box */}
       <Reveal
         as="section"
+        id="drop01-intro"
         className="relative mx-auto w-full max-w-md px-6 pt-10 pb-10 text-center sm:max-w-2xl sm:pt-14 sm:pb-14 lg:max-w-4xl lg:pt-16 lg:pb-16"
       >
         {(isAdmin || content.snippetEyebrow) && (
@@ -72,12 +73,14 @@ export default function MobileFlow({
         <div className="mt-4 flex flex-wrap items-center justify-center gap-3 sm:mt-6 sm:gap-4">
           <OpenModalButton
             targetId="drop01-details"
+            track="ReadDetailsClicked"
             className="soft-button-glow inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] sm:px-6 sm:py-3 sm:text-xs"
           >
             <EditableText file="drop01" field="readDetailsLabel" value={content.readDetailsLabel} as="span" />
           </OpenModalButton>
           <a
             href="#drop01-inside"
+            data-track="SeeWhatsInsideClicked"
             className="soft-button-glow inline-flex items-center justify-center border border-[#6f695c]/80 px-5 py-2.5 text-[11px] font-medium tracking-[0.15em] text-[#e9e1cd] transition-all duration-300 hover:border-[#cfc0a0] hover:bg-white/[0.04] hover:text-[#fff6e0] sm:px-6 sm:py-3 sm:text-xs"
           >
             <EditableText file="drop01" field="expandInsideLabel" value={content.expandInsideLabel} as="span" />
@@ -100,7 +103,7 @@ export default function MobileFlow({
             tucks under the quantity in the right column, and the whole
             column is centered against the photo via the two 1fr spacer
             rows above and below it. */}
-        <div className="mt-6 -ml-[18px] grid w-[calc(100%+18px)] grid-cols-[50%_minmax(0,1fr)] grid-rows-[auto_auto] items-start gap-x-4 sm:mt-8 sm:ml-0 sm:w-full sm:grid-rows-[1fr_auto_auto_1fr] sm:gap-x-8 lg:gap-x-12">
+        <div id="drop01-buybox" className="mt-6 -ml-[18px] grid w-[calc(100%+18px)] grid-cols-[50%_minmax(0,1fr)] grid-rows-[auto_auto] items-start gap-x-4 sm:mt-8 sm:ml-0 sm:w-full sm:grid-rows-[1fr_auto_auto_1fr] sm:gap-x-8 lg:gap-x-12">
           {/* On mobile this bleeds most of the way to the screen edge
               (cancels most of the section's px-6 on this side only,
               leaving a tiny 6px gap) so the image can run bigger without

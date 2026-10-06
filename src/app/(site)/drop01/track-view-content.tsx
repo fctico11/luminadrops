@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { trackTikTokEvent } from "@/lib/tiktok-pixel";
+import { trackFunnelEvent } from "@/lib/tracking";
 
 type Props = {
   productId: string;
@@ -12,7 +12,7 @@ type Props = {
 
 export default function TrackViewContent({ productId, productName, priceCents, currency }: Props) {
   useEffect(() => {
-    trackTikTokEvent("ViewContent", {
+    trackFunnelEvent("ViewContent", {
       contents: [{ content_id: productId, content_type: "product", content_name: productName }],
       value: priceCents / 100,
       currency: currency.toUpperCase(),
