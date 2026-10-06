@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { cormorant } from "./ui";
 import { CartProvider } from "@/components/cart/CartContext";
+import MetaPixel from "@/components/MetaPixel";
 import "./globals.css";
 
 const plexMono = IBM_Plex_Mono({
@@ -52,6 +53,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 }(window, document, 'ttq');`}
           </Script>
         )}
+        <MetaPixel />
         <CartProvider>{children}</CartProvider>
         <Analytics />
       </body>
