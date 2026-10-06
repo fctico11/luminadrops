@@ -8,6 +8,7 @@ import PurchaseControls from "./purchase-controls";
 import DropdownModal from "./dropdown-modal";
 import OpenModalButton from "./open-modal-button";
 import MobileInsideExpandable from "./mobile-inside-expandable";
+import DoStrip from "./do-strip";
 
 type Props = {
   content: Drop01Content;
@@ -89,7 +90,16 @@ export default function MobileFlow({
           <span className="teaser-twinkle text-[11px] text-[#cfc6b1]">✦</span>
           <span className="h-px flex-1 bg-[#4c4740]" />
         </div>
+      </Reveal>
 
+      {/* Here's what you actually do — continuous strip, full width, above
+          the buy box. */}
+      <DoStrip content={content} />
+
+      <Reveal
+        as="section"
+        className="relative mx-auto w-full max-w-md px-6 pb-10 pt-10 text-center sm:max-w-2xl sm:pb-14 sm:pt-14 lg:max-w-4xl lg:pb-16 lg:pt-16"
+      >
         {/* Photo | details + quantity, with the buy button in its own grid row
             so it always starts below the photo however tall that is (a
             button sharing the right column's flow used to land on top of

@@ -150,6 +150,7 @@ export type PolicyContent = {
 };
 
 export type Drop01Item = { image: string; alt: string; title: string; description: string; note: string };
+export type Drop01Step = { image: string; alt: string; title: string; description: string };
 export type Drop01Badge = { icon: string; iconAlt: string; line1: string; line2: string };
 
 export type Drop01Content = {
@@ -180,6 +181,11 @@ export type Drop01Content = {
   snippetEyebrow: string;
   snippetTitle: string;
   snippetBody: string;
+  /** "Here's what you actually do" — a continuous strip of steps between the
+   * snippet and the buy box. */
+  doTitle: string;
+  doSubtitle: string;
+  doSteps: Drop01Step[];
   reviewQuote: string;
   reviewAuthor: string;
   /** Mobile-only scroll link under the snippet body, jumping down to the

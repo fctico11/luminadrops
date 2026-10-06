@@ -103,6 +103,40 @@
   "snippetEyebrow": "Margarita or Mockarita, there’s a place for you in the Club",
   "snippetTitle": "A GUIDED EVENING AT HOME, TUCKED INTO ONE BOX",
   "snippetBody": "Inside is everything you need to spend an evening with the Club - atmosphere to set the scene, a Margarita or Mockarita to make, Club traditions to take part in, and a few surprises along the way. Your Club Manual guides you through the night from First Spark to Last Call, revealing what to do and when to do it as the evening unfolds.",
+  "doTitle": "HERE'S WHAT YOU ACTUALLY DO",
+  "doSubtitle": "Swipe through the evening →",
+  "doSteps": [
+    {
+      "image": "/drops/midnight-margarita/drop01-items-0-image.jpg",
+      "alt": "Hand-poured beeswax candle, lit",
+      "title": "Set the Scene",
+      "description": "Light the candle, set the botanicals to simmer, and let the rest of the world wait."
+    },
+    {
+      "image": "/drops/midnight-margarita/drop01-items-3-image.jpg",
+      "alt": "A salt-rimmed Midnight Margarita",
+      "title": "Make Your Pour",
+      "description": "Make the Club's Margarita or Mockarita. Both versions are included. You bring the fresh lime and tequila, if using."
+    },
+    {
+      "image": "/drops/midnight-margarita/drop01-manualImage.jpg",
+      "alt": "The Club Manual",
+      "title": "Follow the Manual",
+      "description": "Open your Club Manual and let it lead you through the traditions of the night."
+    },
+    {
+      "image": "/drops/midnight-margarita/envelope.jpg",
+      "alt": "A wax-sealed folio",
+      "title": "Last Call",
+      "description": "When the night says it's time, open Last Call. There's still a little more waiting for you."
+    },
+    {
+      "image": "/drops/midnight-margarita/moonstone.jpg",
+      "alt": "A moonstone resting on dark stone",
+      "title": "After Midnight",
+      "description": "Some things end with the night. Some are yours to keep."
+    }
+  ],
   "reviewQuote": "I got my box and I have not felt that special in so long! The time and consideration you put into this box is unmatched!!",
   "reviewAuthor": "TMMC Club Member No. 03 · Verified Customer · September 2026",
   "readDetailsLabel": "READ ABOUT THE DETAILS",
