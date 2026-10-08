@@ -103,8 +103,16 @@
   "snippetEyebrow": "Margarita or Mockarita, there’s a place for you in the Club",
   "snippetTitle": "A GUIDED EVENING AT HOME, TUCKED INTO ONE BOX",
   "snippetBody": "Inside is everything you need to spend an evening with the Club - atmosphere to set the scene, a Margarita or Mockarita to make, Club traditions to take part in, and a few surprises along the way. Your Club Manual guides you through the night from First Spark to Last Call, revealing what to do and when to do it as the evening unfolds.",
-  "reviewQuote": "I got my box and I have not felt that special in so long! The time and consideration you put into this box is unmatched!!",
-  "reviewAuthor": "TMMC Club Member No. 03 · Verified Customer · September 2026",
+  "reviews": [
+    {
+      "quote": "My husband surprised me with this after I showed him how much I wanted one, and I absolutely LOVED it! Not only did I love it, but my kiddos did too! We spent the night enjoying everything it had to offer, making memories together, and sipping on some “mockaritas.” Definitely one of those little surprises that turned into such a fun and memorable night with my favorite people! 🧙‍♀️🖤🍹",
+      "author": "Liz · TMMC Member No. 06 · Verified Customer · October 2026"
+    },
+    {
+      "quote": "I got my box and I have not felt that special in so long! The time and consideration you put into this box is unmatched!!",
+      "author": "TMMC Member No. 03 · Verified Member · September 2026"
+    }
+  ],
   "readDetailsLabel": "DETAILS, DETAILS",
   "detailsLabel": "THE DETAILS",
   "insideMobileTitle": "A PEEK INSIDE",

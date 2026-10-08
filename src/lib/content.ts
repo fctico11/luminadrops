@@ -180,8 +180,8 @@ export type Drop01Content = {
   snippetEyebrow: string;
   snippetTitle: string;
   snippetBody: string;
-  reviewQuote: string;
-  reviewAuthor: string;
+  /** Customer quotes under the buy box, shown first-to-last; more than one swipes. */
+  reviews: { quote: string; author: string }[];
   /** Mobile-only scroll link under the snippet body, jumping down to the
    * "detailsLabel" accordion row at the bottom of the mobile flow. */
   readDetailsLabel: string;
