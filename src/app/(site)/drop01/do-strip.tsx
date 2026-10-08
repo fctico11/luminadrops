@@ -128,7 +128,11 @@ export default function DoStrip({ content }: Props) {
             <div className="relative aspect-[4/5] w-full overflow-hidden" style={maskFor(i, steps.length - 1)}>
               <EditableImage file="drop01" field={`doSteps.${i}.image`} src={s.image} alt={s.alt} className="object-cover" />
             </div>
-            <div className="px-[10%] pt-3 sm:px-[12%] sm:pt-4">
+            {/* Neighbouring steps overlap by OVERLAP of their width (for the photo
+                blend), so a caption spanning the full inset would touch the
+                next one. The side padding here leaves a clear gutter between
+                captions: it must stay above (OVERLAP / 2) of the width. */}
+            <div className="px-[16%] pt-3 sm:px-[14%] sm:pt-4">
               <span className={`${cormorant.className} block text-sm tracking-[0.25em] text-[#9c9384]`}>
                 {String(i + 1).padStart(2, "0")}
               </span>
