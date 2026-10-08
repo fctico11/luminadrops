@@ -51,7 +51,7 @@ export default function ReviewQuotes({ reviews }: Props) {
               field={`reviews.${i}.quote`}
               value={review.quote}
               as="p"
-              className={`${cormorant.className} -mt-2 text-lg italic leading-relaxed text-[#e9e1cd] sm:text-xl`}
+              className={`${cormorant.className} -mt-2 text-[15px] italic leading-relaxed text-[#e9e1cd] sm:text-lg`}
             />
             <EditableText
               file="drop01"
