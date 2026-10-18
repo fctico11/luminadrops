@@ -298,6 +298,16 @@ export function writeContent<K extends ContentName>(name: K, data: ContentMap[K]
   fs.writeFileSync(contentPath(name), JSON.stringify(data, null, 2) + "\n", "utf-8");
 }
 
+/** Reads a (possibly nested/array) field by the same dot-path setByPath takes. */
+export function getByPath(target: Record<string, unknown>, dotPath: string): unknown {
+  let cursor: unknown = target;
+  for (const key of dotPath.split(".")) {
+    if (typeof cursor !== "object" || cursor === null) return undefined;
+    cursor = (cursor as Record<string, unknown>)[key];
+  }
+  return cursor;
+}
+
 /** Sets a (possibly nested/array) field on a content object, given a dot-path like
  * "navLabels.drops" or "stats.0" or "tiles.2.alt". Used by the admin save action to
  * apply edits collected from the client without knowing each shape in advance. */

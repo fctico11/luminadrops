@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
 import { isAdminSession } from "@/lib/session";
-import { getContent, contentPath, setByPath, type ContentName } from "@/lib/content";
+import { getContent, contentPath, getByPath, setByPath, type ContentName } from "@/lib/content";
 import { commitFiles, type CommitFile } from "@/lib/github";
 
 type TextEdit = { file: ContentName; field: string; value: string };
 type ListEdit = { file: ContentName; field: string; value: string[] };
+type OrderEdit = { file: ContentName; field: string; order: number[] };
 type ImageEdit = { path: string; dataUrl: string };
 
 export async function POST(req: NextRequest) {
@@ -21,23 +22,28 @@ export async function POST(req: NextRequest) {
     (e: ListEdit) => Array.isArray(e?.value) && e.value.every((v) => typeof v === "string")
   );
 
-  if (textEdits.length === 0 && imageEdits.length === 0 && listEdits.length === 0) {
+  const orderEdits: OrderEdit[] = (body?.orderEdits ?? []).filter(
+    (e: OrderEdit) => Array.isArray(e?.order) && e.order.every((n) => Number.isInteger(n))
+  );
+
+  if (textEdits.length === 0 && imageEdits.length === 0 && listEdits.length === 0 && orderEdits.length === 0) {
     return NextResponse.json({ error: "Nothing to save." }, { status: 400 });
   }
 
   try {
-    const byFile = new Map<ContentName, { texts: TextEdit[]; lists: ListEdit[] }>();
+    const byFile = new Map<ContentName, { texts: TextEdit[]; lists: ListEdit[]; orders: OrderEdit[] }>();
     const bucket = (file: ContentName) => {
-      const entry = byFile.get(file) ?? { texts: [], lists: [] };
+      const entry = byFile.get(file) ?? { texts: [], lists: [], orders: [] };
       byFile.set(file, entry);
       return entry;
     };
     for (const edit of textEdits) bucket(edit.file).texts.push(edit);
     for (const edit of listEdits) bucket(edit.file).lists.push(edit);
+    for (const edit of orderEdits) bucket(edit.file).orders.push(edit);
 
     const filesToCommit: CommitFile[] = [];
 
-    for (const [name, { texts, lists }] of byFile) {
+    for (const [name, { texts, lists, orders }] of byFile) {
       const current = getContent(name) as unknown as Record<string, unknown>;
       for (const edit of texts) {
         setByPath(current, edit.field, edit.value);
@@ -49,6 +55,22 @@ export async function POST(req: NextRequest) {
           current,
           edit.field,
           edit.value.map((v) => v.trim()).filter((v) => v.length > 0)
+        );
+      }
+      // Reorders go last: text edits above address cards by their original
+      // index, so they must land before the cards move.
+      for (const edit of orders) {
+        const list = getByPath(current, edit.field);
+        const valid =
+          Array.isArray(list) &&
+          edit.order.length === list.length &&
+          new Set(edit.order).size === list.length &&
+          edit.order.every((n) => n >= 0 && n < list.length);
+        if (!valid) throw new Error(`Invalid order for "${edit.field}".`);
+        setByPath(
+          current,
+          edit.field,
+          edit.order.map((i) => (list as unknown[])[i])
         );
       }
       const json = JSON.stringify(current, null, 2) + "\n";
