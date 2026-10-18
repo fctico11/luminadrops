@@ -7,6 +7,9 @@ import EditableImage from "@/components/edit/EditableImage";
 import { cormorant } from "../../ui";
 import Reveal from "./reveal";
 import { trackOnce } from "@/lib/tracking";
+import { useEditMode } from "@/components/edit/EditModeContext";
+import { useOrder } from "@/components/edit/useOrder";
+import MoveButtons from "@/components/edit/MoveButtons";
 
 type Props = { content: Drop01Content };
 
@@ -19,12 +22,23 @@ const OVERLAP = 0.2;
 function maskFor(index: number, last: number) {
   const fade = `${OVERLAP * 100}%`;
   const left = index === 0 ? "#000 0" : `transparent 0, #000 ${fade}`;
-  const right = index === last ? "#000 100%" : `#000 ${100 - OVERLAP * 100}%, transparent 100%`;
+  const right =
+    index === last
+      ? "#000 100%"
+      : `#000 ${100 - OVERLAP * 100}%, transparent 100%`;
   const gradient = `linear-gradient(to right, ${left}, ${right})`;
   return { maskImage: gradient, WebkitMaskImage: gradient } as const;
 }
 
-function Arrow({ direction, onClick, disabled }: { direction: "prev" | "next"; onClick: () => void; disabled: boolean }) {
+function Arrow({
+  direction,
+  onClick,
+  disabled,
+}: {
+  direction: "prev" | "next";
+  onClick: () => void;
+  disabled: boolean;
+}) {
   return (
     <button
       type="button"
@@ -35,7 +49,15 @@ function Arrow({ direction, onClick, disabled }: { direction: "prev" | "next"; o
       data-track-direction={direction === "prev" ? "back" : "forward"}
       className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#8a7a52] text-[#cfc6b1] transition-opacity hover:border-[#c9a227] hover:text-[#e9e1cd] disabled:opacity-30"
     >
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden
+      >
         <path d={direction === "prev" ? "M10 3 5 8l5 5" : "M6 3l5 5-5 5"} />
       </svg>
     </button>
@@ -51,6 +73,8 @@ export default function DoStrip({ content }: Props) {
   const [atEnd, setAtEnd] = useState(false);
 
   const steps = content.doSteps;
+  const { isAdmin } = useEditMode();
+  const { order, move } = useOrder("drop01", "doSteps", steps.length);
 
   const sync = useCallback(() => {
     const el = scrollerRef.current;
@@ -72,7 +96,9 @@ export default function DoStrip({ content }: Props) {
     const right = left + el.clientWidth;
     Array.from(el.children).forEach((child, i) => {
       const c = child as HTMLElement;
-      const visible = Math.min(right, c.offsetLeft + c.offsetWidth) - Math.max(left, c.offsetLeft);
+      const visible =
+        Math.min(right, c.offsetLeft + c.offsetWidth) -
+        Math.max(left, c.offsetLeft);
       if (i > 0 && visible / c.offsetWidth >= 0.6) {
         trackOnce(`steps-viewed-${i}`, "StepsStripCardViewed", {
           step: i + 1,
@@ -92,7 +118,10 @@ export default function DoStrip({ content }: Props) {
     const el = scrollerRef.current;
     const first = el?.firstElementChild as HTMLElement | null;
     if (!el || !first) return;
-    el.scrollBy({ left: dir * first.offsetWidth * (1 - OVERLAP) * 1.5, behavior: "smooth" });
+    el.scrollBy({
+      left: dir * first.offsetWidth * (1 - OVERLAP) * 1.5,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -123,36 +152,66 @@ export default function DoStrip({ content }: Props) {
         aria-label="Steps of the evening"
         className="mx-auto mt-8 flex max-w-[1100px] [--w:46vw] sm:[--w:min(68vw,340px)] overflow-x-auto px-6 text-center [scrollbar-width:none] sm:mt-10 [&::-webkit-scrollbar]:hidden"
       >
-        {steps.map((s, i) => (
-          <article key={i} className={`relative w-[var(--w)] shrink-0 ${i > 0 ? "ml-[calc(var(--w)*-0.2)]" : ""}`}>
-            <div className="relative aspect-[4/5] w-full overflow-hidden" style={maskFor(i, steps.length - 1)}>
-              <EditableImage file="drop01" field={`doSteps.${i}.image`} src={s.image} alt={s.alt} className="object-cover" />
-            </div>
-            {/* Neighbouring steps overlap by OVERLAP of their width (for the photo
+        {/* Steps show in their saved order (plus any unsaved admin reorder);
+            field paths use the step's ORIGINAL index (`i`), position is `pos`. */}
+        {order.map((i, pos) => {
+          const s = steps[i];
+          return (
+            <article
+              key={i}
+              className={`relative w-[var(--w)] shrink-0 ${pos > 0 ? "ml-[calc(var(--w)*-0.2)]" : ""}`}
+            >
+              <div
+                className="relative aspect-[4/5] w-full overflow-hidden"
+                style={maskFor(pos, steps.length - 1)}
+              >
+                <EditableImage
+                  file="drop01"
+                  field={`doSteps.${i}.image`}
+                  src={s.image}
+                  alt={s.alt}
+                  className="object-cover"
+                />
+              </div>
+              {/* Neighbouring steps overlap by OVERLAP of their width (for the photo
                 blend), so a caption spanning the full inset would touch the
                 next one. The side padding here leaves a clear gutter between
                 captions: it must stay above (OVERLAP / 2) of the width. */}
-            <div className="px-[16%] pt-3 sm:px-[14%] sm:pt-4">
-              <span className={`${cormorant.className} block text-sm tracking-[0.25em] text-[#9c9384]`}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <EditableText
-                file="drop01"
-                field={`doSteps.${i}.title`}
-                value={s.title}
-                as="h3"
-                className={`${cormorant.className} mt-1 text-lg italic leading-tight text-[#e9e1cd] sm:text-2xl`}
-              />
-              <EditableText
-                file="drop01"
-                field={`doSteps.${i}.description`}
-                value={s.description}
-                as="p"
-                className="mt-2 text-xs leading-relaxed text-[#c4bba8] sm:text-sm"
-              />
-            </div>
-          </article>
-        ))}
+              <div className="px-[16%] pt-3 sm:px-[14%] sm:pt-4">
+                <span
+                  className={`${cormorant.className} block text-sm tracking-[0.25em] text-[#9c9384]`}
+                >
+                  {String(pos + 1).padStart(2, "0")}
+                </span>
+                {isAdmin && (
+                  <div className="mt-2">
+                    <MoveButtons
+                      compact
+                      canEarlier={pos > 0}
+                      canLater={pos < steps.length - 1}
+                      onEarlier={() => move(pos, -1)}
+                      onLater={() => move(pos, 1)}
+                    />
+                  </div>
+                )}
+                <EditableText
+                  file="drop01"
+                  field={`doSteps.${i}.title`}
+                  value={s.title}
+                  as="h3"
+                  className={`${cormorant.className} mt-1 text-lg italic leading-tight text-[#e9e1cd] sm:text-2xl`}
+                />
+                <EditableText
+                  file="drop01"
+                  field={`doSteps.${i}.description`}
+                  value={s.description}
+                  as="p"
+                  className="mt-2 text-xs leading-relaxed text-[#c4bba8] sm:text-sm"
+                />
+              </div>
+            </article>
+          );
+        })}
       </div>
 
       <div className="mx-auto mt-6 flex max-w-md items-center gap-4 px-6">

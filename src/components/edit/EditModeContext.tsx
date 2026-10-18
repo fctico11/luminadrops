@@ -18,8 +18,13 @@ type EditModeState = {
    * `${file}:${path}`. Used where rows can be added, removed or reordered, so
    * a pending edit can't point at an index that has since shifted. */
   listEdits: Record<string, string[]>;
+  /** Pending reorders of an array of cards, keyed `${file}:${path}`. Each value
+   * lists the ORIGINAL indices in their new order, so field paths (which use
+   * original indices) and pending text edits stay valid while cards move. */
+  orderEdits: Record<string, number[]>;
   setText: (file: ContentName, field: string, value: string) => void;
   setList: (file: ContentName, field: string, value: string[]) => void;
+  setOrder: (file: ContentName, field: string, order: number[]) => void;
   setImage: (path: string, image: PendingImage) => void;
   discardAll: () => void;
   dirtyCount: number;
@@ -38,8 +43,10 @@ const NOOP_STATE: EditModeState = {
   textEdits: {},
   imageEdits: {},
   listEdits: {},
+  orderEdits: {},
   setText: () => {},
   setList: () => {},
+  setOrder: () => {},
   setImage: () => {},
   discardAll: () => {},
   dirtyCount: 0,
@@ -58,6 +65,7 @@ export function EditModeProvider({ isAdmin, children }: { isAdmin: boolean; chil
   const [textEdits, setTextEdits] = useState<Record<string, string>>({});
   const [imageEdits, setImageEdits] = useState<Record<string, PendingImage>>({});
   const [listEdits, setListEdits] = useState<Record<string, string[]>>({});
+  const [orderEdits, setOrderEdits] = useState<Record<string, number[]>>({});
   const [status, setStatus] = useState<SaveStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -73,6 +81,12 @@ export function EditModeProvider({ isAdmin, children }: { isAdmin: boolean; chil
     setStatus("idle");
   }, []);
 
+  const setOrder = useCallback((file: ContentName, field: string, order: number[]) => {
+    const key: TextEditKey = `${file}:${field}`;
+    setOrderEdits((prev) => ({ ...prev, [key]: order }));
+    setStatus("idle");
+  }, []);
+
   const setImage = useCallback((path: string, image: PendingImage) => {
     setImageEdits((prev) => ({ ...prev, [path]: image }));
     setStatus("idle");
@@ -82,6 +96,7 @@ export function EditModeProvider({ isAdmin, children }: { isAdmin: boolean; chil
     setTextEdits({});
     setImageEdits({});
     setListEdits({});
+    setOrderEdits({});
     setStatus("idle");
     setErrorMessage(null);
   }, []);
@@ -98,6 +113,10 @@ export function EditModeProvider({ isAdmin, children }: { isAdmin: boolean; chil
         const idx = key.indexOf(":");
         return { file: key.slice(0, idx) as ContentName, field: key.slice(idx + 1), value };
       });
+      const orderEditPayload = Object.entries(orderEdits).map(([key, value]) => {
+        const idx = key.indexOf(":");
+        return { file: key.slice(0, idx) as ContentName, field: key.slice(idx + 1), order: value };
+      });
       const imageEditPayload = Object.entries(imageEdits).map(([path, image]) => ({
         path,
         dataUrl: image.dataUrl,
@@ -106,7 +125,7 @@ export function EditModeProvider({ isAdmin, children }: { isAdmin: boolean; chil
       const res = await fetch("/api/admin/save-content", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ textEdits: textEditPayload, listEdits: listEditPayload, imageEdits: imageEditPayload }),
+        body: JSON.stringify({ textEdits: textEditPayload, listEdits: listEditPayload, orderEdits: orderEditPayload, imageEdits: imageEditPayload }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -121,15 +140,16 @@ export function EditModeProvider({ isAdmin, children }: { isAdmin: boolean; chil
         setTextEdits({});
         setImageEdits({});
         setListEdits({});
+        setOrderEdits({});
       });
       setStatus("success");
     } catch (err) {
       setStatus("error");
       setErrorMessage(err instanceof Error ? err.message : "Save failed.");
     }
-  }, [textEdits, imageEdits, listEdits, router]);
+  }, [textEdits, imageEdits, listEdits, orderEdits, router]);
 
-  const dirtyCount = Object.keys(textEdits).length + Object.keys(imageEdits).length + Object.keys(listEdits).length;
+  const dirtyCount = Object.keys(textEdits).length + Object.keys(imageEdits).length + Object.keys(listEdits).length + Object.keys(orderEdits).length;
 
   const value = useMemo<EditModeState>(
     () => ({
@@ -137,8 +157,10 @@ export function EditModeProvider({ isAdmin, children }: { isAdmin: boolean; chil
       textEdits,
       imageEdits,
       listEdits,
+      orderEdits,
       setText,
       setList,
+      setOrder,
       setImage,
       discardAll,
       dirtyCount,
@@ -146,7 +168,7 @@ export function EditModeProvider({ isAdmin, children }: { isAdmin: boolean; chil
       errorMessage,
       save,
     }),
-    [isAdmin, textEdits, imageEdits, listEdits, setText, setList, setImage, discardAll, dirtyCount, status, errorMessage, save]
+    [isAdmin, textEdits, imageEdits, listEdits, orderEdits, setText, setList, setOrder, setImage, discardAll, dirtyCount, status, errorMessage, save]
   );
 
   return <EditModeCtx.Provider value={value}>{children}</EditModeCtx.Provider>;

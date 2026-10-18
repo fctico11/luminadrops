@@ -6,6 +6,8 @@ import EditableText from "@/components/edit/EditableText";
 import EditableImage from "@/components/edit/EditableImage";
 import { cormorant } from "../../ui";
 import { trackOnce } from "@/lib/tracking";
+import { useOrder } from "@/components/edit/useOrder";
+import MoveButtons from "@/components/edit/MoveButtons";
 
 type Props = {
   content: Drop01Content;
@@ -13,6 +15,8 @@ type Props = {
 };
 
 type Card = {
+  /** Stable identity, so a card keeps its DOM (and any open edit) when it moves. */
+  id: string;
   imageField: string;
   image: string;
   alt: string;
@@ -68,9 +72,11 @@ export default function MobileInsideExpandable({ content, isAdmin }: Props) {
   const [atEnd, setAtEnd] = useState(false);
   const [hovered, setHovered] = useState<number | null>(null);
   const [tapped, setTapped] = useState<number | null>(null);
+  const { order, move } = useOrder("drop01", "items", content.items.length);
 
   const cards: Card[] = [
     {
+      id: "manual",
       imageField: "manualImage",
       image: content.manualImage,
       alt: content.manualImageAlt,
@@ -79,7 +85,10 @@ export default function MobileInsideExpandable({ content, isAdmin }: Props) {
       descField: "manualDescription",
       description: content.manualDescription,
     },
-    ...content.items.map((item, i) => ({
+    // Items appear in their saved order (plus any unsaved admin reorder), but
+    // every field path below uses the item's ORIGINAL index `i`.
+    ...order.map((i) => ({ i, item: content.items[i] })).map(({ i, item }) => ({
+      id: `item-${i}`,
       imageField: `items.${i}.image`,
       image: item.image,
       alt: item.alt,
@@ -169,7 +178,7 @@ export default function MobileInsideExpandable({ content, isAdmin }: Props) {
             const expanded = hovered === i || (i === active && tapped === i);
             return (
               <div
-                key={i}
+                key={card.id}
                 className={cardClass}
                 onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(i)}
                 onPointerLeave={(e) => e.pointerType === "mouse" && setHovered((h) => (h === i ? null : h))}
@@ -190,6 +199,22 @@ export default function MobileInsideExpandable({ content, isAdmin }: Props) {
 
                 {isAdmin ? (
                   <div className="flex-1 border-t border-[#3a352e] px-4 pb-6 pt-4">
+                    {i > 0 && (
+                      <div className="mb-3">
+                        <MoveButtons
+                          canEarlier={i > 1}
+                          canLater={i < cardCount - 1}
+                          onEarlier={() => {
+                            move(i - 1, -1);
+                            setTimeout(() => scrollToCard(i - 1), 60);
+                          }}
+                          onLater={() => {
+                            move(i - 1, 1);
+                            setTimeout(() => scrollToCard(i + 1), 60);
+                          }}
+                        />
+                      </div>
+                    )}
                     <CardNumber n={i + 1} />
                     <EditableText file="drop01" field={card.titleField} value={card.title} as="h3" className={`mt-2 ${titleClass}`} />
                     <EditableText file="drop01" field={card.descField} value={card.description} as="p" className={`mt-3 ${descClass}`} />

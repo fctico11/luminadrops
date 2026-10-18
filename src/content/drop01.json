@@ -23,10 +23,24 @@
   "manualDescription": "The heart of your evening and your guide through the Club. Its pages lead you from First Spark to Last Call, revealing what comes next, how each piece in the box is used, and the traditions waiting along the way. Make a wish beneath the moon, bury something meant to be left behind, discover the meaning behind the stones you’ve gathered, pause for a few Midnight Reflections, and let the night unfold one page at a time. Part field guide, part keepsake, and yours to return to on another Midnight",
   "items": [
     {
-      "image": "/drops/midnight-margarita/drop01-items-0-image.jpg",
-      "alt": "Hand-poured beeswax candle",
-      "title": "A SPARK",
-      "description": "A 100% pure beeswax pillar candle, hand-poured for the Club with a 100% cotton wick - made to be lit at First Spark and burn alongside the evening as it unfolds",
+      "image": "/drops/midnight-margarita/drop01-items-6-image.jpg",
+      "alt": "A collection of gathered stones",
+      "title": "A FEW STONES GATHERED",
+      "description": "A collection of stones gathered for the Club, each with its own place in the evening. Their purpose is revealed by the Manual as the night unfolds",
+      "note": ""
+    },
+    {
+      "image": "/drops/midnight-margarita/drop01-items-3-image.jpg",
+      "alt": "Jar of moonstones",
+      "title": "A TOAST",
+      "description": "A hobnail glass, lime-infused rimming salt, the Club's signature syrup blend, edible shimmer, dried lime, and sparkling water - everything for the Club's Margarita or Mockarita. A natural linen Club cocktail napkin, metal stirrer, and coaster complete your place at the table",
+      "note": "Fresh Lime and Tequila (if using) not included"
+    },
+    {
+      "image": "/drops/midnight-margarita/drop01-items-5-image.jpg",
+      "alt": "Moonstone resting on dark stone",
+      "title": "A WISH KEEPER",
+      "description": "Three moonstones for wishes - one for tonight, and two for Midnights still to come - with a frosted glass keepsake jar to hold onto them along the way",
       "note": ""
     },
     {
@@ -44,31 +58,17 @@
       "note": ""
     },
     {
-      "image": "/drops/midnight-margarita/drop01-items-3-image.jpg",
-      "alt": "Jar of moonstones",
-      "title": "A TOAST",
-      "description": "A hobnail glass, lime-infused rimming salt, the Club's signature syrup blend, edible shimmer, dried lime, and sparkling water - everything for the Club's Margarita or Mockarita. A natural linen Club cocktail napkin, metal stirrer, and coaster complete your place at the table",
-      "note": "Fresh Lime and Tequila (if using) not included"
+      "image": "/drops/midnight-margarita/drop01-items-0-image.jpg",
+      "alt": "Hand-poured beeswax candle",
+      "title": "A SPARK",
+      "description": "A 100% pure beeswax pillar candle, hand-poured for the Club with a 100% cotton wick - made to be lit at First Spark and burn alongside the evening as it unfolds",
+      "note": ""
     },
     {
       "image": "/drops/midnight-margarita/envelope.jpg",
       "alt": "Wax-sealed plantable lavender-seed paper",
       "title": "A BURIAL",
       "description": "Plantable lavender and wildflower-seed paper + a small burial shovel for one of the Club’s stranger traditions - you’ll write on it, bury it, and let the Manual explain the rest",
-      "note": ""
-    },
-    {
-      "image": "/drops/midnight-margarita/drop01-items-5-image.jpg",
-      "alt": "Moonstone resting on dark stone",
-      "title": "A WISH KEEPER",
-      "description": "Three moonstones for wishes - one for tonight, and two for Midnights still to come - with a frosted glass keepsake jar to hold onto them along the way",
-      "note": ""
-    },
-    {
-      "image": "/drops/midnight-margarita/drop01-items-6-image.jpg",
-      "alt": "A collection of gathered stones",
-      "title": "A FEW STONES GATHERED",
-      "description": "A collection of stones gathered for the Club, each with its own place in the evening. Their purpose is revealed by the Manual as the night unfolds",
       "note": ""
     },
     {
